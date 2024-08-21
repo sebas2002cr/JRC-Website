@@ -48,21 +48,23 @@ export default function Post({ posts }) {
               La manera más sencilla de iniciar, hacer crecer y gestionar tu negocio: constitución, impuestos y contabilidad.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
+              <button className="px-6 py-2 sm:px-8 sm:py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621] transition-all duration-300 ease-in-out w-3/4 sm:w-auto mx-auto sm:mx-0">
                 Empezar
               </button>
-              <button className="px-8 py-3 border border-[#305832] text-[#305832] rounded-lg shadow-md hover:bg-green-50">
+              <button className="px-6 py-2 sm:px-8 sm:py-3 border border-[#305832] text-[#305832] rounded-lg shadow-md hover:bg-green-50 transition-all duration-300 ease-in-out w-3/4 sm:w-auto mx-auto sm:mx-0">
                 ¿Ya estás incorporado?
               </button>
             </div>
           </section>
 
+
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
 
           {/* Sección de Estadísticas con animación */}
-          <section className="w-full relative bg-[#305832] text-white py-12">
-            <div className="flex flex-wrap justify-center items-center gap-8 max-w-6xl mx-auto">
+          <section className="w-full relative text-white py-12 md:py-32" style={{ backgroundImage: 'url("img/home-photo-bg.jpeg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <div className="absolute inset-0 bg-[#305832] opacity-75"></div>
+            <div className="relative flex flex-wrap justify-center items-center gap-8 max-w-6xl mx-auto">
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold"><Counter end={11} duration={2000} /></p>
                 <p className="mt-2 text-xl">Años de Experiencia</p>
@@ -77,6 +79,7 @@ export default function Post({ posts }) {
               </div>
             </div>
           </section>
+
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
@@ -188,7 +191,7 @@ export default function Post({ posts }) {
           {/* Sección de Testimonios con scroll horizontal */}
           <section className="w-full bg-white py-16">
             <h2 className="text-center text-3xl font-semibold mb-8">
-              Opiniones que reflejan buestro compromiso   
+              Opiniones que reflejan nuestro compromiso   
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Hemos ayudado a cientos de emprendedores con sus negocios en Costa Rica con total tranquilidad.
@@ -252,10 +255,10 @@ export default function Post({ posts }) {
                 <img src="/Logo-blanco.svg" alt="JRC Logo" className="mx-auto w-12 h-12"/>
               </div>
               <h3 className="text-2xl font-semibold mb-4">
-                Get started with JRC
+                Empezá con nostros
               </h3>
               <p className="text-gray-600 mb-8">
-                Launch your US business confidently. We'll guide you each step of the way.
+                Agenda una llamada gratuita con uno de nuestros asesores para resolver todas tus dudas.
               </p>
               <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
                 Get started

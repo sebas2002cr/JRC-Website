@@ -8,7 +8,6 @@ import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import cx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { myLoader } from "@/utils/all";
 
 export default function Navbar(props) {
   const leftmenu = [
@@ -29,12 +28,11 @@ export default function Navbar(props) {
   const rightmenu = [
     {
       label: "Beneficios",
-      href: "/archive"
+      href: "/benefits"
     },
     {
       label: "Partners",
-      href: "/",
-      badge: "new"
+      href: "/"
     },
     {
       label: "Empezar",
@@ -48,9 +46,9 @@ export default function Navbar(props) {
     <>
       {/* Franja negra superior */}
       <div className="bg-black text-white py-2 px-4 text-center text-sm">
-      <div className="bg-black text-white py-2 text-center text-sm flex justify-center items-center">
-        <span>📞 ¿Tienes preguntas? <a href="#" className="underline">Programa hoy mismo una consulta gratuita</a></span>
-      </div>
+        <div className="bg-black text-white py-2 text-center text-sm flex justify-center items-center">
+          <span>📞 ¿Tienes preguntas? <a href="#" className="underline">Programa hoy mismo una consulta gratuita</a></span>
+        </div>
       </div>
 
       <Container>
@@ -58,8 +56,8 @@ export default function Navbar(props) {
           <Disclosure>
             {({ open }) => (
               <>
-                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10">
-                  <div className="order-1 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
+                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10 ">
+                  <div className="order-1 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
                     {leftmenu.map((item, index) => (
                       <Fragment key={`${item.label}${index}`}>
                         {item.children && item.children.length > 0 ? (
@@ -130,7 +128,7 @@ export default function Navbar(props) {
                     </Disclosure.Button>
                   </div>
 
-                  <div className="order-2 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
+                  <div className="order-2 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
                     {rightmenu.map((item, index) => (
                       <Fragment key={`${item.label}${index}`}>
                         {item.children && item.children.length > 0 ? (
@@ -143,10 +141,10 @@ export default function Navbar(props) {
                           <Link
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-blue-500 dark:text-gray-400"
+                            className={`px-4 py-2 ${item.label === 'Empezar' ? 'bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]' : 'text-sm font-medium text-gray-600 hover:text-blue-500 dark:text-gray-400'}`}
                             target={item.external ? "_blank" : ""}
                             rel={item.external ? "noopener" : ""}>
-                            <span> {item.label}</span>
+                            <span>{item.label}</span>
                             {item.badge && (
                               <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800 ">
                                 {item.badge}
@@ -235,7 +233,7 @@ const DropdownMenu = ({ menu, items, mobile }) => {
                             ? "text-blue-500"
                             : "text-gray-700 hover:text-blue-500 focus:text-blue-500 dark:text-gray-300"
                         )}>
-                        <span> {item.title}</span>
+                        <span>{item.title}</span>
                       </Link>
                     )}
                   </Menu.Item>
