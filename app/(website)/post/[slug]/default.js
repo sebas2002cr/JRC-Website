@@ -101,7 +101,7 @@ export default function Post(props) {
               ← View all posts
             </Link>
           </div>
-          {post.author && <AuthorCard author={post.author} />}
+          
         </article>
       </Container>
     </>
