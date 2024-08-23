@@ -45,5 +45,4 @@ next-env.d.ts
 
 # Sanity CMS
 /.sanity
-/distsendgrid.env
 .env.local
