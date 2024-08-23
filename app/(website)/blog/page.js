@@ -8,4 +8,5 @@ export default async function IndexPage() {
   return <Blog posts={posts} categories={categories} />;
 }
 
-// export const revalidate = 60;
+// Revalidate cada 60 segundos
+export const revalidate = 60;
