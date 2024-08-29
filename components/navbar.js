@@ -13,31 +13,31 @@ export default function Navbar(props) {
   const leftmenu = [
     {
       label: "Blog",
-      href: "/blog"
+      href: "/blog",
     },
     {
       label: "Precios",
-      href: "/pricing"
+      href: "/pricing",
     },
     {
       label: "Contacto",
-      href: "/contact"
-    }
+      href: "/contact",
+    },
   ];
 
   const rightmenu = [
     {
       label: "Beneficios",
-      href: "/benefits"
+      href: "/benefits",
     },
     {
       label: "Partners",
-      href: "/"
+      href: "/",
     },
     {
       label: "Empezar",
       href: "/",
-    }
+    },
   ];
 
   const mobilemenu = [...leftmenu, ...rightmenu];
@@ -47,7 +47,12 @@ export default function Navbar(props) {
       {/* Franja negra superior */}
       <div className="bg-black text-white py-2 px-4 text-center text-sm">
         <div className="bg-black text-white py-2 text-center text-sm flex justify-center items-center">
-          <span>📞 ¿Tienes preguntas? <a href="#" className="underline">Programa hoy mismo una consulta gratuita</a></span>
+          <span>
+            📞 ¿Tenés preguntas?
+            <a className="underline" href="/schedule">
+              Programá hoy mismo una consulta gratuita
+            </a>
+          </span>
         </div>
       </div>
 
@@ -56,35 +61,37 @@ export default function Navbar(props) {
           <Disclosure>
             {({ open }) => (
               <>
-                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10 ">
-                  <div className="order-1 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
-                    {leftmenu.map((item, index) => (
-                      <Fragment key={`${item.label}${index}`}>
-                        {item.children && item.children.length > 0 ? (
-                          <DropdownMenu
-                            menu={item}
-                            key={`${item.label}${index}`}
-                            items={item.children}
-                          />
-                        ) : (
+                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10">
+                  <div className="order-1 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
+                    {leftmenu.map((item, index) => {
+                      const isActive =
+                        typeof window !== "undefined" &&
+                        window.location.pathname === item.href;
+                      return (
+                        <Fragment key={`${item.label}${index}`}>
                           <Link
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            className={`relative px-5 py-2 text-sm font-medium ${
+                              isActive
+                                ? "text-[#305832] after:scale-x-100"
+                                : "text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            } after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-[#305832] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:transition-transform after:duration-300`}
                             target={item.external ? "_blank" : ""}
-                            rel={item.external ? "noopener" : ""}>
+                            rel={item.external ? "noopener" : ""}
+                          >
                             {item.label}
                           </Link>
-                        )}
-                      </Fragment>
-                    ))}
+                        </Fragment>
+                      );
+                    })}
                   </div>
                   <div className="flex w-full items-center justify-between md:w-auto">
                     <Link href="/" className="w-16 dark:hidden">
                       <Image
-                        src="/Logo-blanco.svg"  // Ruta a tu imagen en la carpeta public
+                        src="/Logo-blanco.svg"
                         alt="Nuevo Logo"
-                        width={112}  // Asegúrate de ajustar el tamaño a lo que necesites
+                        width={112}
                         height={28}
                         priority={true}
                         sizes="(max-width: 640px) 100vw, 200px"
@@ -99,18 +106,18 @@ export default function Navbar(props) {
                           sizes="(max-width: 640px) 100vw, 200px"
                         />
                       ) : (
-                        <span className="block text-center">
-                          Stablo
-                        </span>
+                        <span className="block text-center">Stablo</span>
                       )}
                     </Link>
                     <Disclosure.Button
                       aria-label="Toggle Menu"
-                      className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden ">
+                      className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden"
+                    >
                       <svg
                         className="h-6 w-6 fill-current"
                         xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24">
+                        viewBox="0 0 24 24"
+                      >
                         {open && (
                           <path
                             fillRule="evenodd"
@@ -121,62 +128,56 @@ export default function Navbar(props) {
                         {!open && (
                           <path
                             fillRule="evenodd"
-                            d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                            d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2z"
                           />
                         )}
                       </svg>
                     </Disclosure.Button>
                   </div>
 
-                  <div className="order-2 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
-                    {rightmenu.map((item, index) => (
-                      <Fragment key={`${item.label}${index}`}>
-                        {item.children && item.children.length > 0 ? (
-                          <DropdownMenu
-                            menu={item}
-                            key={`${item.label}${index}`}
-                            items={item.children}
-                          />
-                        ) : (
+                  <div className="order-2 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
+                    {rightmenu.map((item, index) => {
+                      const isActive =
+                        typeof window !== "undefined" &&
+                        window.location.pathname === item.href;
+                      return (
+                        <Fragment key={`${item.label}${index}`}>
                           <Link
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className={`px-4 py-2 ${item.label === 'Empezar' ? 'bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]' : 'text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400'}`}
+                            className={`relative px-4 py-2 text-sm font-medium ${
+                              isActive
+                                ? "text-[#305832] after:scale-x-100"
+                                : "text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            } after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-[#305832] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:transition-transform after:duration-300`}
                             target={item.external ? "_blank" : ""}
-                            rel={item.external ? "noopener" : ""}>
+                            rel={item.external ? "noopener" : ""}
+                          >
                             <span>{item.label}</span>
                             {item.badge && (
-                              <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800 ">
+                              <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800">
                                 {item.badge}
                               </span>
                             )}
                           </Link>
-                        )}
-                      </Fragment>
-                    ))}
+                        </Fragment>
+                      );
+                    })}
                   </div>
                 </div>
                 <Disclosure.Panel>
                   <div className="order-2 -ml-4 mt-4 flex w-full flex-col items-center justify-start md:hidden">
                     {mobilemenu.map((item, index) => (
                       <Fragment key={`${item.label}${index}`}>
-                        {item.children && item.children.length > 0 ? (
-                          <DropdownMenu
-                            menu={item}
-                            key={`${item.label}${index}`}
-                            items={item.children}
-                            mobile={true}
-                          />
-                        ) : (
-                          <Link
-                            href={item.href}
-                            key={`${item.label}${index}`}
-                            className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                            target={item.external ? "_blank" : ""}
-                            rel={item.external ? "noopener" : ""}>
-                            {item.label}
-                          </Link>
-                        )}
+                        <Link
+                          href={item.href}
+                          key={`${item.label}${index}`}
+                          className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                          target={item.external ? "_blank" : ""}
+                          rel={item.external ? "noopener" : ""}
+                        >
+                          {item.label}
+                        </Link>
                       </Fragment>
                     ))}
                   </div>
@@ -192,9 +193,7 @@ export default function Navbar(props) {
 
 const DropdownMenu = ({ menu, items, mobile }) => {
   return (
-    <Menu
-      as="div"
-      className={cx("relative text-left", mobile && "w-full")}>
+    <Menu as="div" className={cx("relative text-left", mobile && "w-full")}>
       {({ open }) => (
         <>
           <Menu.Button
@@ -204,7 +203,8 @@ const DropdownMenu = ({ menu, items, mobile }) => {
                 ? "text-[#305832] hover:text-[#305832]"
                 : " text-gray-600 dark:text-gray-400 ",
               mobile ? "w-full px-4 py-2 " : "inline-block px-4 py-2"
-            )}>
+            )}
+          >
             <span>{menu.label}</span>
             <ChevronDownIcon className="mt-0.5 h-4 w-4" />
           </Menu.Button>
@@ -215,12 +215,14 @@ const DropdownMenu = ({ menu, items, mobile }) => {
             enterTo="lg:transform lg:opacity-100 lg:scale-100"
             leave="lg:transition lg:ease-in lg:duration-75"
             leaveFrom="lg:transform lg:opacity-100 lg:scale-100"
-            leaveTo="lg:transform lg:opacity-0 lg:scale-95">
+            leaveTo="lg:transform lg:opacity-0 lg:scale-95"
+          >
             <Menu.Items
               className={cx(
                 "z-20 origin-top-left rounded-md  focus:outline-none  lg:absolute lg:left-0  lg:w-56",
                 !mobile && "bg-white shadow-lg  dark:bg-gray-800"
-              )}>
+              )}
+            >
               <div className={cx(!mobile && "py-3")}>
                 {items.map((item, index) => (
                   <Menu.Item as="div" key={`${item.title}${index}`}>
@@ -232,7 +234,8 @@ const DropdownMenu = ({ menu, items, mobile }) => {
                           active
                             ? "text-[#305832]"
                             : "text-gray-700 hover:text-[#305832] focus:text-[#305832] dark:text-gray-300"
-                        )}>
+                        )}
+                      >
                         <span>{item.title}</span>
                       </Link>
                     )}

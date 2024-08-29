@@ -2,12 +2,14 @@
 import Counter from "@/components/Counter";
 import { useState, useEffect } from "react";
 import { getReviews, getFAQs } from "@/lib/sanity/client";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import FAQ from "@/components/faqs";
 
 export default function Post({ posts }) {
   const [openFAQ, setOpenFAQ] = useState(null);
   const [faqs, setFaqs] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const controls = useAnimation();
 
   useEffect(() => {
     const fetchSanityFAQs = async () => {
@@ -27,14 +29,31 @@ export default function Post({ posts }) {
     fetchSanityReviews();
   }, []);
 
-  const toggleFAQ = (index) => {
-    setOpenFAQ(openFAQ === index ? null : index);
-  };
+  useEffect(() => {
+    controls.start("animate");
+  }, [controls]);
+
+  // Duplica los reviews para crear un carrusel continuo
+  const duplicatedReviews = [...reviews, ...reviews];
 
   // Variantes para animaciones
   const fadeInUp = {
     hidden: { opacity: 0, y: 250 },
     visible: { opacity: 1, y: 0 },
+  };
+
+  const reviewVariants = {
+    animate: {
+      x: ['0%', '-70%'], // Desplaza el 100% porque los reviews están duplicados
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 20, // Ajusta la duración según tus necesidades
+          ease: "linear",
+        },
+      },
+    },
   };
 
   return (
@@ -60,10 +79,10 @@ export default function Post({ posts }) {
               La manera más sencilla de iniciar, hacer crecer y gestionar tu negocio: constitución, impuestos y contabilidad.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/pricing">
-              <button className="px-6 py-2 sm:px-8 sm:py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621] transition-all duration-300 ease-in-out w-3/4 sm:w-auto mx-auto sm:mx-0">
-                Empezar
-              </button>
+              <a href="/pricing">
+                <button className="px-6 py-2 sm:px-8 sm:py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621] transition-all duration-300 ease-in-out w-3/4 sm:w-auto mx-auto sm:mx-0">
+                  Empezar
+                </button>
               </a>
               <button className="px-6 py-2 sm:px-8 sm:py-3 border border-[#305832] text-[#305832] rounded-lg shadow-md hover:bg-green-50 transition-all duration-300 ease-in-out w-3/4 sm:w-auto mx-auto sm:mx-0">
                 ¿Ya estás incorporado?
@@ -115,10 +134,9 @@ export default function Post({ posts }) {
           >
             <div className="md:w-1/4 text-left">
               <h3 className="text-xl font-semibold text-[#305832] mb-4">Cómo funciona</h3>
-              <h2 className="text-3xl font-bold text-black mb-6">Empieza en cuestión de minutos</h2>
+              <h2 className="text-3xl font-bold text-black mb-6">Empezá en cuestión de minutos</h2>
               <p className="text-gray-600 mb-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at metus nec felis auctor volutpat ac et velit. Sed gravida ex vel nunc luctus, ut luctus nisl eleifend. Curabitur vehicula ante vel leo efficitur imperdiet.
-              </p>
+              Nosotros nos encargamos del papeleo legal y de los quebraderos de cabeza. Dedique unos minutos a rellenar algunos datos y nosotros crearemos todos los documentos necesarios para constituir su empresa y cumplir la normativa.              </p>
               <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
                 Empezar
               </button>
@@ -126,13 +144,13 @@ export default function Post({ posts }) {
             <div className="md:w-1/3 flex flex-col gap-8">
               <div className="flex items-start gap-4">
                 <div className="flex justify-center items-center w-12 h-12 rounded-full bg-green-100">
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-[#305832]">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-[#305832]">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
+                  </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">Select your plan</h4>
-                  <p className="text-gray-600">Pick a plan to get everything you need to start operating a business smoothly and confidently.</p>
+                  <h4 className="font-bold text-black">Selecciona tu plan ideal</h4>
+                  <p className="text-gray-600">Elije un plan para obtener todo lo que necesita para empezar a operar un negocio en Costa Rica. Sin problemas y con confianza.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -142,7 +160,7 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">We start the process</h4>
+                  <h4 className="font-bold text-black">Cuéntanos de tus necesidades</h4>
                   <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
               </div>
@@ -184,7 +202,7 @@ export default function Post({ posts }) {
             variants={fadeInUp}
           >
             <h2 className="text-center text-3xl font-semibold mb-8">
-              Mientras tú creces, nosotros cuidamos los detalles
+              Mientras crecés, nosotros cuidamos los detalles
             </h2>
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto">
               <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -210,10 +228,10 @@ export default function Post({ posts }) {
               </div>
             </div>
             <div className="flex justify-center mt-8">
-            <a href="/pricing">
-              <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
-                Empezar
-              </button>
+              <a href="/pricing">
+                <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
+                  Empezar
+                </button>
               </a>
             </div>
           </motion.section>
@@ -221,7 +239,7 @@ export default function Post({ posts }) {
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
 
-          {/* Sección de Testimonios con scroll horizontal */}
+          {/* Sección de Testimonios con scroll horizontal y animación infinita */}
           <motion.section 
             className="w-full bg-white py-16"
             initial="hidden"
@@ -236,9 +254,13 @@ export default function Post({ posts }) {
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Hemos ayudado a cientos de emprendedores con sus negocios en Costa Rica con total tranquilidad.
             </p>
-            <div className="flex justify-center">
-              <div className="flex overflow-x-auto pb-4 space-x-4 max-w-6xl">
-                {reviews.map((review, index) => (
+            <div className="overflow-hidden max-w-4xl mx-auto p-4">
+              <motion.div
+                className="flex space-x-4"
+                variants={reviewVariants}
+                animate={controls}
+              >
+                {duplicatedReviews.map((review, index) => (
                   <div key={index} className="flex-none bg-white p-6 rounded-lg shadow-md w-72">
                     <p className="text-gray-700 italic mb-4">"{review.review}"</p>
                     <p className="text-sm font-semibold">{review.name}</p>
@@ -248,7 +270,7 @@ export default function Post({ posts }) {
                     )}
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </motion.section>
 
@@ -265,34 +287,14 @@ export default function Post({ posts }) {
             variants={fadeInUp}
           >
             <h2 className="text-center text-3xl font-semibold mb-8">
-            <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-[#305832] relative inline-block">
-                  <span className="relative text-white">Preguntas Frequentes</span>
-                </span>
+              <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-[#305832] relative inline-block">
+                <span className="relative text-white">Preguntas Frequentes</span>
+              </span>
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Todo lo que ocupas saber sobre nuestros servicios.
             </p>
-            <div className="max-w-3xl mx-auto space-y-4">
-              {faqs.map((faq, index) => (
-                <div
-                  key={index}
-                  className="border-b border-gray-200 py-4 cursor-pointer"
-                  onClick={() => toggleFAQ(index)}
-                >
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold">{faq.question}</h3>
-                    <span className="text-gray-400">
-                      {openFAQ === index ? "-" : "+"}
-                    </span>
-                  </div>
-                  {openFAQ === index && (
-                    <p className="mt-4 text-gray-600">
-                      {faq.answer}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+            <FAQ faqs={faqs} /> {/* Usa el componente FAQ */}
           </motion.section>
 
           {/* Espacio entre secciones */}
@@ -317,10 +319,10 @@ export default function Post({ posts }) {
               <p className="text-gray-600 mb-8">
                 Agenda una llamada gratuita con uno de nuestros asesores para resolver todas tus dudas.
               </p>
-              <a href="/pricing">
-              <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
-                Comenzar
-              </button>
+              <a href="/schedule">
+                <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
+                  Comenzar
+                </button>
               </a>
             </div>
           </motion.section>
