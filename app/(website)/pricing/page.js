@@ -8,3 +8,6 @@ export default async function AboutPage() {
 }
 
 // export const revalidate = 60;
+
+
+

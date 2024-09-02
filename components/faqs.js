@@ -16,7 +16,7 @@ export default function FAQ({ faqs }) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-4">
+    <div className="max-w-3xl mx-auto space-y-4 p-4">
       {faqs.map((faq, index) => (
         <div
           key={index}

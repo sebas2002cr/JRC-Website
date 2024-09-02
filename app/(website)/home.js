@@ -38,7 +38,7 @@ export default function Post({ posts }) {
 
   // Variantes para animaciones
   const fadeInUp = {
-    hidden: { opacity: 0, y: 250 },
+    hidden: { opacity: 0, y: 150 },
     visible: { opacity: 1, y: 0 },
   };
 
@@ -171,7 +171,7 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">Get your company's EIN</h4>
+                  <h4 className="font-bold text-black">Iniciamos el proceso.</h4>
                   <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function Post({ posts }) {
             <h2 className="text-center text-3xl font-semibold mb-8">
               Mientras crecés, nosotros cuidamos los detalles
             </h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto p-4">
               <div className="bg-white p-6 rounded-lg shadow-md text-center">
                 <div className="mb-4">
                   {/* Coloca aquí el icono correspondiente */}
@@ -273,6 +273,8 @@ export default function Post({ posts }) {
               </motion.div>
             </div>
           </motion.section>
+
+  
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>

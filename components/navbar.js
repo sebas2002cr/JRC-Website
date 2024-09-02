@@ -9,6 +9,7 @@ import { urlForImage } from "@/lib/sanity/image";
 import cx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
+
 export default function Navbar(props) {
   const leftmenu = [
     {
@@ -44,54 +45,59 @@ export default function Navbar(props) {
 
   return (
     <>
+      
+
       {/* Franja negra superior */}
       <div className="bg-black text-white py-2 px-4 text-center text-sm">
         <div className="bg-black text-white py-2 text-center text-sm flex justify-center items-center">
           <span>
-            📞 ¿Tenés preguntas?
-            <a className="underline" href="/schedule">
-              Programá hoy mismo una consulta gratuita
+            📞 ¿Tenés preguntas? &nbsp;
+            <a
+              className="underline"
+              href="/schedule"
+            >
+              <></>Programá hoy mismo una consulta gratuita
             </a>
           </span>
         </div>
       </div>
-
+    <div className="border ">
       <Container>
         <nav>
           <Disclosure>
             {({ open }) => (
               <>
-                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10">
-                  <div className="order-1 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
-                    {leftmenu.map((item, index) => {
-                      const isActive =
-                        typeof window !== "undefined" &&
-                        window.location.pathname === item.href;
-                      return (
-                        <Fragment key={`${item.label}${index}`}>
+              
+                <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10 ">
+                  <div className="order-1 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end">
+                    {leftmenu.map((item, index) => (
+                      <Fragment key={`${item.label}${index}`}>
+                        {item.children && item.children.length > 0 ? (
+                          <DropdownMenu
+                            menu={item}
+                            key={`${item.label}${index}`}
+                            items={item.children}
+                          />
+                        ) : (
                           <Link
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className={`relative px-5 py-2 text-sm font-medium ${
-                              isActive
-                                ? "text-[#305832] after:scale-x-100"
-                                : "text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                            } after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-[#305832] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:transition-transform after:duration-300`}
+                            className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
                             target={item.external ? "_blank" : ""}
                             rel={item.external ? "noopener" : ""}
                           >
                             {item.label}
                           </Link>
-                        </Fragment>
-                      );
-                    })}
+                        )}
+                      </Fragment>
+                    ))}
                   </div>
                   <div className="flex w-full items-center justify-between md:w-auto">
                     <Link href="/" className="w-16 dark:hidden">
                       <Image
-                        src="/Logo-blanco.svg"
+                        src="/Logo-blanco.svg" // Ruta a tu imagen en la carpeta public
                         alt="Nuevo Logo"
-                        width={112}
+                        width={112} // Asegúrate de ajustar el tamaño a lo que necesites
                         height={28}
                         priority={true}
                         sizes="(max-width: 640px) 100vw, 200px"
@@ -111,7 +117,7 @@ export default function Navbar(props) {
                     </Link>
                     <Disclosure.Button
                       aria-label="Toggle Menu"
-                      className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden"
+                      className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden "
                     >
                       <svg
                         className="h-6 w-6 fill-current"
@@ -135,49 +141,61 @@ export default function Navbar(props) {
                     </Disclosure.Button>
                   </div>
 
-                  <div className="order-2 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
-                    {rightmenu.map((item, index) => {
-                      const isActive =
-                        typeof window !== "undefined" &&
-                        window.location.pathname === item.href;
-                      return (
-                        <Fragment key={`${item.label}${index}`}>
+                  <div className="order-2 md:gap-5 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row">
+                    {rightmenu.map((item, index) => (
+                      <Fragment key={`${item.label}${index}`}>
+                        {item.children && item.children.length > 0 ? (
+                          <DropdownMenu
+                            menu={item}
+                            key={`${item.label}${index}`}
+                            items={item.children}
+                          />
+                        ) : (
                           <Link
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className={`relative px-4 py-2 text-sm font-medium ${
-                              isActive
-                                ? "text-[#305832] after:scale-x-100"
-                                : "text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                            } after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-[#305832] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:transition-transform after:duration-300`}
+                            className={`px-4 py-2 ${
+                              item.label === "Empezar"
+                                ? "bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]"
+                                : "text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            }`}
                             target={item.external ? "_blank" : ""}
                             rel={item.external ? "noopener" : ""}
                           >
                             <span>{item.label}</span>
                             {item.badge && (
-                              <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800">
+                              <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800 ">
                                 {item.badge}
                               </span>
                             )}
                           </Link>
-                        </Fragment>
-                      );
-                    })}
+                        )}
+                      </Fragment>
+                    ))}
                   </div>
                 </div>
                 <Disclosure.Panel>
                   <div className="order-2 -ml-4 mt-4 flex w-full flex-col items-center justify-start md:hidden">
                     {mobilemenu.map((item, index) => (
                       <Fragment key={`${item.label}${index}`}>
-                        <Link
-                          href={item.href}
-                          key={`${item.label}${index}`}
-                          className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                          target={item.external ? "_blank" : ""}
-                          rel={item.external ? "noopener" : ""}
-                        >
-                          {item.label}
-                        </Link>
+                        {item.children && item.children.length > 0 ? (
+                          <DropdownMenu
+                            menu={item}
+                            key={`${item.label}${index}`}
+                            items={item.children}
+                            mobile={true}
+                          />
+                        ) : (
+                          <Link
+                            href={item.href}
+                            key={`${item.label}${index}`}
+                            className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            target={item.external ? "_blank" : ""}
+                            rel={item.external ? "noopener" : ""}
+                          >
+                            {item.label}
+                          </Link>
+                        )}
                       </Fragment>
                     ))}
                   </div>
@@ -187,13 +205,17 @@ export default function Navbar(props) {
           </Disclosure>
         </nav>
       </Container>
+      </div>
     </>
   );
 }
 
 const DropdownMenu = ({ menu, items, mobile }) => {
   return (
-    <Menu as="div" className={cx("relative text-left", mobile && "w-full")}>
+    <Menu
+      as="div"
+      className={cx("relative text-left", mobile && "w-full")}
+    >
       {({ open }) => (
         <>
           <Menu.Button

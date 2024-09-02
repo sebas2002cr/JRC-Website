@@ -1,63 +1,39 @@
-import { getSettings } from "@/lib/sanity/client";
+"use client";
+
+import { useState, useEffect } from "react";
 import Footer from "@/components/footer";
-import { urlForImage } from "@/lib/sanity/image";
 import Navbar from "@/components/navbar";
+import { usePathname } from 'next/navigation';
+import { getSettings } from "@/lib/sanity/client";
 
-async function sharedMetaData(params) {
-  const settings = await getSettings();
+export default function Layout({ children, params }) {
+  const [settings, setSettings] = useState(null);
+  const pathname = usePathname();
 
-  return {
-    // enable this for resolving opengraph image
-    // metadataBase: new URL(settings.url),
-    title: {
-      default:
-        settings?.title ||
-        "Stablo - Blog Template for Next.js & Sanity CMS",
-      template: "%s | Stablo"
-    },
-    description:
-      settings?.description ||
-      "Stablo - popular open-source next.js and sanity blog template",
-    keywords: ["Next.js", "Sanity", "Tailwind CSS"],
-    authors: [{ name: "Surjith" }],
-    canonical: settings?.url,
-    openGraph: {
-      images: [
-        {
-          url:
-            urlForImage(settings?.openGraphImage)?.src ||
-            "/img/opengraph.jpg",
-          width: 800,
-          height: 600
-        }
-      ]
-    },
-    twitter: {
-      title: settings?.title || "Stablo Template",
-      card: "summary_large_image"
-    },
-    robots: {
-      index: true,
-      follow: true
-    }
-  };
-}
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const settingsData = await getSettings();
+      setSettings(settingsData);
+    };
+    
+    fetchSettings();
+  }, []);
 
-export async function generateMetadata({ params }) {
-  return await sharedMetaData(params);
-}
+  // Define las rutas donde no quieres mostrar el Footer
+  const noFooterRoutes = ['/starter', '/profesional'];
+  // Define las rutas donde no quieres mostrar el Footer
+  const noNavbarRoutes = ['/starter', '/profesional'];
 
-export default async function Layout({ children, params }) {
-  const settings = await getSettings();
+  if (!settings) return null; // O muestra un loader
+
   return (
     <>
-      <Navbar {...settings} />
-
+    <title>JRC Consulting Group</title>
+      {!noNavbarRoutes.includes(pathname) &&<Navbar/>}
+      
       <div>{children}</div>
 
-      <Footer {...settings} />
+      {!noFooterRoutes.includes(pathname) && <Footer />}
     </>
   );
 }
-// enable revalidate for all pages in this layout
-// export const revalidate = 60;

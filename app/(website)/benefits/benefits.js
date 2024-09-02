@@ -27,14 +27,14 @@ export default function Benefits() {
   return (
     <div className="">
       {/* Encabezado de la Sección */}
-      <section className="py-16 bg-white text-center">
+      <section className="py-16 bg-white text-center p-2">
         <p className="mb-4 text-s font-bold text-[#305832] text-center">Beneficios</p>
         <h2 className="text-5xl font-bold text-black mb-4">Más beneficios que ninguna</h2>
         <h2 className="text-5xl font-bold text-black mb-4">otra plataforma</h2>
 
         <p className="text-gray-600 mb-12">Aprovecha las ventajas que solo nuestros clientes disfrutan.</p>
         
-        <div className="bg-green-100 py-8 px-4 rounded-lg max-w-6xl mx-auto">
+        <div className="bg-green-100 py-8 px-4 rounded-lg max-w-6xl mx-auto ">
           <h3 className="text-sm font-semibold text-gray-700 mb-8">ASOCIADOS CON EMPRESAS EXCEPCIONALES.</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -67,7 +67,7 @@ export default function Benefits() {
       <AnimatePresence>
         {selectedBenefit && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
@@ -89,7 +89,7 @@ export default function Benefits() {
       </AnimatePresence>
 
       {/* Sección de Llamada a la Acción (CTA) */}
-      <section className="w-full bg-gradient-to-r from-gray-200 to-white py-16 flex justify-center">
+      <section className="w-full bg-gradient-to-r from-gray-200 to-white py-16 flex justify-center p-4">
         <div className="bg-gradient-to-b from-[#94AB98] to-white rounded-lg shadow-lg p-8 max-w-xl text-center">
           <div className="mb-6">
             <img src="/Logo-blanco.svg" alt="JRC Logo" className="mx-auto w-12 h-12"/>

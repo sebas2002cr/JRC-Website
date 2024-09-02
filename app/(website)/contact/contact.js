@@ -308,7 +308,7 @@ export default function Contact({ settings }) {
       </div>
   
       {/* Sección de Llamada a la Acción (CTA) */}
-      <section className="w-full bg-gradient-to-r from-gray-200 to-white py-16 flex justify-center">
+      <section className="w-full bg-gradient-to-r from-gray-200 to-white py-16 flex justify-center p-4">
         <div className="bg-gradient-to-b from-[#94AB98] to-white rounded-lg shadow-lg p-8 max-w-xl text-center">
           <div className="mb-6">
             <img src="/Logo-blanco.svg" alt="JRC Logo" className="mx-auto w-12 h-12"/>
