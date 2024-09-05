@@ -424,7 +424,7 @@ export default function Pricing() {
                       <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">IVAI</span>
                     </p>
                     <a
-                      href="#"
+                      href="/contact"
                       className="mt-10 block w-full rounded-md bg-[#305832] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#006633] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#305832]"
                     >
                       Obtener información

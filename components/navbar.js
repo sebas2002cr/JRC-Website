@@ -33,15 +33,15 @@ export default function Navbar(props) {
     },
     {
       label: "Partners",
-      href: "/",
+      href: "/partners",
     },
     {
       label: "Empezar",
-      href: "/",
+      href: "/pricing",
     },
   ];
 
-  const mobilemenu = [...leftmenu, ...rightmenu];
+  const mobilemenu = [...leftmenu, ...rightmenu]; 
 
   return (
     <>
@@ -156,7 +156,7 @@ export default function Navbar(props) {
                             key={`${item.label}${index}`}
                             className={`px-4 py-2 ${
                               item.label === "Empezar"
-                                ? "bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]"
+                                ? "bg-white border border-[#305832] text-[#305832] rounded-lg shadow-md hover:bg-[#305832] hover:text-white transition duration-300"
                                 : "text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
                             }`}
                             target={item.external ? "_blank" : ""}

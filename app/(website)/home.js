@@ -192,49 +192,33 @@ export default function Post({ posts }) {
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
 
-          {/* Sección de Servicios */}
-          <motion.section 
-            className="w-full bg-[#f6f6f6] py-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            variants={fadeInUp}
-          >
-            <h2 className="text-center text-3xl font-semibold mb-8">
-              Mientras crecés, nosotros cuidamos los detalles
-            </h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8 max-w-6xl mx-auto p-4">
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="mb-4">
-                  {/* Coloca aquí el icono correspondiente */}
+          <div class="max-w-5xl max-md:max-w-xl mx-auto font-[sans-serif] my-4">
+            <div class="text-center max-w-2xl mx-auto">
+              <h2 class="text-[#305832] text-4xl font-extrabold text-center mb-6">Detalles que nos caracterizan</h2>
+              <p class="text-gray-600 text-sm">Desbloquea nuevas oportunidades con nuestras características exclusivas. Descubre cómo nuestras ofertas únicas pueden transformar tu experiencia y ayudarte a alcanzar más metas.</p>
+            </div>
+
+            <div class="mt-16">
+              <div class="grid md:grid-cols-2 items-center gap-16">
+                <div>
+                  <img src="/img/tax.png" class="w-full object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Start your business from home</h3>
-                <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at metus nec felis auctor volutpat ac et velit.</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="mb-4">
-                  {/* Coloca aquí el icono correspondiente */}
+                <div>
+                  <h3 class="text-[#305832] text-2xl font-bold mb-4">Impuestos y Contabilidad</h3>
+                  <p class="text-gray-600 text-sm">Qui elit labore in nisi dolore tempor anim laboris ipsum ad ad consequat id. Dolore et sint mollit in nisi tempor culpa consectetur. Qui elit labore in nisi dolore tempor anim laboris ipsum ad ad consequat id.</p>
+          
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Tax & Bookkeeping</h3>
-                <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at metus nec felis auctor volutpat ac et velit.</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="mb-4">
-                  {/* Coloca aquí el icono correspondiente */}
+                <div class="max-md:order-1">
+                <h3 class="text-[#305832] text-2xl font-bold mb-4">Servicio al Cliente con Representante Exclusivo</h3>
+                  <p class="text-gray-600 text-sm">Qui elit labore in nisi dolore tempor anim laboris ipsum ad ad consequat id. Dolore et sint mollit in nisi tempor culpa consectetur. Qui elit labore in nisi dolore tempor anim laboris ipsum ad ad consequat id.</p>
+
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Human customer support</h3>
-                <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at metus nec felis auctor volutpat ac et velit.</p>
+                <div>
+                  <img src="/img/team.png" class="w-full object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]" />
+                </div>
               </div>
             </div>
-            <div className="flex justify-center mt-8">
-              <a href="/pricing">
-                <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
-                  Empezar
-                </button>
-              </a>
-            </div>
-          </motion.section>
+          </div>
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>

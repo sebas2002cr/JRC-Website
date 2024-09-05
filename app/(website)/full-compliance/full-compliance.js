@@ -7,7 +7,7 @@ import Image from "next/image";
 import Summary from "@/components/ui/summary";
 import CustomerInfoForm from "@/components/customerInfoForm";
 
-export default function Starter() {
+export default function FullCompliance() {
   const controls = useAnimation();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Starter() {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
   const summaryItems = [
-    { label: "Tipo de Plan", value: `Starter Plan (Persona ${answers.tipoPersona})`},
+    { label: "Tipo de Plan", value: `Full Compliance Plan `},
     { label: "Tipo de Persona", value: answers.tipoPersona },
     { label: "Manejo de Planilla", value: answers.manejoPlanilla },   
     { label: "Total de Colaboradores", value: answers.colaboradores },
@@ -42,31 +42,31 @@ export default function Starter() {
       key: "tipoPersona",
     },
     {
-      question: "¿Ocupás manejo de planilla? (Agregar lo que incluye)",
+      question: "¿Ocupás manejo de planilla?",
       options: ["Si", "No"],
       key: "manejoPlanilla",
     },
     ...showColaboradoresQuestion ? [
       {
-        question: "¿Cuántos colaboradores tiene tu empresa? (₡10.000 + IVA por colaborador extra)",
+        question: "¿Cuántos colaboradores tiene tu empresa? (₡10.000 + IVAI por colaborador extra)",
         type: "number",
         key: "colaboradores",
       },
     ] : [],
     {
-      question: "¿Requerís que realicemos tus facturas electrónicas?",
+      question: "¿Ocupas facturas electrónicas?",
       options: ["Si", "No"],
       key: "facturas",
     },
     ...showFacturasQuestion ? [
     {
       question: "¿Cuántas facturas por mes en promedio se emiten? (Solamente cantidad no importa el monto)",
-      options: ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
+      options: ["1-5", "6-10", "11-15", "16-20", "Más de 20"],
       key: "cantidadFacturasEmitidas",
     },
     {
       question: "¿Cuántas facturas por mes en promedio recibe? (Solamente cantidad no importa el monto)",
-      options: ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
+      options: ["1-5", "6-10", "11-15", "16-20", "Más de 20"],
       key: "cantidadFacturasRecibidas",
     },
     ] : [],
@@ -153,12 +153,17 @@ export default function Starter() {
   };
 
   const calculateBaseCost = () => {
-    return answers.tipoPersona === "Física" ? 45000 : 65000;
+    return 99500;
   };
 
   const calculateAdditionalCost = () => {
     const colaboradores = answers.colaboradores || 0;
-    return colaboradores * 11300;
+    if( colaboradores > 5){
+        return (colaboradores - 5) * 11300;
+    }else{
+      return colaboradores   * 11300;  
+    }
+    
   };
 
   const calculateTotalCost = () => {
@@ -229,7 +234,7 @@ export default function Starter() {
           <div className="w-full max-w-2xl mx-auto">
             <div className="text-center font-semibold p-10">
               <h1 className="text-4xl md:text-6xl">
-                <span className="text-[#305832] tracking-wide">Starter </span>
+                <span className="text-[#305832] tracking-wide">Full Compliance </span>
                 <span>Plan</span>
               </h1>
             </div>

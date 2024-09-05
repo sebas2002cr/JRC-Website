@@ -32,6 +32,8 @@
     "formidable": "^3.5.1",
     "framer-motion": "^11.3.29",
     "get-video-id": "^3.6.5",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.3",
     "next": "^14.1.0",
     "next-sanity": "^7.0.12",
     "next-seo": "^6.4.0",
@@ -47,6 +49,7 @@
     "sanity-plugin-asset-source-unsplash": "^1.1.2",
     "styled-components": "^6.1.8",
     "swr": "^2.2.4",
+    "twilio": "^5.2.3",
     "typescript": "^5.3.3"
   },
   "devDependencies": {

@@ -20,16 +20,18 @@ export default function Layout({ children, params }) {
   }, []);
 
   // Define las rutas donde no quieres mostrar el Footer
-  const noFooterRoutes = ['/starter', '/profesional'];
-  // Define las rutas donde no quieres mostrar el Footer
-  const noNavbarRoutes = ['/starter', '/profesional'];
+  const noFooterRoutes = ['/starter', '/profesional', '/full-compliance'];
+  const noNavbarRoutes = ['/starter', '/profesional', '/full-compliance'];
 
   if (!settings) return null; // O muestra un loader
 
   return (
     <>
-    <title>JRC Consulting Group</title>
-      {!noNavbarRoutes.includes(pathname) &&<Navbar/>}
+      {/* Añadir título y favicon */}
+      <title>JRC Consulting Group</title>
+      <link rel="icon" href="/BLANCO-FONDO-NEGRO.ico" />
+
+      {!noNavbarRoutes.includes(pathname) && <Navbar />}
       
       <div>{children}</div>
 
