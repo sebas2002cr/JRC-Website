@@ -16,7 +16,7 @@ export default function Benefits() {
     fetchSanityBenefits();
   }, []);
 
-  const handleBenefitClick = (benefit) => {
+  const handleBenefitClick = benefit => {
     setSelectedBenefit(benefit);
   };
 
@@ -27,30 +27,42 @@ export default function Benefits() {
   return (
     <div className="">
       {/* Encabezado de la Sección */}
-      <section className="py-16 bg-white text-center p-2">
-        <p className="mb-4 text-s font-bold text-[#305832] text-center">Beneficios</p>
-        <h2 className="text-5xl font-bold text-black mb-4">Más beneficios que ninguna</h2>
-        <h2 className="text-5xl font-bold text-black mb-4">otra plataforma</h2>
+      <section className="bg-white p-2 py-16 text-center">
+        <p className="text-s mb-4 text-center font-bold text-[#305832]">
+          Beneficios
+        </p>
+        <h2 className="mb-4 text-5xl font-bold text-black">
+          Más beneficios que ninguna
+        </h2>
+        <h2 className="mb-4 text-5xl font-bold text-black">
+          otra plataforma
+        </h2>
 
-        <p className="text-gray-600 mb-12">Aprovecha las ventajas que solo nuestros clientes disfrutan.</p>
-        
-        <div className="bg-green-100 py-8 px-4 rounded-lg max-w-6xl mx-auto ">
-          <h3 className="text-sm font-semibold text-gray-700 mb-8">ASOCIADOS CON EMPRESAS EXCEPCIONALES.</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <p className="mb-12 text-gray-600">
+          Aprovecha las ventajas que solo nuestros clientes disfrutan.
+        </p>
+
+        <div className="shadow-m mx-auto max-w-6xl rounded-lg border border-[#305832] px-4 py-8 ">
+          <h3 className="mb-8 text-sm font-semibold text-gray-700">
+            ASOCIADOS CON EMPRESAS EXCEPCIONALES.
+          </h3>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {benefits.length > 0 ? (
               benefits.map((benefit, index) => (
                 <div key={index} className="flex items-center">
                   <img
-                    src={urlForBenefitImage(benefit.image)} 
+                    src={urlForBenefitImage(benefit.image)}
                     alt={benefit.company}
-                    className="w-12 h-12 mr-4"
+                    className="mr-4 h-12 w-12"
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-800">{benefit.company} | {benefit.tag}</h4>
+                    <h4 className="font-semibold text-gray-800">
+                      {benefit.company} | {benefit.tag}
+                    </h4>
                     <span
                       onClick={() => handleBenefitClick(benefit)}
-                      className="text-green-600 text-sm cursor-pointer hover:underline">
+                      className="cursor-pointer text-sm text-green-600 hover:underline">
                       Ver beneficio
                     </span>
                   </div>
@@ -67,20 +79,24 @@ export default function Benefits() {
       <AnimatePresence>
         {selectedBenefit && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
             <motion.div
-              className="bg-white rounded-lg p-8 max-w-lg w-full text-center"
+              className="w-full max-w-lg rounded-lg bg-white p-8 text-center"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}>
-              <h3 className="text-xl font-bold mb-4">{selectedBenefit.company} | {selectedBenefit.tag}</h3>
-              <p className="text-gray-700 mb-4">{selectedBenefit.reward}</p>
+              <h3 className="mb-4 text-xl font-bold">
+                {selectedBenefit.company} | {selectedBenefit.tag}
+              </h3>
+              <p className="mb-4 text-gray-700">
+                {selectedBenefit.reward}
+              </p>
               <span
                 onClick={handleCloseModal}
-                className="text-green-600 text-sm cursor-pointer hover:underline">
+                className="cursor-pointer text-sm text-green-600 hover:underline">
                 Cerrar
               </span>
             </motion.div>
@@ -89,21 +105,26 @@ export default function Benefits() {
       </AnimatePresence>
 
       {/* Sección de Llamada a la Acción (CTA) */}
-      <section className="w-full bg-[#FAFFFB] py-16 flex justify-center p-4">
-        <div className="bg-gradient-to-b from-[#94AB98] to-white rounded-lg shadow-lg p-8 max-w-xl text-center">
+      <section className="flex w-full justify-center bg-[#FAFFFB] p-4 py-16">
+        <div className="max-w-xl rounded-lg bg-gradient-to-b from-[#94AB98] to-white p-8 text-center shadow-lg">
           <div className="mb-6">
-            <img src="/Logo-blanco.svg" alt="JRC Logo" className="mx-auto w-12 h-12"/>
+            <img
+              src="/Logo-blanco.svg"
+              alt="JRC Logo"
+              className="mx-auto h-12 w-12"
+            />
           </div>
-          <h3 className="text-3xl font-bold mb-4 text-[#305832]">
+          <h3 className="mb-4 text-3xl font-bold text-[#305832]">
             Gratis
           </h3>
-          <p className="text-gray-600 mb-8">
-            Agendá una llamada de 15 min con un asesor para resolver todas tus dudas.
+          <p className="mb-8 text-gray-600">
+            Agendá una llamada de 15 min con un asesor para resolver
+            todas tus dudas.
           </p>
           <a href="/schedule">
-          <button className="px-8 py-3 bg-[#305832] text-white rounded-lg shadow-md hover:bg-[#234621]">
-            Agenda una llamada
-          </button>
+            <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
+              Agenda una llamada
+            </button>
           </a>
         </div>
       </section>

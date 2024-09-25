@@ -1,0 +1,55 @@
+{
+    "questions": [
+      {
+        "question": "¿La actividad económica se trabaja como persona física o jurídica?",
+        "options": ["Física", "Jurídica"],
+        "key": "tipoPersona"
+      },
+      {
+        "question": "¿Ocupás manejo de planilla?",
+        "disclaimer": ["Gestión RRHM", "Cálculo de Planilla / Salarios" , "Presentación de planilla CCSS" , 
+        " Presentación de planilla INS" , "Cálculo de liquidaciones", " Control de permisos , vacaciones, aguinaldo", 
+        "Periocidad semanal, quincenal o mensual"] ,
+        "options": ["Si", "No"],
+        "key": "manejoPlanilla"
+      },
+      {
+        "question": "¿Cuántos colaboradores tiene tu empresa? ",
+        "disclaimer": ["₡10.000 + iva por colaborador extra"],
+        "type": "number",
+        "key": "colaboradores",
+        "showCondition": "manejoPlanilla === 'Si'"
+      },
+      {
+        "question": "¿Requerís que realicemos tus facturas electrónicas?",
+        "options": ["Si", "No"],
+        "key": "facturas"
+      },
+      {
+        "question": "¿Cuántas facturas por mes en promedio se emiten?",
+        "disclaimer":[ "Solamente cantidad, no importa el monto"],
+        "options": ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
+        "key": "cantidadFacturasEmitidas",
+        "showCondition": "facturas === 'Si'"
+      },
+      {
+        "question": "Si emites más de 40 facturas al mes, ingresa la cantidad exacta:",
+        "type": "number",
+        "key": "facturasExactas",
+        "showCondition": "cantidadFacturasEmitidas === 'Más de 40'"
+      },
+      {
+        "question": "¿Cuántas facturas por mes en promedio recibe? ",
+        "disclaimer": ["Solamente cantidad, no importa el monto"],
+        "options": ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
+        "key": "cantidadFacturasRecibidas",
+        "showCondition": "facturas === 'Si'"
+      },
+      {
+        "question": "¿Cuántas transacciones mensuales tienen en promedio en el estado de cuenta bancario?",
+        "type": "number",
+        "key": "transacciones"
+      }
+    ]
+  }
+  

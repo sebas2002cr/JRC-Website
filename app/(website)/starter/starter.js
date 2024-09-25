@@ -6,312 +6,432 @@ import Link from "next/link";
 import Image from "next/image";
 import Summary from "@/components/ui/summary";
 import CustomerInfoForm from "@/components/customerInfoForm";
+import Payments from "@/components/ui/payment";
 
 export default function Starter() {
   const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start("animate");
-  }, [controls]);
-
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({ colaboradores: 0, tipoPersona: "" });
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState({
+    colaboradores: 0,
+    tipoPersona: "",
+    manejoPlanilla: "",
+    facturas: "",
+    cantidadFacturasEmitidas: "",
+    facturasExactas: "",
+    cantidadFacturasRecibidas: ""
+  });
   const [colaboradores, setColaboradores] = useState("");
-  const [transacciones, setTransacciones] = useState(""); 
+  const [facturasExactas, setFacturasExactas] = useState("");
+  const [transacciones, setTransacciones] = useState("");
   const [error, setError] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [showColaboradoresQuestion, setShowColaboradoresQuestion] = useState(true);
-  const [showFacturasQuestion, setShowFacturasQuestion] = useState(true);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [showFacturasQuestion, setShowFacturasQuestion] =
+    useState(false);
+  const [showFacturasInput, setShowFacturasInput] = useState(false);
+  const [showPayments, setShowPayments] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({});
+
+  // Fetch questions from JSON file
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch(
+          "json-info/questionsStarter.json"
+        );
+        const data = await response.json();
+        setQuestions(data.questions);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const filterQuestions = () => {
+    return questions.filter(q => {
+      if (
+        q.key === "colaboradores" &&
+        answers.manejoPlanilla !== "Si"
+      ) {
+        return false; // No mostrar si no se requiere manejo de planilla
+      }
+      if (
+        q.key === "cantidadFacturasEmitidas" &&
+        answers.facturas !== "Si"
+      ) {
+        return false; // No mostrar si no se requiere facturación electrónica
+      }
+      if (
+        q.key === "facturasExactas" &&
+        answers.cantidadFacturasEmitidas !== "Más de 40"
+      ) {
+        return false; // No mostrar si no se emiten más de 40 facturas
+      }
+      if (
+        q.key === "cantidadFacturasRecibidas" &&
+        answers.facturas !== "Si"
+      ) {
+        return false; // No mostrar si no se requiere facturación electrónica
+      }
+      return true; // Mostrar la pregunta por defecto
+    });
+  };
+
+  const filteredQuestions = filterQuestions();
 
   const summaryItems = [
-    { label: "Tipo de Plan", value: `Starter Plan (Persona ${answers.tipoPersona})`},
+    {
+      label: "Tipo de Plan",
+      value: `Starter Plan (Persona ${answers.tipoPersona})`
+    },
     { label: "Tipo de Persona", value: answers.tipoPersona },
-    { label: "Manejo de Planilla", value: answers.manejoPlanilla },   
-    { label: "Total de Colaboradores", value: answers.colaboradores },
+    { label: "Manejo de Planilla", value: answers.manejoPlanilla },
+    ...(answers.manejoPlanilla === "Si"
+      ? [
+          {
+            label: "Total de Colaboradores",
+            value: answers.colaboradores
+          }
+        ]
+      : []),
     { label: "Facturas Electrónicas", value: answers.facturas },
-    { label: "Facturas electrónicas emitidas", value: answers.cantidadFacturasEmitidas },
-    { label: "Facturas electrónicas recibidas", value: answers.cantidadFacturasRecibidas },
-    { label: "Transacciones mensuales", value: answers.transacciones },
-  ];
-
-  const questions = [
-    {
-      question: "¿La actividad económica se trabaja como persona física o jurídica?",
-      options: ["Física", "Jurídica"],
-      key: "tipoPersona",
-    },
-    {
-      question: "¿Ocupás manejo de planilla? (Agregar lo que incluye)",
-      options: ["Si", "No"],
-      key: "manejoPlanilla",
-    },
-    ...showColaboradoresQuestion ? [
-      {
-        question: "¿Cuántos colaboradores tiene tu empresa? (₡10.000 + IVA por colaborador extra)",
-        type: "number",
-        key: "colaboradores",
-      },
-    ] : [],
-    {
-      question: "¿Requerís que realicemos tus facturas electrónicas?",
-      options: ["Si", "No"],
-      key: "facturas",
-    },
-    ...showFacturasQuestion ? [
-    {
-      question: "¿Cuántas facturas por mes en promedio se emiten? (Solamente cantidad no importa el monto)",
-      options: ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
-      key: "cantidadFacturasEmitidas",
-    },
-    {
-      question: "¿Cuántas facturas por mes en promedio recibe? (Solamente cantidad no importa el monto)",
-      options: ["1-10", "11-20", "21-30", "31-40", "Más de 40"],
-      key: "cantidadFacturasRecibidas",
-    },
-    ] : [],
-    {
-      question: "¿Cuántas transacciones mensuales tienen en promedio en el estado de cuenta bancario?",
-      type: "number",
-      key: "transacciones",
-    },
+    ...(answers.facturas === "Si"
+      ? [
+          {
+            label: "Facturas electrónicas emitidas",
+            value:
+              answers.cantidadFacturasEmitidas === "Más de 40"
+                ? ` ${answers.facturasExactas}`
+                : answers.cantidadFacturasEmitidas
+          },
+          {
+            label: "Facturas electrónicas recibidas",
+            value: answers.cantidadFacturasRecibidas
+          }
+        ]
+      : [])
   ];
 
   const handleAnswer = () => {
-    const currentQuestionKey = questions[currentQuestion].key;
-  
-    if (questions[currentQuestion].type === "number") {
+    const currentQuestionKey = filteredQuestions[currentQuestion].key;
+
+    if (filteredQuestions[currentQuestion].type === "number") {
+      let value = "";
       if (currentQuestionKey === "colaboradores") {
-        if (!/^\d+$/.test(colaboradores)) {
-          setError("Por favor, introduce un número válido.");
-          return;
-        }
-        setError("");
-        setAnswers((prevAnswers) => ({
-          ...prevAnswers,
-          [currentQuestionKey]: parseInt(colaboradores, 10),
-        }));
-      } else if (currentQuestionKey === "transacciones") { 
-        if (!/^\d+$/.test(transacciones)) {
-          setError("Por favor, introduce un número válido.");
-          return;
-        }
-        setError("");
-        setAnswers((prevAnswers) => ({
-          ...prevAnswers,
-          [currentQuestionKey]: parseInt(transacciones, 10),
-        }));
+        value = colaboradores;
+      } else if (currentQuestionKey === "facturasExactas") {
+        value = facturasExactas;
+      } else if (currentQuestionKey === "transacciones") {
+        value = transacciones;
       }
-      setSelectedOption(null);
+
+      if (
+        !/^\d+$/.test(value) ||
+        (currentQuestionKey === "facturasExactas" &&
+          parseInt(value) <= 40)
+      ) {
+        setError("Por favor, introduce un número válido.");
+        return;
+      }
+
+      setError("");
+      setAnswers(prevAnswers => ({
+        ...prevAnswers,
+        [currentQuestionKey]: parseInt(value, 10)
+      }));
     } else {
+      const selectedOption = selectedOptions[currentQuestionKey];
+
       if (!selectedOption) {
         setError("Por favor, selecciona una opción.");
         return;
       }
+
       setError("");
-      setAnswers((prevAnswers) => ({
+      setAnswers(prevAnswers => ({
         ...prevAnswers,
-        [currentQuestionKey]: selectedOption,
+        [currentQuestionKey]: selectedOption
       }));
-  
-      if (currentQuestionKey === "manejoPlanilla") {
-        setShowColaboradoresQuestion(selectedOption === "Si");
-      }
-  
+
       if (currentQuestionKey === "facturas") {
         setShowFacturasQuestion(selectedOption === "Si");
       }
-  
-      setSelectedOption(null);
+
+      if (currentQuestionKey === "cantidadFacturasEmitidas") {
+        setShowFacturasInput(selectedOption === "Más de 40");
+      }
     }
-  
-    controls.start({ opacity: 0 }).then(() => {
-      setCurrentQuestion(currentQuestion + 1);
-      controls.start({ opacity: 1 });
-    });
+
+    setCurrentQuestion(prev => prev + 1);
   };
-  
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
+
+  const handleOptionSelect = (key, option) => {
+    setSelectedOptions(prev => ({
+      ...prev,
+      [key]: option
+    }));
     setError("");
   };
 
   const handleBack = () => {
-    controls.start({ y: "100vh", opacity: 0 }).then(() => {
-      setCurrentQuestion(currentQuestion - 1);
-  
-      if (questions[currentQuestion - 1].key === "manejoPlanilla") {
-        setShowColaboradoresQuestion(answers.manejoPlanilla === "Si");
-      }
-  
-      if (questions[currentQuestion - 1].key === "facturas") {
-        setShowFacturasQuestion(answers.facturas === "Si");
-      }
-  
-      controls.start({ y: 0, opacity: 1 });
-    });
+    if (currentQuestion === 0) return;
+
+    setCurrentQuestion(prev => prev - 1);
   };
 
   const calculateBaseCost = () => {
     return answers.tipoPersona === "Física" ? 45000 : 65000;
   };
 
+  const calculatePlanillaCost = () => {
+    return answers.manejoPlanilla === "Si"
+      ? answers.colaboradores * 10000 * 1.13
+      : 0;
+  };
+
+  const calculateFacturasCost = () => {
+    const { cantidadFacturasEmitidas, facturasExactas } = answers;
+
+    switch (cantidadFacturasEmitidas) {
+      case "1-10":
+        return 10000 * 1.13;
+      case "11-20":
+        return 20000 * 1.13;
+      case "21-30":
+        return 30000 * 1.13;
+      case "31-40":
+        return 40000 * 1.13;
+      case "Más de 40":
+        return facturasExactas * 1000 * 1.13;
+      default:
+        return 0;
+    }
+  };
+
   const calculateAdditionalCost = () => {
-    const colaboradores = answers.colaboradores || 0;
-    return colaboradores * 11300;
+    return calculatePlanillaCost() + calculateFacturasCost();
   };
 
   const calculateTotalCost = () => {
-    return calculateBaseCost() + calculateAdditionalCost();
+    const baseCost = calculateBaseCost();
+    const additionalCost = calculateAdditionalCost();
+    return baseCost + additionalCost;
   };
 
   const handleContinue = () => {
-    setShowCustomerForm(true); // Mostrar el formulario de cliente después del resumen
+    setShowCustomerForm(true);
   };
 
-  const handleSubmitCustomerInfo = (customerInfo) => {
-    console.log("Información del cliente:", customerInfo);
-    // Aquí puedes manejar lo que sigue después de recibir la información del cliente
+  const handleContinueCustomerForm = () => {
+    if (showCustomerForm) {
+      setShowPayments(true); // Mostrar Payments cuando CustomerInfoForm esté completado
+    } else {
+      setShowCustomerForm(true);
+    }
+  };
+  const handleSubmitCustomerInfo = info => {
+    setCustomerInfo(info); // Guardar la información del cliente
+    setShowPayments(true); // Mostrar Payments después de completar CustomerInfoForm
   };
 
   return (
-    <div className="bg-white min-h-screen flex flex-col lg:flex-row">
+    <div className="flex min-h-screen flex-col bg-white lg:flex-row">
       {/* Panel Izquierdo */}
-      <motion.div
-        className="w-full lg:w-1/3 bg-[#305832] p-8 flex flex-col justify-between items-center"
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 0.4 }}
-      >
-        {/* Logo en la parte superior */}
-        <div className="w-full flex justify-center">
+      <div className="flex w-full flex-col items-center justify-between bg-[#305832] p-8 lg:w-1/3">
+        {/* Logo */}
+        <div className="flex w-full justify-center">
           <Link href="/">
             <Image
               src="/img/JRCLogofull.png"
               alt="Nuevo Logo"
               width={200}
               height={100}
-              priority={true}
-              sizes="(max-width: 640px) 100vw, 200px"
+              priority
             />
           </Link>
         </div>
-
-        {/* Texto en el centro */}
-        <div className="hidden lg:block text-center m-auto">
-          <h1 className="text-white text-3xl font-extrabold">
+        {/* Texto */}
+        <div className="m-auto hidden text-center lg:block">
+          <h1 className="text-3xl font-extrabold text-white">
             Hacemos que las empresas puedan progresar y crecer.
           </h1>
         </div>
-
-        {/* Reviews en la parte inferior */}
-        <div className="hidden lg:block mt-auto bg-[#d6e8d2] p-4 rounded-lg">
+        {/* Reviews */}
+        <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
           <p className="text-black">
             Recomendaría a JRC sin duda. Excelente asistencia.
           </p>
-          <div className="flex items-center mt-4">
+          <div className="mt-4 flex items-center">
             <div>
               <p className="font-bold text-black">Manuel</p>
               <p className="text-sm text-gray-700">Manuel Web LLC</p>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Panel Derecho */}
       <motion.div
-        className="w-full lg:w-2/3 p-8 flex justify-center items-center"
-        initial={{ y: 0, opacity: 1 }}
+        className="flex w-full items-center justify-center p-8 lg:w-2/3"
+        initial={{ opacity: 1 }}
         animate={controls}
-        transition={{ duration: 0.4 }}
-      >
-        {currentQuestion < questions.length ? (
-          <div className="w-full max-w-2xl mx-auto">
-            <div className="text-center font-semibold p-10">
+        transition={{ duration: 0.4 }}>
+        {currentQuestion < filteredQuestions.length ? (
+          <div className="mx-auto w-full max-w-2xl">
+            <div className="p-10 text-center font-semibold">
               <h1 className="text-4xl md:text-6xl">
-                <span className="text-[#305832] tracking-wide">Starter </span>
+                <span className="tracking-wide text-[#305832]">
+                  Starter{" "}
+                </span>
                 <span>Plan</span>
               </h1>
             </div>
-            <h3 className="text-2xl font-semibold mb-8">
-              {questions[currentQuestion].question}
+
+            {/* Renderizar la pregunta */}
+            <h3 className="mb-8 text-2xl font-semibold">
+              {filteredQuestions[currentQuestion].question}
             </h3>
-            {questions[currentQuestion].type === "number" ? (
-                <div>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-3 text-gray-700 border rounded-lg focus:outline-none"
-                    value={questions[currentQuestion].key === "colaboradores" ? colaboradores : transacciones}
-                    onChange={(e) => {
-                      if (questions[currentQuestion].key === "colaboradores") {
-                        setColaboradores(e.target.value);
-                      } else if (questions[currentQuestion].key === "transacciones") {
-                        setTransacciones(e.target.value);
-                      }
-                    }}
-                    placeholder={questions[currentQuestion].key === "colaboradores" ? "Introduce el número de colaboradores" : "Introduce el número de transacciones"}
-                  />
-                  {error && <p className="text-red-500 mt-2">{error}</p>}
-                </div>
-              ) : (
+
+            {filteredQuestions[currentQuestion].disclaimer &&
+              Array.isArray(
+                filteredQuestions[currentQuestion].disclaimer
+              ) && (
+                <ul className="mb-4 list-inside list-disc text-sm text-gray-500">
+                  {filteredQuestions[currentQuestion].disclaimer.map(
+                    (item, index) => (
+                      <li key={index}>{item}</li>
+                    )
+                  )}
+                </ul>
+              )}
+
+            {filteredQuestions[currentQuestion].type === "number" ? (
+              <div>
+                <input
+                  type="text"
+                  className="w-full rounded-lg border px-3 py-3 text-gray-700 focus:outline-none"
+                  value={
+                    filteredQuestions[currentQuestion].key ===
+                    "colaboradores"
+                      ? colaboradores
+                      : filteredQuestions[currentQuestion].key ===
+                          "facturasExactas"
+                        ? facturasExactas
+                        : transacciones
+                  }
+                  onChange={e => {
+                    if (
+                      filteredQuestions[currentQuestion].key ===
+                      "colaboradores"
+                    ) {
+                      setColaboradores(e.target.value);
+                    } else if (
+                      filteredQuestions[currentQuestion].key ===
+                      "facturasExactas"
+                    ) {
+                      setFacturasExactas(e.target.value);
+                    } else if (
+                      filteredQuestions[currentQuestion].key ===
+                      "transacciones"
+                    ) {
+                      setTransacciones(e.target.value);
+                    }
+                  }}
+                  placeholder={
+                    filteredQuestions[currentQuestion].key ===
+                    "colaboradores"
+                      ? "Introduce el número de colaboradores"
+                      : filteredQuestions[currentQuestion].key ===
+                          "facturasExactas"
+                        ? "Introduce la cantidad exacta de facturas"
+                        : "Introduce el número de transacciones"
+                  }
+                />
+                {error && (
+                  <p className="mt-2 text-red-500">{error}</p>
+                )}
+              </div>
+            ) : (
               <form>
-                {questions[currentQuestion].options.map((option, index) => (
-                  <div key={index} className="mb-4">
-                    <button
-                      type="button"
-                      onClick={() => handleOptionSelect(option)}
-                      className={`w-full py-3 border font-bold rounded-lg transition-all duration-300 ${
-                        selectedOption === option
-                          ? "bg-[#305832] text-white"
-                          : "bg-white text-[#305832] border-[#305832] hover:bg-[#305832] hover:text-white"
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  </div>
-                ))}
+                {filteredQuestions[currentQuestion].options.map(
+                  (option, index) => (
+                    <div key={index} className="mb-4">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleOptionSelect(
+                            filteredQuestions[currentQuestion].key,
+                            option
+                          )
+                        }
+                        className={`w-full rounded-lg border py-3 font-bold transition-all duration-300 ${
+                          selectedOptions[
+                            filteredQuestions[currentQuestion].key
+                          ] === option
+                            ? "bg-[#305832] text-white"
+                            : "border-[#305832] bg-white text-[#305832] hover:bg-[#305832] hover:text-white"
+                        }`}>
+                        {option}
+                      </button>
+                    </div>
+                  )
+                )}
               </form>
             )}
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            <div className="mt-8 flex justify-between w-full">
+            <div className="mt-8 flex w-full justify-between">
               <button
                 type="button"
                 onClick={handleBack}
-                className="py-3 px-6 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition-all duration-300"
-                disabled={currentQuestion === 0}
-              >
+                className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-400"
+                disabled={currentQuestion === 0}>
                 Atrás
               </button>
               <button
                 type="button"
                 onClick={handleAnswer}
-                className="py-3 px-6 bg-[#305832] text-white font-semibold rounded-lg hover:bg-[#234621] transition-all duration-300"
-              >
-                {currentQuestion < questions.length - 1 ? "Siguiente" : "Finalizar"}
+                className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#234621]">
+                {currentQuestion < filteredQuestions.length - 1
+                  ? "Siguiente"
+                  : "Finalizar"}
               </button>
             </div>
           </div>
-        ) : showCustomerForm ? (
-          <CustomerInfoForm 
-            onSubmit={handleSubmitCustomerInfo} 
-            summaryItems={summaryItems}
+        ) : showPayments ? (
+          <Payments
+            items={summaryItems}
             calculateBaseCost={calculateBaseCost}
-            calculateAdditionalCost={calculateAdditionalCost}
+            calculatePlanillaCost={calculatePlanillaCost}
+            calculateFacturasCost={calculateFacturasCost}
             calculateTotalCost={calculateTotalCost}
+            onContinue={handleContinue}
+            customerInfo={customerInfo}
+          /> // Pasar totalCost a Payments
+        ) : showCustomerForm ? (
+          <CustomerInfoForm
+            onSubmit={handleSubmitCustomerInfo}
+            summaryItems={summaryItems}
+            selectedPlan={"Starter Plan"}
+            calculateBaseCost={calculateBaseCost}
+            calculatePlanillaCost={calculatePlanillaCost}
+            calculateFacturasCost={calculateFacturasCost}
+            calculateTotalCost={calculateTotalCost}
+            calculateAdditionalCost={calculateAdditionalCost}
+            onContinueForm={handleContinueCustomerForm}
           />
-
         ) : (
           <Summary
             items={summaryItems}
             calculateBaseCost={calculateBaseCost}
-            calculateAdditionalCost={calculateAdditionalCost}
+            calculatePlanillaCost={calculatePlanillaCost}
+            calculateFacturasCost={calculateFacturasCost}
             calculateTotalCost={calculateTotalCost}
-            onContinue={handleContinue} // Pasa la función handleContinue como prop
+            onContinue={handleContinue}
           />
         )}
       </motion.div>
     </div>
   );
 }
-
-
