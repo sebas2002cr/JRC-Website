@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import cx from "clsx";
+import { motion } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
 export default function Navbar(props) {
@@ -50,7 +51,7 @@ export default function Navbar(props) {
           <span>
             📞 ¿Tenés preguntas? &nbsp;
             <a className="underline" href="/schedule">
-              <></>Programá hoy mismo una consulta gratuita
+              Programá hoy mismo una consulta gratuita
             </a>
           </span>
         </div>
@@ -59,38 +60,29 @@ export default function Navbar(props) {
         <Container>
           <nav>
             <Disclosure>
-              {({ open }) => (
+              {({ open, close }) => (
                 <>
-                  <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10 ">
+                  <div className="flex flex-wrap justify-between md:flex-nowrap md:gap-10">
                     <div className="order-1 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end md:gap-5">
                       {leftmenu.map((item, index) => (
                         <Fragment key={`${item.label}${index}`}>
-                          {item.children &&
-                          item.children.length > 0 ? (
-                            <DropdownMenu
-                              menu={item}
-                              key={`${item.label}${index}`}
-                              items={item.children}
-                            />
-                          ) : (
-                            <Link
-                              href={item.href}
-                              key={`${item.label}${index}`}
-                              className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                              target={item.external ? "_blank" : ""}
-                              rel={item.external ? "noopener" : ""}>
-                              {item.label}
-                            </Link>
-                          )}
+                          <Link
+                            href={item.href}
+                            key={`${item.label}${index}`}
+                            className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            onClick={() => close()} // Cierra el menú al hacer clic
+                          >
+                            {item.label}
+                          </Link>
                         </Fragment>
                       ))}
                     </div>
                     <div className="flex w-full items-center justify-between md:w-auto">
                       <Link href="/" className="w-16 dark:hidden">
                         <Image
-                          src="/Logo-blanco.svg" // Ruta a tu imagen en la carpeta public
+                          src="/Logo-blanco.svg"
                           alt="Nuevo Logo"
-                          width={112} // Asegúrate de ajustar el tamaño a lo que necesites
+                          width={112}
                           height={28}
                           priority={true}
                           sizes="(max-width: 640px) 100vw, 200px"
@@ -114,19 +106,18 @@ export default function Navbar(props) {
                       </Link>
                       <Disclosure.Button
                         aria-label="Toggle Menu"
-                        className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden ">
+                        className="ml-auto transform rounded-md px-2 py-1 text-gray-500 transition duration-300 hover:scale-110 hover:bg-gray-100 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden">
                         <svg
                           className="h-6 w-6 fill-current"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24">
-                          {open && (
+                          {open ? (
                             <path
                               fillRule="evenodd"
                               clipRule="evenodd"
                               d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"
                             />
-                          )}
-                          {!open && (
+                          ) : (
                             <path
                               fillRule="evenodd"
                               d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2z"
@@ -139,61 +130,43 @@ export default function Navbar(props) {
                     <div className="order-2 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:gap-5">
                       {rightmenu.map((item, index) => (
                         <Fragment key={`${item.label}${index}`}>
-                          {item.children &&
-                          item.children.length > 0 ? (
-                            <DropdownMenu
-                              menu={item}
-                              key={`${item.label}${index}`}
-                              items={item.children}
-                            />
-                          ) : (
-                            <Link
-                              href={item.href}
-                              key={`${item.label}${index}`}
-                              className={`px-4 py-2 ${
-                                item.label === "Empezar"
-                                  ? "rounded-lg bg-[#305832] text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]"
-                                  : "text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                              }`}
-                              target={item.external ? "_blank" : ""}
-                              rel={item.external ? "noopener" : ""}>
-                              <span>{item.label}</span>
-                              {item.badge && (
-                                <span className="ml-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-cyan-200 dark:text-blue-800 ">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </Link>
-                          )}
+                          <Link
+                            href={item.href}
+                            key={`${item.label}${index}`}
+                            className={`px-4 py-2 ${
+                              item.label === "Empezar"
+                                ? "rounded-lg bg-[#305832] text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]"
+                                : "text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                            }`}
+                            onClick={() => close()} // Cierra el menú al hacer clic
+                          >
+                            {item.label}
+                          </Link>
                         </Fragment>
                       ))}
                     </div>
                   </div>
+                  {/* Menú móvil */}
                   <Disclosure.Panel>
-                    <div className="order-2 -ml-4 mt-4 flex w-full flex-col items-center justify-start md:hidden">
-                      {mobilemenu.map((item, index) => (
-                        <Fragment key={`${item.label}${index}`}>
-                          {item.children &&
-                          item.children.length > 0 ? (
-                            <DropdownMenu
-                              menu={item}
-                              key={`${item.label}${index}`}
-                              items={item.children}
-                              mobile={true}
-                            />
-                          ) : (
-                            <Link
-                              href={item.href}
-                              key={`${item.label}${index}`}
-                              className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                              target={item.external ? "_blank" : ""}
-                              rel={item.external ? "noopener" : ""}>
-                              {item.label}
-                            </Link>
-                          )}
-                        </Fragment>
-                      ))}
-                    </div>
+                    {({ close }) => (
+                      <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 1.0 }}
+                        className="mt-2 flex w-full flex-col gap-3 rounded-md bg-white p-4 shadow-md md:hidden">
+                        {mobilemenu.map((item, index) => (
+                          <Link
+                            href={item.href}
+                            key={`${item.label}${index}`}
+                            className="w-full rounded border border-[#305832] px-5 py-2 text-sm font-medium text-[#305832] hover:text-gray-200"
+                            onClick={() => close()} // Cierra el menú al hacer clic
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
                   </Disclosure.Panel>
                 </>
               )}
@@ -214,7 +187,7 @@ const DropdownMenu = ({ menu, items, mobile }) => {
         <>
           <Menu.Button
             className={cx(
-              "flex items-center gap-x-1 rounded-md px-5 py-2 text-sm font-medium  outline-none transition-all focus:outline-none focus-visible:text-indigo-500 focus-visible:ring-1 dark:focus-visible:bg-gray-800",
+              "flex items-center gap-x-1 rounded-md px-5 py-2 text-sm font-medium outline-none transition-all focus:outline-none focus-visible:text-indigo-500 focus-visible:ring-1 dark:focus-visible:bg-gray-800",
               open
                 ? "text-[#305832] hover:text-[#305832]"
                 : " text-gray-600 dark:text-gray-400 ",
@@ -233,8 +206,8 @@ const DropdownMenu = ({ menu, items, mobile }) => {
             leaveTo="lg:transform lg:opacity-0 lg:scale-95">
             <Menu.Items
               className={cx(
-                "z-20 origin-top-left rounded-md  focus:outline-none  lg:absolute lg:left-0  lg:w-56",
-                !mobile && "bg-white shadow-lg  dark:bg-gray-800"
+                "z-20 origin-top-left rounded-md focus:outline-none lg:absolute lg:left-0 lg:w-56",
+                !mobile && "bg-white shadow-lg dark:bg-gray-800"
               )}>
               <div className={cx(!mobile && "py-3")}>
                 {items.map((item, index) => (

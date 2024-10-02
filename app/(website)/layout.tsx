@@ -20,8 +20,19 @@ export default function Layout({ children, params }) {
   }, []);
 
   // Define las rutas donde no quieres mostrar el Footer
-  const noFooterRoutes = ['/starter', '/profesional', '/full-compliance'];
-  const noNavbarRoutes = ['/starter', '/profesional', '/full-compliance'];
+  const noFooterRoutes = 
+  ['/starter', '/professional', '/full-compliance', 
+    '/plans/starter', '/plans/professional', '/plans/full-compliance',
+    '/plans/starter/summary', '/plans/professional/summary', '/plans/full-compliance/summary',
+    '/plans/starter/form' , '/plans/professional/form', '/plans/full-compliance/form',
+    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout'];
+
+  const noNavbarRoutes = 
+  ['/starter', '/professional', '/full-compliance', 
+    '/plans/starter', '/plans/professional', '/plans/full-compliance', 
+    '/plans/starter/summary' , '/plans/professional/summary', '/plans/full-compliance/summary',
+    '/plans/starter/form' , '/plans/professional/form', '/plans/full-compliance/form',
+    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout'];
 
   if (!settings) return null; // O muestra un loader
 

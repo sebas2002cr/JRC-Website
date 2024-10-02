@@ -1,7 +1,7 @@
 {
     "plans": [
       {
-        "name": "Starter Plan",
+        "name": "starter",
         "features": [
           "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual).",
           "Asignación de ejecutivo de cuenta.",
@@ -11,7 +11,7 @@
         ]
       },
       {
-        "name": "Profesional Plan",
+        "name": "professional",
         "features": [
           "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual).",
           "Asignación de ejecutivo de cuenta.",
@@ -22,7 +22,7 @@
         ]
       },
       {
-        "name": "Full Compliance Plan",
+        "name": "full-compliance",
         "features": [
           "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual).",
           "Asignación de ejecutivo de cuenta.",

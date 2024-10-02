@@ -81,13 +81,10 @@ export default function Post({ posts }) {
             </p>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
               <a href="/pricing">
-                <button className="mx-auto w-3/4 rounded-lg bg-[#305832] px-6 py-2 text-white shadow-md  duration-700 ease-in-out hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832] sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
-                  Empezar
+                <button className="mx-auto w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+                  Empezá a trabajar con nosotros
                 </button>
               </a>
-              <button className="mx-auto w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
-                ¿Ya estás incorporado?
-              </button>
             </div>
           </motion.section>
 
@@ -160,7 +157,7 @@ export default function Post({ posts }) {
               </button>
             </div>
             <div className="flex flex-col gap-8 md:w-1/3">
-              <div className="flex items-start gap-4">
+              <div className="my-3 flex items-start gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                   <svg
                     fill="none"
@@ -177,16 +174,16 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h4 className="font-bold text-black">
-                    Selecciona tu plan ideal
+                    Elegí el plan que se ajuste a vos
                   </h4>
                   <p className="text-gray-600">
-                    Elije un plan para obtener todo lo que necesita
-                    para empezar a operar un negocio en Costa Rica.
-                    Sin problemas y con confianza.
+                    Explorá nuestras opciones y seleccioná el plan que
+                    mejor se adapte a tus necesidades o a las de tu
+                    empresa.
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="my-3 flex items-start gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                   <svg
                     fill="none"
@@ -203,16 +200,16 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h4 className="font-bold text-black">
-                    Cuéntanos de tus necesidades
+                    Contanos más sobre tu Negocio
                   </h4>
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
+                    Completá el formulario para que podamos entender
+                    mejor lo que necesitás y personalizar el plan
+                    según tus requerimientos.
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="my-3 flex items-start gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                   <svg
                     fill="none"
@@ -228,17 +225,17 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">
-                    Iniciamos el proceso.
+                  <h4 className=" font-bold text-black">
+                    Recibí tu cotización y completá el pago
                   </h4>
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
+                    Con base en tus necesidades, recibirás una
+                    cotización clara. Una vez confirmado, podrás
+                    completar el pago de forma rápida y segura.
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="my-3 flex items-start gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                   <svg
                     fill="none"
@@ -255,12 +252,12 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h4 className="font-bold text-black">
-                    Stay compliant
+                    Relajate, Nosotros nos ocupamos del resto
                   </h4>
                   <p className="text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
+                    Terminá el proceso y dejá todo en nuestras manos.
+                    Nos encargamos de implementar tu plan mientras vos
+                    te enfocás en hacer crecer tu negocio.
                   </p>
                 </div>
               </div>
@@ -281,6 +278,11 @@ export default function Post({ posts }) {
                 ofertas únicas pueden transformar tu experiencia y
                 ayudarte a alcanzar más metas.
               </p>
+              <a href="/benefits">
+                <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+                  Ver nuestros beneficios
+                </button>
+              </a>
             </div>
 
             <div class="m-4 mt-16">
@@ -293,26 +295,29 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                    Impuestos y Contabilidad
+                    Eficiencia y Eficacia
                   </h3>
                   <p class="text-sm text-gray-600">
-                    Qui elit labore in nisi dolore tempor anim laboris
-                    ipsum ad ad consequat id. Dolore et sint mollit in
-                    nisi tempor culpa consectetur. Qui elit labore in
-                    nisi dolore tempor anim laboris ipsum ad ad
-                    consequat id.
+                    En JRC Consulting Group, la eficiencia y eficacia
+                    nos caracterizan. Nos enfocamos en optimizar
+                    recursos y tiempo para gestionar tus procesos
+                    financieros y fiscales de forma precisa y puntual,
+                    permitiéndote centrarte en el crecimiento de tu
+                    negocio.
                   </p>
                 </div>
                 <div class="max-md:order-1">
                   <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                    Servicio al Cliente con Representante Exclusivo
+                    Excelente servicio al cliente con Representante
+                    Exclusivo
                   </h3>
                   <p class="text-sm text-gray-600">
-                    Qui elit labore in nisi dolore tempor anim laboris
-                    ipsum ad ad consequat id. Dolore et sint mollit in
-                    nisi tempor culpa consectetur. Qui elit labore in
-                    nisi dolore tempor anim laboris ipsum ad ad
-                    consequat id.
+                    En JRC Consulting Group, te ofrecemos un servicio
+                    al cliente de excelencia, brindándote la atención
+                    personalizada que merecés. Contás con un
+                    representante exclusivo que conoce a fondo tu
+                    negocio y está siempre disponible para resolver
+                    tus necesidades de forma rápida y eficiente.
                   </p>
                 </div>
                 <div>
@@ -323,6 +328,102 @@ export default function Post({ posts }) {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Espacio entre secciones */}
+          <div className="my-20"></div>
+
+          <div class="mx-auto my-8 max-w-5xl font-[sans-serif] max-md:max-w-xl">
+            <div class="mx-auto max-w-2xl text-center">
+              <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
+                Cumplimiento
+              </h2>
+              <p class="text-sm text-gray-600">
+                En JRC Consulting Group, sabemos que cumplir con tus
+                obligaciones fiscales es esencial para tu empresa. Por
+                eso, te ofrecemos este timeline con las fechas clave
+                de impuestos y registros, como el IPJ, el ITEC y el
+                RTBF, para que siempre estés al día y nosotros nos
+                encargamos de todo.
+              </p>
+            </div>
+            <section className="my-20 dark:bg-gray-100 dark:text-gray-800">
+              <div className="container mx-auto max-w-5xl px-4 py-12">
+                <div className="mx-4 grid gap-4 sm:grid-cols-12">
+                  <div className="col-span-12 sm:col-span-3">
+                    <div className="mb-14 text-center before:mx-auto before:mb-5 before:block before:h-3 before:w-24 before:rounded-md before:dark:bg-violet-600 sm:text-left sm:before:mx-0">
+                      <h3 className="text-3xl font-semibold">
+                        Per. Jurídicas
+                      </h3>
+                      <span className="text-sm font-bold uppercase tracking-wider dark:text-gray-600">
+                        Sociedades
+                      </span>
+                    </div>
+                  </div>
+                  <div className="relative col-span-12 space-y-6 px-4 sm:col-span-9">
+                    <div className="relative col-span-12 space-y-12 px-4 before:dark:bg-gray-300 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:-left-3 sm:before:bottom-0 sm:before:top-2 sm:before:w-0.5">
+                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                          Impuesto a las Personas Jurídicas (IPJ)
+                        </h3>
+                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                          Enero 31
+                        </time>
+                        <p className="mt-3 text-sm text-gray-500">
+                          El IPJ es un impuesto anual que deben pagar
+                          todas las sociedades inscritas en Costa
+                          Rica, ya sean activas o inactivas. Debe
+                          pagarse en enero de cada año, con fecha
+                          límite el 31 de enero, para evitar multas o
+                          recargos.
+                        </p>
+                      </div>
+                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                          Impuesto a las Transferencias de Empresas de
+                          Capital (ITEC)
+                        </h3>
+                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                          Marzo 31
+                        </time>
+                        <p className="mt-3 text-sm text-gray-500">
+                          Este impuesto se aplica sobre la venta,
+                          traspaso o transferencia de acciones, cuotas
+                          o participaciones de capital en sociedades.
+                          El ITEC grava el valor de la transferencia
+                          de la empresa y, por lo general, se paga al
+                          momento de la transacción.
+                        </p>
+                      </div>
+                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                          Registro de Transparencia y Beneficiarios
+                          Finales (RTBF)
+                        </h3>
+                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                          Abril 30
+                        </time>
+                        <p className="mt-3  text-sm text-gray-500">
+                          Este es un registro obligatorio en el que
+                          todas las personas jurídicas (como
+                          sociedades anónimas y sociedades de
+                          responsabilidad limitada) deben declarar
+                          quiénes son sus beneficiarios finales, es
+                          decir, las personas físicas que tienen
+                          control o propiedad sobre la sociedad.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
+            <p class="text-center text-xl italic text-gray-500 dark:text-gray-400 rtl:text-right">
+              Si tenés un local comercial, recordá la presentación de
+              la Declaración Jurada de Patente Comercial.
+            </p>
+            <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
           </div>
 
           {/* Espacio entre secciones */}

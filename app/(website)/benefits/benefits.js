@@ -31,10 +31,10 @@ export default function Benefits() {
         <p className="text-s mb-4 text-center font-bold text-[#305832]">
           Beneficios
         </p>
-        <h2 className="mb-4 text-5xl font-bold text-black">
+        <h2 className="mb-4 text-3xl font-bold text-black sm:text-5xl ">
           Más beneficios que ninguna
         </h2>
-        <h2 className="mb-4 text-5xl font-bold text-black">
+        <h2 className="mb-4 text-3xl font-bold text-black sm:text-5xl">
           otra plataforma
         </h2>
 
@@ -62,7 +62,7 @@ export default function Benefits() {
                     </h4>
                     <span
                       onClick={() => handleBenefitClick(benefit)}
-                      className="cursor-pointer text-sm text-green-600 hover:underline">
+                      className="block cursor-pointer text-left text-sm text-green-600 hover:underline sm:text-center">
                       Ver beneficio
                     </span>
                   </div>
