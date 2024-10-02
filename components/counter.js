@@ -1,15 +1,15 @@
-"use client";
+"use client";  
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-export default function professional({ end, duration }) {
+export default function Counter({ end, duration }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     let start = 0;
     const endVal = parseInt(end);
     const increment = endVal / (duration / 100);
-
+    
     const handle = setInterval(() => {
       start += increment;
       if (start >= endVal) {
@@ -23,5 +23,7 @@ export default function professional({ end, duration }) {
     return () => clearInterval(handle);
   }, [end, duration]);
 
-  return <span>+{count}</span>;
+  return (
+    <span>+{count}</span>
+  );
 }

@@ -1,5 +1,5 @@
 "use client";
-import professional from "@/components/professional";
+import Counter from "@/components/Counter";
 import { useState, useEffect } from "react";
 import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
@@ -110,19 +110,19 @@ export default function Post({ posts }) {
             <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8">
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <professional end={11} duration={2000} />
+                  <Counter end={11} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Años de Experiencia</p>
               </div>
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <professional end={1000} duration={2000} />
+                  <Counter end={1000} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Clientes</p>
               </div>
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <professional end={30} duration={2000} />
+                  <Counter end={30} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Colaboradores</p>
               </div>
@@ -268,67 +268,65 @@ export default function Post({ posts }) {
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
-          <div className=" bg-gray-100 p-4">
-            <div class="mx-auto my-4 max-w-5xl font-[sans-serif] max-md:max-w-xl">
-              <div class="mx-auto max-w-2xl text-center">
-                <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
-                  Detalles que nos caracterizan
-                </h2>
-                <p class="text-md text-gray-600">
-                  Desbloquea nuevas oportunidades con nuestras
-                  características exclusivas. Descubre cómo nuestras
-                  ofertas únicas pueden transformar tu experiencia y
-                  ayudarte a alcanzar más metas.
-                </p>
-                <a href="/benefits">
-                  <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
-                    Ver nuestros beneficios
-                  </button>
-                </a>
-              </div>
 
-              <div class="m-4 mt-16">
-                <div class="grid items-center gap-16 md:grid-cols-2">
-                  <div>
-                    <img
-                      src="/img/tax.png"
-                      class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
-                    />
-                  </div>
-                  <div>
-                    <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                      Eficiencia y Eficacia
-                    </h3>
-                    <p class="text-md text-gray-600">
-                      En JRC Consulting Group, la eficiencia y
-                      eficacia nos caracterizan. Nos enfocamos en
-                      optimizar recursos y tiempo para gestionar tus
-                      procesos financieros y fiscales de forma precisa
-                      y puntual, permitiéndote centrarte en el
-                      crecimiento de tu negocio.
-                    </p>
-                  </div>
-                  <div class="max-md:order-1">
-                    <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                      Excelente servicio al cliente con Representante
-                      Exclusivo
-                    </h3>
-                    <p class="text-md text-gray-600">
-                      En JRC Consulting Group, te ofrecemos un
-                      servicio al cliente de excelencia, brindándote
-                      la atención personalizada que merecés. Contás
-                      con un representante exclusivo que conoce a
-                      fondo tu negocio y está siempre disponible para
-                      resolver tus necesidades de forma rápida y
-                      eficiente.
-                    </p>
-                  </div>
-                  <div>
-                    <img
-                      src="/img/team.png"
-                      class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
-                    />
-                  </div>
+          <div class="mx-auto my-4 max-w-5xl font-[sans-serif] max-md:max-w-xl">
+            <div class="mx-auto max-w-2xl text-center">
+              <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
+                Detalles que nos caracterizan
+              </h2>
+              <p class="text-sm text-gray-600">
+                Desbloquea nuevas oportunidades con nuestras
+                características exclusivas. Descubre cómo nuestras
+                ofertas únicas pueden transformar tu experiencia y
+                ayudarte a alcanzar más metas.
+              </p>
+              <a href="/benefits">
+                <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+                  Ver nuestros beneficios
+                </button>
+              </a>
+            </div>
+
+            <div class="m-4 mt-16">
+              <div class="grid items-center gap-16 md:grid-cols-2">
+                <div>
+                  <img
+                    src="/img/tax.png"
+                    class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+                  />
+                </div>
+                <div>
+                  <h3 class="mb-4 text-2xl font-bold text-[#305832]">
+                    Eficiencia y Eficacia
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    En JRC Consulting Group, la eficiencia y eficacia
+                    nos caracterizan. Nos enfocamos en optimizar
+                    recursos y tiempo para gestionar tus procesos
+                    financieros y fiscales de forma precisa y puntual,
+                    permitiéndote centrarte en el crecimiento de tu
+                    negocio.
+                  </p>
+                </div>
+                <div class="max-md:order-1">
+                  <h3 class="mb-4 text-2xl font-bold text-[#305832]">
+                    Excelente servicio al cliente con Representante
+                    Exclusivo
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    En JRC Consulting Group, te ofrecemos un servicio
+                    al cliente de excelencia, brindándote la atención
+                    personalizada que merecés. Contás con un
+                    representante exclusivo que conoce a fondo tu
+                    negocio y está siempre disponible para resolver
+                    tus necesidades de forma rápida y eficiente.
+                  </p>
+                </div>
+                <div>
+                  <img
+                    src="/img/team.png"
+                    class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+                  />
                 </div>
               </div>
             </div>
@@ -342,7 +340,7 @@ export default function Post({ posts }) {
               <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
                 Cumplimiento
               </h2>
-              <p class="text-md text-gray-600">
+              <p class="text-sm text-gray-600">
                 En JRC Consulting Group, sabemos que cumplir con tus
                 obligaciones fiscales es esencial para tu empresa. Por
                 eso, te ofrecemos este timeline con las fechas clave
@@ -359,7 +357,7 @@ export default function Post({ posts }) {
                       <h3 className="text-3xl font-semibold">
                         Per. Jurídicas
                       </h3>
-                      <span className="text-md font-bold uppercase tracking-wider dark:text-gray-600">
+                      <span className="text-sm font-bold uppercase tracking-wider dark:text-gray-600">
                         Sociedades
                       </span>
                     </div>
@@ -373,7 +371,7 @@ export default function Post({ posts }) {
                         <time className="text-xs uppercase tracking-wide dark:text-gray-600">
                           Enero 31
                         </time>
-                        <p className="text-md mt-3 text-gray-500">
+                        <p className="mt-3 text-sm text-gray-500">
                           El IPJ es un impuesto anual que deben pagar
                           todas las sociedades inscritas en Costa
                           Rica, ya sean activas o inactivas. Debe
@@ -390,7 +388,7 @@ export default function Post({ posts }) {
                         <time className="text-xs uppercase tracking-wide dark:text-gray-600">
                           Marzo 31
                         </time>
-                        <p className="text-md mt-3 text-gray-500">
+                        <p className="mt-3 text-sm text-gray-500">
                           Este impuesto se aplica sobre la venta,
                           traspaso o transferencia de acciones, cuotas
                           o participaciones de capital en sociedades.
@@ -407,7 +405,7 @@ export default function Post({ posts }) {
                         <time className="text-xs uppercase tracking-wide dark:text-gray-600">
                           Abril 30
                         </time>
-                        <p className="text-md  mt-3 text-gray-500">
+                        <p className="mt-3  text-sm text-gray-500">
                           Este es un registro obligatorio en el que
                           todas las personas jurídicas (como
                           sociedades anónimas y sociedades de
@@ -460,7 +458,7 @@ export default function Post({ posts }) {
                     <p className="mb-4 italic text-gray-700">
                       "{review.review}"
                     </p>
-                    <p className="text-md font-semibold">
+                    <p className="text-sm font-semibold">
                       {review.name}
                     </p>
                     <p className="text-xs text-gray-500">

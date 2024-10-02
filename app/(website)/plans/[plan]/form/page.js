@@ -208,7 +208,7 @@ export default function CustomerInfoForm({ onSubmit, onBackForm }) {
     );
     const imgData = "/NEGRO-FONDO-BLANCO.jpg"; // Imagen del logo
 
-    doc.addImage(imgData, "JPEG", 10, 10, 45, 25);
+    doc.addImage(imgData, "JPEG", 10, 10, 50, 20);
 
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");

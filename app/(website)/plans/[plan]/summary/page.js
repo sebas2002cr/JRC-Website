@@ -18,6 +18,7 @@ export default function SummaryPage() {
 
   // Función para calcular los costos base según el plan
   const calculateBaseCost = (answers, plan) => {
+    console.log(params.plan);
     switch (params.plan) {
       case "starter":
         return answers.tipoPersona === "Física" ? 45000 : 65000;
