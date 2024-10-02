@@ -1,5 +1,5 @@
 "use client";
-import Counter from "@/components/Counter";
+import Counter from "@/components/counter";
 import { useState, useEffect } from "react";
 import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
