@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import { usePathname } from 'next/navigation';
 import { getSettings } from "@/lib/sanity/client";
 
+
 export default function Layout({ children, params }) {
   const [settings, setSettings] = useState(null);
   const pathname = usePathname();
