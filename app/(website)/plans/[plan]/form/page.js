@@ -49,15 +49,23 @@ export default function CustomerInfoForm() {
     }
   }, []);
 
-  // Validación de los campos del formulario
   useEffect(() => {
     const { name, email, phone, address } = customerInfo;
     setIsFormValid(
       name.trim() !== "" &&
         email.trim() !== "" &&
+        isValidEmail(email) &&
         phone.trim() !== "" &&
         address.trim() !== ""
     );
+
+    if (email.trim() !== "" && !isValidEmail(email)) {
+      setValidationMessage(
+        "Por favor, introduce un correo electrónico válido."
+      );
+    } else {
+      setValidationMessage("");
+    }
   }, [customerInfo]);
 
   useEffect(() => {
