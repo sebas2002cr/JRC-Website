@@ -5,9 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
-const jsPDF = dynamic(() => import("jspdf"), { ssr: false });
+import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 export default function CustomerInfoForm() {
@@ -28,18 +26,11 @@ export default function CustomerInfoForm() {
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
-    const savedInfo = localStorage.getItem("customerInfo");
-    if (savedInfo) {
-      setCustomerInfo(JSON.parse(savedInfo));
-    }
-
-    return () => {
-      localStorage.setItem(
-        "customerInfo",
-        JSON.stringify(customerInfo)
-      );
-    };
-  }, []);
+    localStorage.setItem(
+      "customerInfo",
+      JSON.stringify(customerInfo)
+    );
+  }, [customerInfo]);
 
   // Cargar datos de localStorage al montar el componente
   useEffect(() => {
@@ -49,23 +40,15 @@ export default function CustomerInfoForm() {
     }
   }, []);
 
+  // Validación de los campos del formulario
   useEffect(() => {
     const { name, email, phone, address } = customerInfo;
     setIsFormValid(
       name.trim() !== "" &&
         email.trim() !== "" &&
-        isValidEmail(email) &&
         phone.trim() !== "" &&
         address.trim() !== ""
     );
-
-    if (email.trim() !== "" && !isValidEmail(email)) {
-      setValidationMessage(
-        "Por favor, introduce un correo electrónico válido."
-      );
-    } else {
-      setValidationMessage("");
-    }
   }, [customerInfo]);
 
   useEffect(() => {
@@ -91,22 +74,25 @@ export default function CustomerInfoForm() {
 
   useEffect(() => {
     const { name, email, phone, address } = customerInfo;
-    const isValid =
-      name.trim() !== "" &&
-      email.trim() !== "" &&
-      isValidEmail(email) &&
-      phone.trim() !== "" &&
-      address.trim() !== "";
-    setIsFormValid(isValid);
 
-    if (!isValid && email.trim() !== "") {
+    // Validar que todos los campos estén llenos y que el email tenga un formato válido
+    setIsFormValid(
+      name.trim() !== "" &&
+        email.trim() !== "" &&
+        isValidEmail(email) &&
+        phone.trim() !== "" &&
+        address.trim() !== ""
+    );
+
+    // Mostrar un mensaje de advertencia si el email no es válido
+    if (email.trim() !== "" && !isValidEmail(email)) {
       setValidationMessage(
         "Por favor, introduce un correo electrónico válido."
       );
     } else {
       setValidationMessage("");
     }
-  }, [customerInfo, isValidEmail]);
+  }, [customerInfo]);
 
   const handleChange = e => {
     const { name, value } = e.target;
