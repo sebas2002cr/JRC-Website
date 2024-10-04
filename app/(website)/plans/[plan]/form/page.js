@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
@@ -76,10 +76,10 @@ export default function CustomerInfoForm() {
     setTotalCost(storedTotalCost ? parseFloat(storedTotalCost) : 0);
   }, []);
 
-  const isValidEmail = useCallback(email => {
+  const isValidEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  }, []);
+  };
 
   useEffect(() => {
     const { name, email, phone, address } = customerInfo;
