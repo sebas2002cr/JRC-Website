@@ -13,13 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 
-export default function Checkout({
-  calculateBaseCost,
-  calculatePlanillaCost,
-  calculateFacturasCost,
-  calculateTotalCost,
-  onBackPayment
-}) {
+export default function Checkout() {
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     email: "",

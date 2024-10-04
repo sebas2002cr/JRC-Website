@@ -5,10 +5,12 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import jsPDF from "jspdf";
+import dynamic from "next/dynamic";
+
+const jsPDF = dynamic(() => import("jspdf"), { ssr: false });
 import "jspdf-autotable";
 
-export default function CustomerInfoForm({ onSubmit, onBackForm }) {
+export default function CustomerInfoForm() {
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     email: "",
@@ -26,11 +28,18 @@ export default function CustomerInfoForm({ onSubmit, onBackForm }) {
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
-    localStorage.setItem(
-      "customerInfo",
-      JSON.stringify(customerInfo)
-    );
-  }, [customerInfo]);
+    const savedInfo = localStorage.getItem("customerInfo");
+    if (savedInfo) {
+      setCustomerInfo(JSON.parse(savedInfo));
+    }
+
+    return () => {
+      localStorage.setItem(
+        "customerInfo",
+        JSON.stringify(customerInfo)
+      );
+    };
+  }, []);
 
   // Cargar datos de localStorage al montar el componente
   useEffect(() => {
@@ -67,32 +76,29 @@ export default function CustomerInfoForm({ onSubmit, onBackForm }) {
     setTotalCost(storedTotalCost ? parseFloat(storedTotalCost) : 0);
   }, []);
 
-  const isValidEmail = email => {
+  const isValidEmail = useCallback(email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  };
+  }, []);
 
   useEffect(() => {
     const { name, email, phone, address } = customerInfo;
-
-    // Validar que todos los campos estén llenos y que el email tenga un formato válido
-    setIsFormValid(
+    const isValid =
       name.trim() !== "" &&
-        email.trim() !== "" &&
-        isValidEmail(email) &&
-        phone.trim() !== "" &&
-        address.trim() !== ""
-    );
+      email.trim() !== "" &&
+      isValidEmail(email) &&
+      phone.trim() !== "" &&
+      address.trim() !== "";
+    setIsFormValid(isValid);
 
-    // Mostrar un mensaje de advertencia si el email no es válido
-    if (email.trim() !== "" && !isValidEmail(email)) {
+    if (!isValid && email.trim() !== "") {
       setValidationMessage(
         "Por favor, introduce un correo electrónico válido."
       );
     } else {
       setValidationMessage("");
     }
-  }, [customerInfo]);
+  }, [customerInfo, isValidEmail]);
 
   const handleChange = e => {
     const { name, value } = e.target;

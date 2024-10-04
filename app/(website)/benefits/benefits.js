@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getBenefits } from "@/lib/sanity/client";
 import { urlForBenefitImage } from "@/lib/sanity/schemas/imageIcon";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Benefits() {
   const [benefits, setBenefits] = useState([]);
@@ -46,32 +47,6 @@ export default function Benefits() {
           <h3 className="mb-8 text-sm font-semibold text-gray-700">
             ASOCIADOS CON EMPRESAS EXCEPCIONALES.
           </h3>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {benefits.length > 0 ? (
-              benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center">
-                  <img
-                    src={urlForBenefitImage(benefit.image)}
-                    alt={benefit.company}
-                    className="mr-4 h-12 w-12"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-800">
-                      {benefit.company} | {benefit.tag}
-                    </h4>
-                    <span
-                      onClick={() => handleBenefitClick(benefit)}
-                      className="block cursor-pointer text-left text-sm text-green-600 hover:underline sm:text-center">
-                      Ver beneficio
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No se encontraron beneficios.</p>
-            )}
-          </div>
         </div>
       </section>
 
@@ -108,10 +83,12 @@ export default function Benefits() {
       <section className="flex w-full justify-center bg-[#FAFFFB] p-4 py-16">
         <div className="max-w-xl rounded-lg bg-gradient-to-b from-[#94AB98] to-white p-8 text-center shadow-lg">
           <div className="mb-6">
-            <img
+            <Image
               src="/Logo-blanco.svg"
               alt="JRC Logo"
-              className="mx-auto h-12 w-12"
+              width={48} // Ajusta según el tamaño que necesites
+              height={48} // Ajusta según el tamaño que necesites
+              className="mx-auto" // Puedes mantener solo las clases que no se relacionan con el tamaño
             />
           </div>
           <h3 className="mb-4 text-3xl font-bold text-[#305832]">

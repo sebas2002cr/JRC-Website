@@ -17,7 +17,7 @@ export default function SummaryPage() {
   const [totalCost, setTotalCost] = useState(0);
 
   // Función para calcular los costos base según el plan
-  const calculateBaseCost = (answers, plan) => {
+  const calculateBaseCost = answers => {
     console.log(params.plan);
     switch (params.plan) {
       case "starter":

@@ -5,6 +5,7 @@ import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 
 export default function Post({ posts }) {
   const { t } = useTranslation();
@@ -46,12 +47,12 @@ export default function Post({ posts }) {
 
   const reviewVariants = {
     animate: {
-      x: ["0%", "-70%"], // Desplaza el 100% porque los reviews están duplicados
+      x: ["0%", "-200%"], // Desplaza el 100% porque los reviews están duplicados
       transition: {
         x: {
           repeat: Infinity,
           repeatType: "loop",
-          duration: 20, // Ajusta la duración según tus necesidades
+          duration: 40, // Ajusta la duración según tus necesidades
           ease: "linear"
         }
       }
@@ -116,13 +117,13 @@ export default function Post({ posts }) {
               </div>
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <Counter end={1000} duration={2000} />
+                  <Counter end={500} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Clientes</p>
               </div>
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <Counter end={30} duration={2000} />
+                  <Counter end={20} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Colaboradores</p>
               </div>
@@ -355,7 +356,7 @@ export default function Post({ posts }) {
                   <div className="col-span-12 sm:col-span-3">
                     <div className="mb-14 text-center before:mx-auto before:mb-5 before:block before:h-3 before:w-24 before:rounded-md before:dark:bg-violet-600 sm:text-left sm:before:mx-0">
                       <h3 className="text-3xl font-semibold">
-                        Per. Jurídicas
+                        Personas Jurídicas
                       </h3>
                       <span className="text-sm font-bold uppercase tracking-wider dark:text-gray-600">
                         Sociedades
@@ -377,24 +378,28 @@ export default function Post({ posts }) {
                           Rica, ya sean activas o inactivas. Debe
                           pagarse en enero de cada año, con fecha
                           límite el 31 de enero, para evitar multas o
-                          recargos.
+                          recargos. Las sociedades certificadas como
+                          PYME ante el MEIC son exoneradas de este
+                          impuesto, siempre y cuando su certificación
+                          se encuentre al día.
                         </p>
                       </div>
                       <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
                         <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
-                          Impuesto a las Transferencias de Empresas de
-                          Capital (ITEC)
+                          Impuesto de Timbre Educación y Cultura
+                          (ITEC)
                         </h3>
                         <time className="text-xs uppercase tracking-wide dark:text-gray-600">
                           Marzo 31
                         </time>
                         <p className="mt-3 text-sm text-gray-500">
-                          Este impuesto se aplica sobre la venta,
-                          traspaso o transferencia de acciones, cuotas
-                          o participaciones de capital en sociedades.
-                          El ITEC grava el valor de la transferencia
-                          de la empresa y, por lo general, se paga al
-                          momento de la transacción.
+                          El Impuesto de Timbre Educación y Cultura en
+                          Costa Rica es un tributo aplicado a ciertos
+                          documentos legales y contables, como
+                          contratos y escrituras. Se paga mediante la
+                          adhesión de timbres fiscales, y su objetivo
+                          principal es financiar programas educativos
+                          y culturales.
                         </p>
                       </div>
                       <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
@@ -454,9 +459,11 @@ export default function Post({ posts }) {
                 {duplicatedReviews.map((review, index) => (
                   <div
                     key={index}
-                    className="w-72 flex-none rounded-lg bg-white p-6 shadow-md">
+                    className="  h-fit w-72 flex-none rounded-lg border bg-white p-6 shadow-md">
                     <p className="mb-4 italic text-gray-700">
-                      "{review.review}"
+                      {review.review && (
+                        <span>&quot;{review.review}&quot;</span>
+                      )}
                     </p>
                     <p className="text-sm font-semibold">
                       {review.name}
@@ -480,7 +487,7 @@ export default function Post({ posts }) {
 
           {/* Sección de Preguntas Frecuentes */}
           <motion.section
-            className="w-full bg-white py-16"
+            className=" w-full bg-white py-16"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -512,10 +519,12 @@ export default function Post({ posts }) {
             variants={fadeInUp}>
             <div className="m-4 max-w-xl rounded-lg bg-gradient-to-b from-[#94AB98] to-white p-8 text-center shadow-lg">
               <div className="mb-6">
-                <img
+                <Image
                   src="/Logo-blanco.svg"
                   alt="JRC Logo"
-                  className="mx-auto h-12 w-12"
+                  width={48} // Ajusta según el tamaño que necesites
+                  height={48} // Ajusta según el tamaño que necesites
+                  className="mx-auto" // Puedes mantener solo las clases que no se relacionan con el tamaño
                 />
               </div>
               <h3 className="mb-4 text-2xl font-semibold">

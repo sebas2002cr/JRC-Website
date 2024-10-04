@@ -4,7 +4,7 @@ import Container from "@/components/container";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function Contact({ settings }) {
+export default function Contact() {
   const {
     register,
     handleSubmit,
