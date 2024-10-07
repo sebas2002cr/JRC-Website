@@ -88,7 +88,7 @@ export default function Post({ posts }) {
             </p>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
               <a href="/pricing">
-                <button className="mx-auto w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+                <button className="mx-auto w-3/4 rounded-lg bg-[#305832] px-6 py-2 text-white shadow-md  duration-700 ease-in-out hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832] sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
                   Empezá a trabajar con nosotros
                 </button>
               </a>
@@ -287,14 +287,15 @@ export default function Post({ posts }) {
                   Detalles que nos caracterizan
                 </h2>
                 <p class="text-sm text-gray-600">
-                  Desbloquea nuevas oportunidades con nuestras
-                  características exclusivas. Descubre cómo nuestras
-                  ofertas únicas pueden transformar tu experiencia y
-                  ayudarte a alcanzar más metas.
+                  En JRC Consulting Group, ofrecemos soluciones
+                  integrales y personalizadas para todos tus retos en
+                  contabilidad y finanzas. Nuestro equipo experto y
+                  enfoque innovador garantizan que tu negocio esté
+                  siempre en las mejores manos.
                 </p>
-                <a href="/benefits">
+                <a href="/blog">
                   <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
-                    Ver nuestros beneficios
+                    Noticias relevantes para tu negocio
                   </button>
                 </a>
               </div>
