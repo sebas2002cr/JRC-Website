@@ -16,7 +16,7 @@ export default function FAQ({ faqs }) {
   };
 
   return (
-    <div className=" mx-auto max-w-3xl space-y-4  p-4">
+    <div className="mx-auto max-w-3xl space-y-4 p-4">
       {faqs.map((faq, index) => (
         <div
           key={index}
@@ -28,13 +28,18 @@ export default function FAQ({ faqs }) {
               {openFAQ === index ? "-" : "+"}
             </span>
           </div>
-          <motion.div
-            initial="hidden"
-            animate={openFAQ === index ? "visible" : "hidden"}
-            variants={answerVariants}
-            transition={{ duration: 0.3 }}>
-            <p className="mt-4 text-gray-600">{faq.answer}</p>
-          </motion.div>
+          {/* Envolver el contenido animado en un contenedor sin animación */}
+          <div className="overflow-hidden">
+            <motion.div
+              initial="hidden"
+              animate={openFAQ === index ? "visible" : "hidden"}
+              variants={answerVariants}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden" // Añadir overflow-hidden para evitar el colapso incorrecto
+            >
+              <p className="mt-4 text-gray-600">{faq.answer}</p>
+            </motion.div>
+          </div>
         </div>
       ))}
     </div>

@@ -75,7 +75,7 @@ export default function Post({ posts }) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             variants={fadeInRight}>
-            <h1 className="text-4xl font-bold text-[#305832] md:text-5xl">
+            <h1 className="mt-6 text-4xl font-bold text-[#305832] md:text-5xl">
               Revolucionando la consultoría
             </h1>
             <h2 className="mt-4 text-2xl font-semibold text-black md:text-3xl">
