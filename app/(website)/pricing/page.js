@@ -104,7 +104,7 @@ export default function Pricing() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#fffff] px-4">
+    <div className="flex min-h-screen flex-col items-center justify-center overflow-x-hidden bg-[#fffff] px-4">
       <div className="w-full max-w-6xl">
         <div className="pt-20 text-center font-semibold">
           <h1 className="text-3xl md:text-5xl">

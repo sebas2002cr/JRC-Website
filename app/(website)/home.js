@@ -66,7 +66,7 @@ export default function Post({ posts }) {
   return (
     <>
       {posts && (
-        <div className="bg-white">
+        <div className="overflow-x-hidden bg-white">
           {/* Sección de Hero */}
           <motion.section
             className="w-full bg-white  text-center"
