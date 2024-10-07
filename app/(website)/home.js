@@ -40,11 +40,15 @@ export default function Post({ posts }) {
   const duplicatedReviews = [...reviews, ...reviews];
 
   // Variantes para animaciones
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 150 },
-    visible: { opacity: 1, y: 0 }
+  const fadeInRight = {
+    hidden: { opacity: 0, x: 150 },
+    visible: { opacity: 1, x: 0 }
   };
 
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -150 },
+    visible: { opacity: 1, x: 0 }
+  };
   const reviewVariants = {
     animate: {
       x: ["0%", "-200%"], // Desplaza el 100% porque los reviews están duplicados
@@ -65,12 +69,12 @@ export default function Post({ posts }) {
         <div className="bg-white">
           {/* Sección de Hero */}
           <motion.section
-            className="w-full bg-white py-16 text-center"
+            className="w-full bg-white  text-center"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInRight}>
             <h1 className="text-4xl font-bold text-[#305832] md:text-5xl">
               Revolucionando la consultoría
             </h1>
@@ -106,7 +110,7 @@ export default function Post({ posts }) {
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInLeft}>
             <div className="absolute inset-0 bg-[#305832] opacity-75"></div>
             <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8">
               <div className="flex flex-col items-center p-4">
@@ -135,12 +139,12 @@ export default function Post({ posts }) {
 
           {/* Sección de "Cómo funciona" */}
           <motion.section
-            className="flex flex-col items-center justify-center gap-12 bg-white px-6 py-16 md:flex-row md:px-12 lg:px-24"
+            className="flex flex-col items-center justify-center gap-12 bg-white px-6  md:flex-row md:px-12 lg:px-24"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInLeft}>
             <div className="text-left md:w-1/4">
               <h3 className="mb-4 text-xl font-semibold text-[#305832]">
                 Cómo funciona
@@ -270,180 +274,198 @@ export default function Post({ posts }) {
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
 
-          <div class="mx-auto my-4 max-w-5xl font-[sans-serif] max-md:max-w-xl">
-            <div class="mx-auto max-w-2xl text-center">
-              <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
-                Detalles que nos caracterizan
-              </h2>
-              <p class="text-sm text-gray-600">
-                Desbloquea nuevas oportunidades con nuestras
-                características exclusivas. Descubre cómo nuestras
-                ofertas únicas pueden transformar tu experiencia y
-                ayudarte a alcanzar más metas.
-              </p>
-              <a href="/benefits">
-                <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
-                  Ver nuestros beneficios
-                </button>
-              </a>
-            </div>
+          <motion.section
+            className="w-full bg-white "
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            variants={fadeInRight}>
+            <div class="mx-auto my-4 max-w-5xl font-[sans-serif] max-md:max-w-xl">
+              <div class="mx-auto max-w-2xl text-center">
+                <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
+                  Detalles que nos caracterizan
+                </h2>
+                <p class="text-sm text-gray-600">
+                  Desbloquea nuevas oportunidades con nuestras
+                  características exclusivas. Descubre cómo nuestras
+                  ofertas únicas pueden transformar tu experiencia y
+                  ayudarte a alcanzar más metas.
+                </p>
+                <a href="/benefits">
+                  <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+                    Ver nuestros beneficios
+                  </button>
+                </a>
+              </div>
 
-            <div class="m-4 mt-16">
-              <div class="grid items-center gap-16 md:grid-cols-2">
-                <div>
-                  <img
-                    src="/img/tax.png"
-                    class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
-                  />
-                </div>
-                <div>
-                  <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                    Eficiencia y Eficacia
-                  </h3>
-                  <p class="text-sm text-gray-600">
-                    En JRC Consulting Group, la eficiencia y eficacia
-                    nos caracterizan. Nos enfocamos en optimizar
-                    recursos y tiempo para gestionar tus procesos
-                    financieros y fiscales de forma precisa y puntual,
-                    permitiéndote centrarte en el crecimiento de tu
-                    negocio.
-                  </p>
-                </div>
-                <div class="max-md:order-1">
-                  <h3 class="mb-4 text-2xl font-bold text-[#305832]">
-                    Excelente servicio al cliente con Representante
-                    Exclusivo
-                  </h3>
-                  <p class="text-sm text-gray-600">
-                    En JRC Consulting Group, te ofrecemos un servicio
-                    al cliente de excelencia, brindándote la atención
-                    personalizada que merecés. Contás con un
-                    representante exclusivo que conoce a fondo tu
-                    negocio y está siempre disponible para resolver
-                    tus necesidades de forma rápida y eficiente.
-                  </p>
-                </div>
-                <div>
-                  <img
-                    src="/img/team.png"
-                    class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
-                  />
+              <div class="m-4 mt-16">
+                <div class="grid items-center gap-16 md:grid-cols-2">
+                  <div>
+                    <img
+                      src="/img/tax.png"
+                      class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+                    />
+                  </div>
+                  <div>
+                    <h3 class="mb-4 text-2xl font-bold text-[#305832]">
+                      Eficiencia y Eficacia
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                      En JRC Consulting Group, la eficiencia y
+                      eficacia nos caracterizan. Nos enfocamos en
+                      optimizar recursos y tiempo para gestionar tus
+                      procesos financieros y fiscales de forma precisa
+                      y puntual, permitiéndote centrarte en el
+                      crecimiento de tu negocio.
+                    </p>
+                  </div>
+                  <div class="max-md:order-1">
+                    <h3 class="mb-4 text-2xl font-bold text-[#305832]">
+                      Excelente servicio al cliente con Representante
+                      Exclusivo
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                      En JRC Consulting Group, te ofrecemos un
+                      servicio al cliente de excelencia, brindándote
+                      la atención personalizada que merecés. Contás
+                      con un representante exclusivo que conoce a
+                      fondo tu negocio y está siempre disponible para
+                      resolver tus necesidades de forma rápida y
+                      eficiente.
+                    </p>
+                  </div>
+                  <div>
+                    <img
+                      src="/img/team.png"
+                      class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.section>
 
           {/* Espacio entre secciones */}
           <div className="my-20"></div>
 
-          <div class="mx-auto my-8 max-w-5xl font-[sans-serif] max-md:max-w-xl">
-            <div class="mx-auto max-w-2xl text-center">
-              <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
-                Cumplimiento
-              </h2>
-              <p class="text-sm text-gray-600">
-                En JRC Consulting Group, sabemos que cumplir con tus
-                obligaciones fiscales es esencial para tu empresa. Por
-                eso, te ofrecemos este timeline con las fechas clave
-                de impuestos y registros, como el IPJ, el ITEC y el
-                RTBF, para que siempre estés al día y nosotros nos
-                encargamos de todo.
-              </p>
-            </div>
-            <section className="my-20 dark:bg-gray-100 dark:text-gray-800">
-              <div className="container mx-auto max-w-5xl px-4 py-12">
-                <div className="mx-4 grid gap-4 sm:grid-cols-12">
-                  <div className="col-span-12 sm:col-span-3">
-                    <div className="mb-14 text-center before:mx-auto before:mb-5 before:block before:h-3 before:w-24 before:rounded-md before:dark:bg-violet-600 sm:text-left sm:before:mx-0">
-                      <h3 className="text-3xl font-semibold">
-                        Personas Jurídicas
-                      </h3>
-                      <span className="text-sm font-bold uppercase tracking-wider dark:text-gray-600">
-                        Sociedades
-                      </span>
+          <motion.section
+            className="w-full bg-white "
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            variants={fadeInLeft}>
+            <div class="mx-auto my-8 max-w-5xl font-[sans-serif] max-md:max-w-xl">
+              <div class="mx-auto max-w-2xl text-center">
+                <h2 class="mb-6 text-center text-4xl font-extrabold text-[#305832]">
+                  Cumplimiento
+                </h2>
+                <p class="text-sm text-gray-600">
+                  En JRC Consulting Group, sabemos que cumplir con tus
+                  obligaciones fiscales es esencial para tu empresa.
+                  Por eso, te ofrecemos este timeline con las fechas
+                  clave de impuestos y registros, como el IPJ, el ITEC
+                  y el RTBF, para que siempre estés al día y nosotros
+                  nos encargamos de todo.
+                </p>
+              </div>
+              <section className="my-20 dark:bg-gray-100 dark:text-gray-800">
+                <div className="container mx-auto max-w-5xl px-4 py-12">
+                  <div className="mx-4 grid gap-4 sm:grid-cols-12">
+                    <div className="col-span-12 sm:col-span-3">
+                      <div className="mb-14 text-center before:mx-auto before:mb-5 before:block before:h-3 before:w-24 before:rounded-md before:dark:bg-violet-600 sm:text-left sm:before:mx-0">
+                        <h3 className="text-3xl font-semibold">
+                          Personas Jurídicas
+                        </h3>
+                        <span className="text-sm font-bold uppercase tracking-wider dark:text-gray-600">
+                          Sociedades
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="relative col-span-12 space-y-6 px-4 sm:col-span-9">
-                    <div className="relative col-span-12 space-y-12 px-4 before:dark:bg-gray-300 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:-left-3 sm:before:bottom-0 sm:before:top-2 sm:before:w-0.5">
-                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
-                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
-                          Impuesto a las Personas Jurídicas (IPJ)
-                        </h3>
-                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
-                          Enero 31
-                        </time>
-                        <p className="mt-3 text-sm text-gray-500">
-                          El IPJ es un impuesto anual que deben pagar
-                          todas las sociedades inscritas en Costa
-                          Rica, ya sean activas o inactivas. Debe
-                          pagarse en enero de cada año, con fecha
-                          límite el 31 de enero, para evitar multas o
-                          recargos. Las sociedades certificadas como
-                          PYME ante el MEIC son exoneradas de este
-                          impuesto, siempre y cuando su certificación
-                          se encuentre al día.
-                        </p>
-                      </div>
-                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
-                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
-                          Impuesto de Timbre Educación y Cultura
-                          (ITEC)
-                        </h3>
-                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
-                          Marzo 31
-                        </time>
-                        <p className="mt-3 text-sm text-gray-500">
-                          El Impuesto de Timbre Educación y Cultura en
-                          Costa Rica es un tributo aplicado a ciertos
-                          documentos legales y contables, como
-                          contratos y escrituras. Se paga mediante la
-                          adhesión de timbres fiscales, y su objetivo
-                          principal es financiar programas educativos
-                          y culturales.
-                        </p>
-                      </div>
-                      <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
-                        <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
-                          Registro de Transparencia y Beneficiarios
-                          Finales (RTBF)
-                        </h3>
-                        <time className="text-xs uppercase tracking-wide dark:text-gray-600">
-                          Abril 30
-                        </time>
-                        <p className="mt-3  text-sm text-gray-500">
-                          Este es un registro obligatorio en el que
-                          todas las personas jurídicas (como
-                          sociedades anónimas y sociedades de
-                          responsabilidad limitada) deben declarar
-                          quiénes son sus beneficiarios finales, es
-                          decir, las personas físicas que tienen
-                          control o propiedad sobre la sociedad.
-                        </p>
+                    <div className="relative col-span-12 space-y-6 px-4 sm:col-span-9">
+                      <div className="relative col-span-12 space-y-12 px-4 before:dark:bg-gray-300 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:-left-3 sm:before:bottom-0 sm:before:top-2 sm:before:w-0.5">
+                        <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                          <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                            Impuesto a las Personas Jurídicas (IPJ)
+                          </h3>
+                          <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                            Enero 31
+                          </time>
+                          <p className="mt-3 text-sm text-gray-500">
+                            El IPJ es un impuesto anual que deben
+                            pagar todas las sociedades inscritas en
+                            Costa Rica, ya sean activas o inactivas.
+                            Debe pagarse en enero de cada año, con
+                            fecha límite el 31 de enero, para evitar
+                            multas o recargos. Las sociedades
+                            certificadas como PYME ante el MEIC son
+                            exoneradas de este impuesto, siempre y
+                            cuando su certificación se encuentre al
+                            día.
+                          </p>
+                        </div>
+                        <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                          <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                            Impuesto de Timbre Educación y Cultura
+                            (ITEC)
+                          </h3>
+                          <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                            Marzo 31
+                          </time>
+                          <p className="mt-3 text-sm text-gray-500">
+                            El Impuesto de Timbre Educación y Cultura
+                            en Costa Rica es un tributo aplicado a
+                            ciertos documentos legales y contables,
+                            como contratos y escrituras. Se paga
+                            mediante la adhesión de timbres fiscales,
+                            y su objetivo principal es financiar
+                            programas educativos y culturales.
+                          </p>
+                        </div>
+                        <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
+                          <h3 className="text-xl font-semibold tracking-wide text-[#305832]">
+                            Registro de Transparencia y Beneficiarios
+                            Finales (RTBF)
+                          </h3>
+                          <time className="text-xs uppercase tracking-wide dark:text-gray-600">
+                            Abril 30
+                          </time>
+                          <p className="mt-3  text-sm text-gray-500">
+                            Este es un registro obligatorio en el que
+                            todas las personas jurídicas (como
+                            sociedades anónimas y sociedades de
+                            responsabilidad limitada) deben declarar
+                            quiénes son sus beneficiarios finales, es
+                            decir, las personas físicas que tienen
+                            control o propiedad sobre la sociedad.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
-            <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
-            <p class="text-center text-xl italic text-gray-500 dark:text-gray-400 rtl:text-right">
-              Si tenés un local comercial, recordá la presentación de
-              la Declaración Jurada de Patente Comercial.
-            </p>
-            <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
-          </div>
+              </section>
+              <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
+              <p class="text-center text-xl italic text-gray-500 dark:text-gray-400 rtl:text-right">
+                Si tenés un local comercial, recordá la presentación
+                de la Declaración Jurada de Patente Comercial.
+              </p>
+              <hr class="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-400 dark:bg-gray-700 md:my-10" />
+            </div>
+          </motion.section>
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>
 
           {/* Sección de Testimonios con scroll horizontal y animación infinita */}
           <motion.section
-            className="w-full bg-white py-16"
+            className="w-full bg-white "
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInRight}>
             <h2 className="mb-8 text-center text-3xl font-semibold">
               Opiniones que reflejan nuestro compromiso
             </h2>
@@ -487,12 +509,12 @@ export default function Post({ posts }) {
 
           {/* Sección de Preguntas Frecuentes */}
           <motion.section
-            className=" w-full bg-white py-16"
+            className=" w-full bg-white "
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInLeft}>
             <h2 className="mb-8 text-center text-3xl font-semibold">
               <span className="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-[#305832]">
                 <span className="relative text-white">
@@ -511,12 +533,12 @@ export default function Post({ posts }) {
 
           {/* Sección de Llamada a la Acción (CTA) */}
           <motion.section
-            className="flex w-full justify-center bg-gradient-to-r from-gray-200  to-white py-16"
+            className="flex w-full justify-center bg-gradient-to-r from-gray-50  to-white "
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            variants={fadeInUp}>
+            variants={fadeInRight}>
             <div className="m-4 max-w-xl rounded-lg bg-gradient-to-b from-[#94AB98] to-white p-8 text-center shadow-lg">
               <div className="mb-6">
                 <Image

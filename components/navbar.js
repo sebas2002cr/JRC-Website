@@ -28,8 +28,8 @@ export default function Navbar(props) {
 
   const rightmenu = [
     {
-      label: "Beneficios",
-      href: "/benefits"
+      label: "Cursos",
+      href: "/courses"
     },
     {
       label: "Partners",

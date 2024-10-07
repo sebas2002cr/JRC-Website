@@ -84,10 +84,20 @@ export default function Pricing() {
   }, [controls]);
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 250 },
+    hidden: { opacity: 0, y: 150 },
     visible: { opacity: 1, y: 0 }
   };
 
+  // Variantes para animaciones
+  const fadeInRight = {
+    hidden: { opacity: 0, x: 150 },
+    visible: { opacity: 1, x: 0 }
+  };
+
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -150 },
+    visible: { opacity: 1, x: 0 }
+  };
   const cardHover = {
     rest: { scale: 1 },
     hover: { scale: 1.05 }
@@ -244,328 +254,352 @@ export default function Pricing() {
                 nuestra pagina de contacto y haznos saber tus dudas.
               </p>
             </div>
-            <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
-              <div className="p-8 sm:p-10 lg:flex-auto">
-                <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-                  Constitución de una Sociedad
-                </h3>
-                <p className="mt-6 text-base leading-7 text-gray-600">
-                  Ideal para quienes desean constituir una sociedad
-                  formal, ya sea una SRL o SA, asegurando el
-                  cumplimiento de todos los requisitos legales y
-                  fiscales.
-                </p>
-                <div className="mt-10 flex items-center gap-x-4">
-                  <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
-                    Nuestro servicio incluye:
-                  </h4>
-                  <div className="h-px flex-auto bg-gray-100"></div>
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              variants={fadeInLeft}>
+              <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+                <div className="p-8 sm:p-10 lg:flex-auto">
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                    Constitución de una Sociedad
+                  </h3>
+                  <p className="mt-6 text-base leading-7 text-gray-600">
+                    Ideal para quienes desean constituir una sociedad
+                    formal, ya sea una SRL o SA, asegurando el
+                    cumplimiento de todos los requisitos legales y
+                    fiscales.
+                  </p>
+                  <div className="mt-10 flex items-center gap-x-4">
+                    <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
+                      Nuestro servicio incluye:
+                    </h4>
+                    <div className="h-px flex-auto bg-gray-100"></div>
+                  </div>
+                  <ul
+                    role="list"
+                    className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Asesoría en la elección del tipo de sociedad
+                      (SRL o SA) y en la redacción del pacto social.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Trámite completo de inscripción de la sociedad
+                      ante el Registro Nacional de Costa Rica.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Obtención del número de cédula jurídica y
+                      registro ante la Administración Tributaria.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Asistencia en la apertura de cuentas bancarias y
+                      otros trámites financieros necesarios.
+                    </li>
+                  </ul>
                 </div>
-                <ul
-                  role="list"
-                  className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Asesoría en la elección del tipo de sociedad (SRL
-                    o SA) y en la redacción del pacto social.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Trámite completo de inscripción de la sociedad
-                    ante el Registro Nacional de Costa Rica.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Obtención del número de cédula jurídica y registro
-                    ante la Administración Tributaria.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Asistencia en la apertura de cuentas bancarias y
-                    otros trámites financieros necesarios.
-                  </li>
-                </ul>
-              </div>
-              <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-                <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
-                  <div className="mx-auto max-w-xs px-8">
-                    <p className="text-base font-semibold text-gray-600">
-                      Pago único
-                    </p>
-                    <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                      <span className="text-5xl font-bold tracking-tight text-gray-900">
-                        ¢452.000
-                      </span>
-                      <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-                        IVAI
-                      </span>
-                    </p>
-                    <a
-                      href="#"
-                      className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
-                      Comprar
-                    </a>
-                    <p className="mt-6 text-xs leading-5 text-gray-600">
-                      Invoices and receipts available for easy company
-                      reimbursement
-                    </p>
+                <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                  <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+                    <div className="mx-auto max-w-xs px-8">
+                      <p className="text-base font-semibold text-gray-600">
+                        Pago único
+                      </p>
+                      <p className="mt-6 flex items-baseline justify-center gap-x-2">
+                        <span className="text-5xl font-bold tracking-tight text-gray-900">
+                          ¢452.000
+                        </span>
+                        <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
+                          IVAI
+                        </span>
+                      </p>
+                      <a
+                        href="#"
+                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        Comprar
+                      </a>
+                      <p className="mt-6 text-xs leading-5 text-gray-600">
+                        Invoices and receipts available for easy
+                        company reimbursement
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
-              <div className="p-8 sm:p-10 lg:flex-auto">
-                <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-                  Inscripción de PYME ante el MEIC
-                </h3>
-                <p className="mt-6 text-base leading-7 text-gray-600">
-                  En JRC, nos encargamos de gestionar todos los
-                  trámites necesarios para que tu empresa obtenga la
-                  inscripción como PYME ante el Ministerio de
-                  Economía, Industria y Comercio (MEIC) de Costa Rica.
-                </p>
-                <div className="mt-10 flex items-center gap-x-4">
-                  <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
-                    Nuestro servicio incluye:
-                  </h4>
-                  <div className="h-px flex-auto bg-gray-100"></div>
+            </motion.section>
+
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              variants={fadeInRight}>
+              <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+                <div className="p-8 sm:p-10 lg:flex-auto">
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                    Inscripción de PYME ante el MEIC
+                  </h3>
+                  <p className="mt-6 text-base leading-7 text-gray-600">
+                    En JRC, nos encargamos de gestionar todos los
+                    trámites necesarios para que tu empresa obtenga la
+                    inscripción como PYME ante el Ministerio de
+                    Economía, Industria y Comercio (MEIC) de Costa
+                    Rica.
+                  </p>
+                  <div className="mt-10 flex items-center gap-x-4">
+                    <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
+                      Nuestro servicio incluye:
+                    </h4>
+                    <div className="h-px flex-auto bg-gray-100"></div>
+                  </div>
+                  <ul
+                    role="list"
+                    className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Gestión de la Declaración de Impuestos sobre la
+                      renta.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Obtención y mantenimiento de la Póliza de
+                      Riesgos del Trabajo del INS.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Actualización de planilla de la CCSS.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Registro en el Sistema Electrónico de
+                      Información de Empresas (SIEC)
+                    </li>
+                  </ul>
                 </div>
-                <ul
-                  role="list"
-                  className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Gestión de la Declaración de Impuestos sobre la
-                    renta.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Obtención y mantenimiento de la Póliza de Riesgos
-                    del Trabajo del INS.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Actualización de planilla de la CCSS.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Registro en el Sistema Electrónico de Información
-                    de Empresas (SIEC)
-                  </li>
-                </ul>
-              </div>
-              <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-                <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
-                  <div className="mx-auto max-w-xs px-8">
-                    <p className="text-base font-semibold text-gray-600">
-                      Pago único
-                    </p>
-                    <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                      <span className="text-5xl font-bold tracking-tight text-gray-900">
-                        ¢295.000
-                      </span>
-                      <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-                        IVAI
-                      </span>
-                    </p>
-                    <a
-                      href="#"
-                      className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
-                      Comprar
-                    </a>
-                    <p className="mt-6 text-xs leading-5 text-gray-600">
-                      Invoices and receipts available for easy company
-                      reimbursement
-                    </p>
+                <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                  <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+                    <div className="mx-auto max-w-xs px-8">
+                      <p className="text-base font-semibold text-gray-600">
+                        Pago único
+                      </p>
+                      <p className="mt-6 flex items-baseline justify-center gap-x-2">
+                        <span className="text-5xl font-bold tracking-tight text-gray-900">
+                          ¢295.000
+                        </span>
+                        <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
+                          IVAI
+                        </span>
+                      </p>
+                      <a
+                        href="#"
+                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        Comprar
+                      </a>
+                      <p className="mt-6 text-xs leading-5 text-gray-600">
+                        Invoices and receipts available for easy
+                        company reimbursement
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
-              <div className="p-8 sm:p-10 lg:flex-auto">
-                <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-                  Plan Régimen Simplificado
-                </h3>
-                <p className="mt-6 text-base leading-7 text-gray-600">
-                  Perfecto para quienes manejan un negocio pequeño y
-                  necesitan una gestión eficiente de sus obligaciones
-                  fiscales bajo el Régimen Simplificado.
-                </p>
-                <div className="mt-10 flex items-center gap-x-4">
-                  <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
-                    Nuestro servicio incluye:
-                  </h4>
-                  <div className="h-px flex-auto bg-gray-100"></div>
+            </motion.section>
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              variants={fadeInLeft}>
+              <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+                <div className="p-8 sm:p-10 lg:flex-auto">
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                    Plan Régimen Simplificado
+                  </h3>
+                  <p className="mt-6 text-base leading-7 text-gray-600">
+                    Perfecto para quienes manejan un negocio pequeño y
+                    necesitan una gestión eficiente de sus
+                    obligaciones fiscales bajo el Régimen
+                    Simplificado.
+                  </p>
+                  <div className="mt-10 flex items-center gap-x-4">
+                    <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
+                      Nuestro servicio incluye:
+                    </h4>
+                    <div className="h-px flex-auto bg-gray-100"></div>
+                  </div>
+                  <ul
+                    role="list"
+                    className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Declaraciones trimestrales D-105 (IVA & Renta).
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Asignación de ejecutivo de cuenta.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Asesoría tributaria y fiscal por parte del
+                      ejecutivo.
+                    </li>
+                    <li className="flex gap-x-3">
+                      <svg
+                        className="h-6 w-5 flex-none text-[#305832]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Acompañamiento en el pago de impuestos.
+                    </li>
+                  </ul>
                 </div>
-                <ul
-                  role="list"
-                  className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Declaraciones trimestrales D-105 (IVA & Renta).
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Asignación de ejecutivo de cuenta.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Asesoría tributaria y fiscal por parte del
-                    ejecutivo.
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-[#305832]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Acompañamiento en el pago de impuestos.
-                  </li>
-                </ul>
-              </div>
-              <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-                <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
-                  <div className="mx-auto max-w-xs px-8">
-                    <p className="text-base font-semibold text-gray-600">
-                      Pagos trimestrales
-                    </p>
-                    <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                      <span className="text-5xl font-bold tracking-tight text-gray-900">
-                        ¢75.000
-                      </span>
-                      <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-                        IVAI
-                      </span>
-                    </p>
-                    <a
-                      href="/contact"
-                      className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
-                      Obtener información
-                    </a>
-                    <p className="mt-6 text-xs leading-5 text-gray-600">
-                      Invoices and receipts available for easy company
-                      reimbursement
-                    </p>
+                <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                  <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+                    <div className="mx-auto max-w-xs px-8">
+                      <p className="text-base font-semibold text-gray-600">
+                        Pagos trimestrales
+                      </p>
+                      <p className="mt-6 flex items-baseline justify-center gap-x-2">
+                        <span className="text-5xl font-bold tracking-tight text-gray-900">
+                          ¢75.000
+                        </span>
+                        <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
+                          IVAI
+                        </span>
+                      </p>
+                      <a
+                        href="/contact"
+                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        Obtener información
+                      </a>
+                      <p className="mt-6 text-xs leading-5 text-gray-600">
+                        Invoices and receipts available for easy
+                        company reimbursement
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.section>
           </div>
         </div>
 
@@ -576,7 +610,7 @@ export default function Pricing() {
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          variants={fadeInUp}>
+          variants={fadeInRight}>
           <h2 className="mb-8 text-center text-3xl font-semibold">
             <span className="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-[#305832]">
               <span className="relative text-white">

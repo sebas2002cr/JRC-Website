@@ -75,6 +75,8 @@ export default function Partners() {
             <Image
               src="/referral.svg"
               alt="Afiliados"
+              width={300} // Ajusta el ancho según sea necesario
+              height={200} // Ajusta la altura según sea necesario
               className="h-auto w-3/4 object-contain sm:w-1/2" // Controlar tamaño
             />
           </div>
@@ -102,7 +104,9 @@ export default function Partners() {
           <div className="mt-4 flex items-center justify-end">
             <Image
               src="/clients.svg"
-              alt="Marca Blanca"
+              alt="Afiliados"
+              width={300} // Ajusta el ancho según sea necesario
+              height={200} // Ajusta la altura según sea necesario
               className="h-auto w-3/4 object-contain sm:w-1/2" // Controlar tamaño
             />
           </div>
