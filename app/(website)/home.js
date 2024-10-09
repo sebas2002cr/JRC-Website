@@ -101,18 +101,22 @@ export default function Post({ posts }) {
           {/* Sección de Estadísticas con animación */}
           <motion.section
             className="relative w-full py-12 text-white md:py-32"
-            style={{
-              backgroundImage: 'url("img/home-photo-bg.jpeg")',
-              backgroundSize: "cover",
-              backgroundPosition: "center"
-            }}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             variants={fadeInLeft}>
-            <div className="absolute inset-0 bg-[#305832] opacity-75"></div>
-            <div className="relative mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8">
+            {/* Carga la imagen explícitamente */}
+            <Image
+              src="/img/home-photo-bg.jpeg"
+              alt="Imagen de fondo"
+              layout="fill" // Hace que la imagen ocupe todo el contenedor
+              objectFit="cover" // Hace que se comporte como un background
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 z-10 bg-[#305832] opacity-75"></div>
+            <div className="relative z-20 mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8">
+              {/* Contenido de estadísticas */}
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
                   <Counter end={11} duration={2000} />

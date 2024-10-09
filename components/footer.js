@@ -149,8 +149,8 @@ export default function Footer(props) {
           <a href="/partners" className="hover:underline">
             Partners
           </a>
-          <a href="/benefits" className="hover:underline">
-            Beneficios
+          <a href="/courses" className="hover:underline">
+            Cursos
           </a>
           <a href="/pricing" className="hover:underline">
             Precios
@@ -165,15 +165,6 @@ export default function Footer(props) {
       <div className="mt-4 border-t border-white pt-4 text-center text-xs">
         <div>
           © {new Date().getFullYear()} JRC. All rights reserved.
-        </div>
-        <div className="mt-2">
-          <a href="#" className="hover:underline">
-            Terms
-          </a>{" "}
-          |{" "}
-          <a href="#" className="hover:underline">
-            Privacy
-          </a>
         </div>
       </div>
     </div>
