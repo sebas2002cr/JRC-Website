@@ -163,9 +163,11 @@ export default function Post({ posts }) {
                 documentos necesarios para constituir su empresa y
                 cumplir la normativa.{" "}
               </p>
-              <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
-                Empezar
-              </button>
+              <a href="/pricing">
+                <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
+                  Empezar
+                </button>
+              </a>
             </div>
             <div className="flex flex-col gap-8 md:w-1/3">
               <div className="my-3 flex items-start gap-4">

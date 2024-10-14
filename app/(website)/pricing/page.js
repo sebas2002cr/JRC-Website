@@ -357,8 +357,8 @@ export default function Pricing() {
                         </span>
                       </p>
                       <a
-                        href="#"
-                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        href="/constitucionSociedad"
+                        className="mt-10 block w-full rounded-lg   bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
                         Comprar
                       </a>
                       <p className="mt-6 text-xs leading-5 text-gray-600">
@@ -474,8 +474,8 @@ export default function Pricing() {
                         </span>
                       </p>
                       <a
-                        href="#"
-                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        href="/inscripcionPYME"
+                        className="mt-10 block w-full rounded-lg   bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
                         Comprar
                       </a>
                       <p className="mt-6 text-xs leading-5 text-gray-600">

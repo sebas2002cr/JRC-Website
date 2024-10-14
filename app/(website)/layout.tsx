@@ -26,14 +26,16 @@ export default function Layout({ children, params }) {
     '/plans/starter', '/plans/professional', '/plans/full-compliance',
     '/plans/starter/summary', '/plans/professional/summary', '/plans/full-compliance/summary',
     '/plans/starter/form' , '/plans/professional/form', '/plans/full-compliance/form',
-    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout'];
+    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout',
+  '/constitucionSociedad', '/inscripcionPYME'];
 
   const noNavbarRoutes = 
   ['/starter', '/professional', '/full-compliance', 
     '/plans/starter', '/plans/professional', '/plans/full-compliance', 
     '/plans/starter/summary' , '/plans/professional/summary', '/plans/full-compliance/summary',
     '/plans/starter/form' , '/plans/professional/form', '/plans/full-compliance/form',
-    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout'];
+    '/plans/starter/checkout' , '/plans/professional/checkout', '/plans/full-compliance/checkout',
+    '/constitucionSociedad', '/inscripcionPYME'];
 
   if (!settings) return null; // O muestra un loader
 
