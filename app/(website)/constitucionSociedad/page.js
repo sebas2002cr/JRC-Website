@@ -312,7 +312,7 @@ export default function CheckoutConstitucionSociedad() {
             <div className="w-full rounded-lg bg-white p-2 md:w-1/2">
               {/* Formulario de Información del Cliente */}
               <div className="mb-6 rounded-lg bg-gray-100 p-8">
-                <h2 className="mb-6 text-3xl font-semibold text-[#305832]">
+                <h2 className="mb-6 text-3xl font-extrabold text-[#305832]">
                   Información del Cliente
                 </h2>
                 <form className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -401,20 +401,20 @@ export default function CheckoutConstitucionSociedad() {
 
               {/* Detalles del servicio */}
               <div className="mt-12 rounded-lg border border-[#305832] bg-white p-8 shadow-lg">
-                <h2 className="mb-6 text-3xl font-semibold text-[#305832]">
+                <h2 className="mb-6 text-3xl font-extrabold text-[#305832]">
                   Constitución de una Sociedad
                 </h2>
-                <p className="mb-4 text-lg text-gray-700">
+                <p className="mb-4 text-lg text-gray-800">
                   Ideal para quienes desean constituir una sociedad
                   formal, ya sea una SRL o SA, asegurando el
                   cumplimiento de todos los requisitos legales y
                   fiscales.
                 </p>
-                <h3 className="mb-6 text-3xl font-semibold text-[#305832]">
+                <h3 className="mb-6 text-xl font-semibold text-gray-400 underline">
                   Nuestro servicio incluye:
                 </h3>
 
-                <ul className="mb-4 list-disc space-y-3 pl-5 text-gray-700">
+                <ul className="mb-4 list-disc space-y-3 pl-5 text-gray-800">
                   <li>
                     Asesoría en la elección del tipo de sociedad (SRL
                     o SA) y en la redacción del pacto social.

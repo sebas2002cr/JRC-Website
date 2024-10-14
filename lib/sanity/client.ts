@@ -15,7 +15,6 @@ import {
   getAll,
   reviewsQuery,
   faqsQuery,
-  benfitsQuery,
   searchquery
 } from "./groq";
 import { createClient } from "next-sanity";
@@ -137,12 +136,7 @@ export async function getFAQs() {
   return [];
 }
 
-export async function getBenefits() {
-  if (client) {
-    return (await client.fetch(benfitsQuery)) || [];
-  }
-  return [];
-}
+
 
 
 export async function getPaginatedPosts({ limit, pageIndex = 0 }) {

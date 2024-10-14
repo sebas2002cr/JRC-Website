@@ -312,7 +312,7 @@ export default function CheckoutConstitucionSociedad() {
             <div className="w-full rounded-lg bg-white p-2 md:w-1/2">
               {/* Formulario de Información del Cliente */}
               <div className="mb-6 rounded-lg bg-gray-100 p-8">
-                <h2 className="mb-6 text-3xl font-semibold text-[#305832]">
+                <h2 className="mb-6 text-3xl font-extrabold text-[#305832] ">
                   Información del Cliente
                 </h2>
                 <form className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -401,21 +401,21 @@ export default function CheckoutConstitucionSociedad() {
 
               {/* Detalles del servicio */}
               <div className="mt-12 rounded-lg border border-[#305832] bg-white p-8 shadow-lg">
-                <h2 className="mb-6 text-3xl font-semibold text-[#305832]">
+                <h2 className="mb-6 text-3xl font-extrabold text-[#305832]">
                   Inscripción de PYME ante el MEIC
                 </h2>
-                <p className="mb-4 text-lg text-gray-500">
+                <p className="mb-4 text-lg text-gray-800">
                   En JRC, nos encargamos de gestionar todos los
                   trámites necesarios para que tu empresa obtenga la
                   inscripción como PYME ante el Ministerio de
                   Economía, Industria y Comercio (MEIC) de Costa Rica.
                 </p>
 
-                <h3 className="mb-6 text-2xl font-semibold text-[#305832] underline">
+                <h3 className="mb-6 text-xl font-semibold text-gray-400 underline">
                   Nuestro servicio incluye:
                 </h3>
 
-                <ul className="mb-4 list-disc space-y-3 pl-5 text-gray-700">
+                <ul className="mb-4 list-disc space-y-3 pl-5 text-gray-800">
                   <li>
                     Gestión de la Declaración de Impuestos sobre la
                     renta.
