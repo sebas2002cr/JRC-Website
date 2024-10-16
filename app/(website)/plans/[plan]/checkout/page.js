@@ -466,7 +466,7 @@ export default function Checkout() {
               {/* Contenedor de ONVO */}
               <div
                 id="onvo-container"
-                className="m-4 w-full rounded-lg border bg-white p-6 shadow-md md:w-full">
+                className="m-0 w-full rounded-lg border bg-white p-6 shadow-md md:w-full">
                 {loading ? (
                   <div className="flex items-center justify-center">
                     <div className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-gray-200 border-t-transparent"></div>
