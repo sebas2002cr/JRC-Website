@@ -26,6 +26,7 @@ export default function CheckoutConstitucionSociedad() {
   const router = useRouter();
 
   const planPrice = 452000; // Precio fijo para el servicio de Constitución de una Sociedad
+  //   const planPrice = 500;  //PRECIO PARA HACER UNA PRUEBA.
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {

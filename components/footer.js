@@ -37,7 +37,7 @@ export default function Footer(props) {
                   {" "}
                   <path
                     fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                     d="M15.5 5H9.5C7.29086 5 5.5 6.79086 5.5 9V15C5.5 17.2091 7.29086 19 9.5 19H15.5C17.7091 19 19.5 17.2091 19.5 15V9C19.5 6.79086 17.7091 5 15.5 5Z"
                     stroke="#878787"
                     stroke-width="1.5"
@@ -45,7 +45,7 @@ export default function Footer(props) {
                     stroke-linejoin="round"></path>{" "}
                   <path
                     fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                     d="M12.5 15C10.8431 15 9.5 13.6569 9.5 12C9.5 10.3431 10.8431 9 12.5 9C14.1569 9 15.5 10.3431 15.5 12C15.5 12.7956 15.1839 13.5587 14.6213 14.1213C14.0587 14.6839 13.2956 15 12.5 15Z"
                     stroke="#878787"
                     stroke-width="1.5"
@@ -125,7 +125,7 @@ export default function Footer(props) {
                     fill="#878787"></path>{" "}
                   <path
                     fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                     d="M20 1C21.6569 1 23 2.34315 23 4V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H20ZM20 3C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3H20Z"
                     fill="#878787"></path>{" "}
                 </g>
