@@ -4,14 +4,23 @@ import { useState, useEffect } from "react";
 import { getFAQs } from "@/lib/sanity/client";
 import Image from "next/image";
 import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Partners() {
   const [faqs, setFaqs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.9 }, // Estado inicial (cerrado)
+    visible: { opacity: 1, scale: 1 }, // Estado animado (abierto)
+    exit: { opacity: 0, scale: 0.9 } // Estado de salida (cuando se cierra)
+  };
+
   const [contactInfo, setContactInfo] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
+    partnerType: "Afiliado" // Agrega un campo para el tipo de partner
   });
 
   // Fetch FAQs from Sanity
@@ -30,7 +39,12 @@ export default function Partners() {
   // Close modal and reset fields
   const closeModal = () => {
     setIsModalOpen(false);
-    setContactInfo({ name: "", email: "", message: "" });
+    setContactInfo({
+      name: "",
+      email: "",
+      message: "",
+      partnerType: "Afiliado"
+    });
   };
 
   // Handle input change
@@ -88,7 +102,7 @@ export default function Partners() {
       </div>
 
       {/* Cards */}
-      <div className="m-4 flex flex-col items-center justify-center space-y-4 py-8 lg:flex-row lg:space-x-8 lg:space-y-0">
+      <div className="m-4 flex flex-col items-center justify-center gap-4 space-y-4 py-8 lg:flex-row lg:space-x-8 lg:space-y-0">
         <div className="group relative h-auto w-full rounded-[20px] border-2 border-[#c3c6ce] bg-white p-6 transition duration-500 ease-out hover:border-[#305832] hover:shadow-lg lg:w-1/3">
           <div className="place-content-left h-full gap-4 text-[#305832]">
             <p className="mb-6 text-3xl font-bold sm:text-4xl">
@@ -146,101 +160,134 @@ export default function Partners() {
       </div>
 
       {/* Main modal */}
-      <div
-        id="authentication-modal"
-        tabIndex="-1"
-        aria-hidden="true"
-        className={`${
-          isModalOpen ? "flex" : "hidden"
-        } fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center md:inset-0`}>
-        <div className="relative max-h-full w-full max-w-md p-4">
-          <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-            <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Contáctanos
-              </h3>
-              <button
-                onClick={closeModal}
-                type="button"
-                className="end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="authentication-modal">
-                <svg
-                  className="h-3 w-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14">
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            {/* Modal body */}
-            <div className="p-4 md:p-5">
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={contactInfo.name}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                    required
-                  />
+      <AnimatePresence>
+        {isModalOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm backdrop-brightness-75"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <motion.div
+              className="fixed left-0 right-0 top-0 z-50 flex h-[calc(100%-1rem)] max-h-full w-full items-center justify-center md:inset-0"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.3 }}>
+              <div className="relative max-h-full w-full max-w-md p-4">
+                <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+                  <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      Contáctanos
+                    </h3>
+                    <button
+                      onClick={closeModal}
+                      type="button"
+                      className="end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                      data-modal-hide="authentication-modal">
+                      <svg
+                        className="h-3 w-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14">
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                      <span className="sr-only">Close modal</span>
+                    </button>
+                  </div>
+                  {/* Modal body */}
+                  <div className="p-4 md:p-5">
+                    <form
+                      className="space-y-4"
+                      onSubmit={handleSubmit}>
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Nombre
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          value={contactInfo.name}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Correo Electrónico
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          value={contactInfo.email}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="partnerType"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Tipo de Partner
+                        </label>
+                        <select
+                          name="partnerType"
+                          id="partnerType"
+                          value={contactInfo.partnerType}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white">
+                          <option value="Afiliado">Afiliado</option>
+                          <option value="Marca Blanca">
+                            Marca Blanca
+                          </option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="message"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Mensaje
+                        </label>
+                        <textarea
+                          name="message"
+                          id="message"
+                          value={contactInfo.message}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                          required
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full rounded-lg bg-[#305832] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Enviar
+                      </button>
+                    </form>
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    Correo Electrónico
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={contactInfo.email}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    Mensaje
-                  </label>
-                  <textarea
-                    name="message"
-                    id="message"
-                    value={contactInfo.message}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full rounded-lg bg-[#305832] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Enviar
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Sección de Preguntas Frecuentes */}
       <section className="w-full bg-white py-16">
