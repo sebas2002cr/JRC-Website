@@ -4,7 +4,7 @@ import Container from "@/components/container";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-
+import axios from "axios";
 export default function Contact() {
   const {
     register,
@@ -21,29 +21,46 @@ export default function Contact() {
   const onSubmit = async data => {
     try {
       const formData = new FormData();
+
+      // Añadir todos los campos al FormData
       for (const key in data) {
         if (key === "archivos") {
           if (data[key].length > 0) {
-            formData.append(key, data[key][0]);
+            formData.append("archivos", data[key][0]); // Asegúrate de enviar el archivo
           }
         } else {
-          formData.append(key, data[key]);
+          // Si el campo es un checkbox, añade el valor si está marcado
+          if (
+            key === "contactoTelefono" ||
+            key === "contactoEmail" ||
+            key === "contactoWhatsApp"
+          ) {
+            formData.append(key, data[key] ? "true" : "false"); // Valores correctos para checkboxes
+          } else {
+            formData.append(key, data[key]);
+          }
         }
       }
 
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        body: formData
-      });
+      // Realiza un POST al backend con axios
+      const response = await axios.post(
+        "http://localhost:4200/api/email/contact",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data" // Importante para enviar archivos
+          }
+        }
+      );
 
-      const result = await response.json();
+      const result = response.data;
       console.log("Response from server:", result);
 
       if (result.success) {
         setIsSuccess(true);
         setMessage("Mensaje enviado exitosamente.");
         reset();
-        setIsFormSubmitted(true); // Ocultar el formulario y mostrar el mensaje de agradecimiento
+        setIsFormSubmitted(true);
 
         setTimeout(() => {
           setIsSuccess(false);
