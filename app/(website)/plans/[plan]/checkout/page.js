@@ -90,7 +90,7 @@ export default function Checkout() {
 
         if (!paymentIntentId && onvoLoaded) {
           const { data } = await axios.post(
-            "http://localhost:4200/api/create-payment-intent",
+            "https://jrc-backend.onrender.com/api/create-payment-intent",
             {
               currency: "CRC",
               amount
@@ -119,7 +119,7 @@ export default function Checkout() {
                 // Hacer la solicitud POST al backend
                 try {
                   await axios.post(
-                    "http://localhost:4200/api/orders",
+                    "https://jrc-backend.onrender.com/api/orders",
                     orderPayload
                   );
                   console.log(

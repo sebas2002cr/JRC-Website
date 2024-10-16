@@ -61,7 +61,7 @@ export default function Partners() {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:4200/api/email/partners",
+        "https://jrc-backend.onrender.com/api/email/partners",
         contactInfo
       );
       console.log("Enviada la info de contacto");

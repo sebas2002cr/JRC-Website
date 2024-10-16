@@ -82,7 +82,7 @@ export default function CheckoutConstitucionSociedad() {
 
         if (!paymentIntentId && onvoLoaded) {
           const { data } = await axios.post(
-            "http://localhost:4200/api/create-payment-intent",
+            "https://jrc-backend.onrender.com/api/create-payment-intent",
             {
               currency: "CRC",
               amount
@@ -133,7 +133,7 @@ export default function CheckoutConstitucionSociedad() {
 
                 try {
                   await axios.post(
-                    "http://localhost:4200/api/orders/pagosunicos",
+                    "https://jrc-backend.onrender.com/api/orders/pagosunicos",
                     orderPayload
                   );
                   console.log(

@@ -14,7 +14,7 @@ export default function BlogPreview(props) {
       ? process.env.SANITY_STUDIO_SITE_URL
         ? `${process.env.SANITY_STUDIO_SITE_URL}/blog/${displayed?.slug?.current}?preview`
         : `${process.env.VERCEL_URL}/blog/${displayed?.slug?.current}?preview`
-      : `http://localhost:4200/blog/${displayed?.slug?.current}?preview`;
+      : `https://jrc-backend.onrender.com/blog/${displayed?.slug?.current}?preview`;
 
   return (
     <div className={styles.componentWrapper}>

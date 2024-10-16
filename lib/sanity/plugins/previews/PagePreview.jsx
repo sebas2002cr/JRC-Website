@@ -14,7 +14,7 @@ export default function PagePreview(props) {
       ? process.env.SANITY_STUDIO_SITE_URL
         ? `${process.env.SANITY_STUDIO_SITE_URL}/${displayed?.slug?.current}?preview`
         : `${process.env.VERCEL_URL}/${displayed?.slug?.current}?preview`
-      : `http://localhost:4200/${displayed?.slug?.current}?preview`;
+      : `https://jrc-backend.onrender.com/${displayed?.slug?.current}?preview`;
 
   return (
     <div className={styles.componentWrapper}>
