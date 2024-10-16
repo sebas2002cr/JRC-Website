@@ -103,16 +103,24 @@ export default function CustomerInfoForm() {
   };
 
   const handleContinueToPayments = () => {
-    localStorage.setItem(
-      "customerInfo",
-      JSON.stringify(customerInfo)
-    );
-    localStorage.setItem("baseCost", baseCost);
-    localStorage.setItem("planillaCost", planillaCost);
-    localStorage.setItem("facturasCost", facturasCost);
-    localStorage.setItem("totalCost", totalCost);
-
-    router.push(`/plans/${params.plan}/checkout`); // Redirigir a la página de pagos
+    if (isFormValid) {
+      localStorage.setItem(
+        "customerInfo",
+        JSON.stringify(customerInfo)
+      );
+      localStorage.setItem("baseCost", baseCost);
+      localStorage.setItem("planillaCost", planillaCost);
+      localStorage.setItem("facturasCost", facturasCost);
+      localStorage.setItem("totalCost", totalCost);
+      router.push(`/plans/${params.plan}/checkout`);
+    } else {
+      setValidationMessage(
+        "Por favor, completa todos los campos antes de continuar."
+      );
+      setTimeout(() => {
+        setValidationMessage("");
+      }, 3000);
+    }
   };
 
   const handleSubmit = e => {
@@ -137,13 +145,14 @@ export default function CustomerInfoForm() {
       setValidationMessage("");
     } else {
       setValidationMessage(
-        "Por favor, completa todos los campos antes de continuar."
+        "Por favor, completa todos los campos antes de descargar la cotización."
       );
       setTimeout(() => {
         setValidationMessage("");
       }, 3000);
     }
   };
+
   // Función para generar un número de cotización único
   const generateCotizacionNumber = customerName => {
     const now = new Date();
