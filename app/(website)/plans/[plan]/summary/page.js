@@ -16,6 +16,9 @@ export default function SummaryPage() {
   const [facturasCost, setFacturasCost] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   const [transactionCost, setTransactionCost] = useState(0);
+  const reviewName = localStorage.getItem("Review-name");
+  const reviewPositon = localStorage.getItem("Review-position");
+  const reviewMessage = localStorage.getItem("Review-message");
 
   // Función para calcular los costos base según el plan
   const calculateBaseCost = answers => {
@@ -207,7 +210,7 @@ export default function SummaryPage() {
         {/* Reviews */}
         <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
           <p className="text-black">
-            Recomendaría a JRC sin duda. Excelente asistencia.
+            Recomendaría a JRC sin duda. Excelente asistencia. Saludos
           </p>
           <div className="mt-4 flex items-center">
             <div>

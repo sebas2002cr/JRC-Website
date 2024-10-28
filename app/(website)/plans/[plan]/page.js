@@ -12,6 +12,9 @@ export default function PlanPage() {
   const params = useParams(); // Usar useParams para obtener los parámetros de la URL
   const [plan, setPlan] = useState(null); // Estado para el nombre del plan
   const validPlans = ["starter", "professional", "full-compliance"]; // Nombres de planes válidos
+  const reviewName = localStorage.getItem("Review-name");
+  const reviewPositon = localStorage.getItem("Review-position");
+  const reviewMessage = localStorage.getItem("Review-message");
 
   // Verifica que el plan en la URL sea válido
   useEffect(() => {
@@ -327,13 +330,11 @@ export default function PlanPage() {
         </div>
         {/* Reviews */}
         <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
-          <p className="text-black">
-            Recomendaría a JRC sin duda. Excelente asistencia.
-          </p>
+          <p className="text-black">{reviewMessage}</p>
           <div className="mt-4 flex items-center">
             <div>
-              <p className="font-bold text-black">Manuel</p>
-              <p className="text-sm text-gray-700">Manuel Web LLC</p>
+              <p className="font-bold text-black">{reviewName}</p>
+              <p className="text-sm text-gray-700">{reviewPositon}</p>
             </div>
           </div>
         </div>

@@ -27,6 +27,20 @@ export default function Post({ posts }) {
     const fetchSanityReviews = async () => {
       const data = await getReviews();
       setReviews(data);
+      const randomNumber = Math.floor(Math.random() * 7);
+
+      const reviewName = localStorage.setItem(
+        "Review-name",
+        data[randomNumber].name
+      );
+      const reviewPosition = localStorage.setItem(
+        "Review-position",
+        data[randomNumber].position
+      );
+      const reviewMessage = localStorage.setItem(
+        "Review-message",
+        data[randomNumber].review
+      );
     };
 
     fetchSanityReviews();
