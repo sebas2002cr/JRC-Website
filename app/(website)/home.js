@@ -530,7 +530,7 @@ export default function Post({ posts }) {
               </span>
             </h2>
             <p className="mx-auto mb-12 max-w-3xl text-center text-gray-600">
-              Todo lo que ocupas saber sobre nuestros servicios.
+              Todo lo que ocupás saber de nuestros servicios.
             </p>
             <FAQ faqs={faqs} /> {/* Usa el componente FAQ */}
           </motion.section>
@@ -560,7 +560,7 @@ export default function Post({ posts }) {
                 Empezá con nostros
               </h3>
               <p className="mb-8 text-gray-600">
-                Agenda una llamada gratuita con uno de nuestros
+                Agendá una llamada gratuita con uno de nuestros
                 asesores para resolver todas tus dudas.
               </p>
               <a href="/schedule">

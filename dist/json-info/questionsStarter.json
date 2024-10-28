@@ -7,7 +7,7 @@
       },
       {
         "question": "¿Ocupás manejo de planilla?",
-        "disclaimer": ["Gestión RRHM", "Cálculo de Planilla / Salarios" , "Presentación de planilla CCSS" , 
+        "disclaimer": ["Gestión de Recursos Humanos", "Cálculo de Planilla / Salarios" , "Presentación de planilla CCSS" , 
         " Presentación de planilla INS" , "Cálculo de liquidaciones", " Control de permisos , vacaciones, aguinaldo", 
         "Periocidad semanal, quincenal o mensual"] ,
         "options": ["Si", "No"],

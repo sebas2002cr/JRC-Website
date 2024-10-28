@@ -184,6 +184,7 @@ export default function CustomerInfoForm() {
     const storedPlanillaCost = localStorage.getItem("planillaCost");
     const storedFacturasCost = localStorage.getItem("facturasCost");
     const storedTotalCost = localStorage.getItem("totalCost");
+    const transactionCost = localStorage.getItem("transactions");
 
     // Verificar si los datos están presentes en localStorage
     if (
@@ -210,6 +211,7 @@ export default function CustomerInfoForm() {
     const planillaCost = parseFloat(storedPlanillaCost);
     const facturasCost = parseFloat(storedFacturasCost);
     const totalCost = parseFloat(storedTotalCost);
+    const transactions = parseFloat(transactionCost);
 
     const doc = new jsPDF();
     const cotizacionNumber = generateCotizacionNumber(
@@ -311,6 +313,10 @@ export default function CustomerInfoForm() {
         [
           "Costo adicional - Facturas",
           `${currencySymbol}${facturasCost.toLocaleString()} IVAI`
+        ],
+        [
+          "Costo adicional - Transacciones Mensuales",
+          `${currencySymbol}${transactions.toLocaleString()} IVAI`
         ],
         [
           "Costo total",

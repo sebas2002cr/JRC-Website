@@ -15,6 +15,7 @@ export default function SummaryPage() {
   const [planillaCost, setPlanillaCost] = useState(0);
   const [facturasCost, setFacturasCost] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
+  const [transactionCost, setTransactionCost] = useState(0);
 
   // Función para calcular los costos base según el plan
   const calculateBaseCost = answers => {
@@ -34,7 +35,7 @@ export default function SummaryPage() {
   // Función para calcular el costo de planilla
   const calculatePlanillaCost = (answers, plan) => {
     const colaboradoresPagados =
-      plan === "Full Compliance Plan"
+      plan === "full-compliance"
         ? Math.max(answers.colaboradores - 5, 0) // Restamos los 5 colaboradores gratuitos
         : answers.colaboradores;
 
@@ -62,11 +63,26 @@ export default function SummaryPage() {
     }
   };
 
+  // Función para calcular el costo de transacciones adicionales
+  const calculateTransactionCost = answers => {
+    const maxFreeTransactions = 50;
+    const additionalTransactionCost = 500 * 1.13; // 500 colones más IVA por cada transacción adicional
+    const transactions = parseInt(answers.transacciones, 10) || 0;
+
+    if (transactions > maxFreeTransactions) {
+      const extraTransactions = transactions - maxFreeTransactions;
+      return extraTransactions * additionalTransactionCost;
+    }
+    return 0;
+  };
+
+  // Modificar la función calculateTotalCost para incluir el costo de transacciones
   const calculateTotalCost = answers => {
-    const baseCost = calculateBaseCost(answers, params.plan);
+    const baseCost = calculateBaseCost(answers);
     const additionalCost =
       calculatePlanillaCost(answers, params.plan) +
-      calculateFacturasCost(answers);
+      calculateFacturasCost(answers) +
+      calculateTransactionCost(answers); // Agregar el costo de transacciones adicionales
     return baseCost + additionalCost;
   };
 
@@ -75,8 +91,9 @@ export default function SummaryPage() {
     const storedAnswers = localStorage.getItem("answers");
 
     if (storedAnswers) {
-      const parsedAnswers = JSON.parse(storedAnswers); // Renombrar a parsedAnswers para evitar confusión
-      setAnswers(parsedAnswers); // Guardar answers en el estado
+      const parsedAnswers = JSON.parse(storedAnswers);
+      setAnswers(parsedAnswers);
+
       const summaryItems = [
         {
           label: "Tipo de Plan",
@@ -120,18 +137,18 @@ export default function SummaryPage() {
           : []),
         {
           label: "Transacciones mensuales",
-          value: parsedAnswers.transacciones
+          value: parsedAnswers.transacciones || "N/A"
         }
       ];
 
-      // Guardar datos de resumen y cálculos
       setSummaryItems(summaryItems);
-      setBaseCost(calculateBaseCost(parsedAnswers, params.plan));
+      setBaseCost(calculateBaseCost(parsedAnswers));
       setPlanillaCost(
         calculatePlanillaCost(parsedAnswers, params.plan)
       );
       setFacturasCost(calculateFacturasCost(parsedAnswers));
-      setTotalCost(calculateTotalCost(parsedAnswers));
+      setTransactionCost(calculateTransactionCost(parsedAnswers));
+      setTotalCost(calculateTotalCost(parsedAnswers)); // Incluir el cálculo total actualizado
     }
   }, [params.plan]);
 
@@ -157,6 +174,7 @@ export default function SummaryPage() {
       localStorage.setItem("planillaCost", planillaCost);
       localStorage.setItem("facturasCost", facturasCost);
       localStorage.setItem("totalCost", totalCost);
+      localStorage.setItem("transactions", transactionCost);
 
       router.push(`/plans/${params.plan}/form`);
     } else {
@@ -243,10 +261,15 @@ export default function SummaryPage() {
                 ₡{baseCost.toLocaleString()} IVAI / mensual
               </span>
             </div>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-m font-bold text-gray-900 underline">
+                Costos adicionales del plan
+              </span>
+            </div>
             {planillaCost > 0 && (
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-m font-medium text-gray-900">
-                  Costo adicional (Planilla):
+                  Costo Planilla:
                 </span>
                 <span className="text-xs font-semibold text-black">
                   ₡{planillaCost.toLocaleString()} IVAI
@@ -256,13 +279,24 @@ export default function SummaryPage() {
             {facturasCost > 0 && (
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-m font-medium text-gray-900">
-                  Costo adicional (Facturas):
+                  Costo Facturas:
                 </span>
                 <span className="text-xs font-semibold text-black">
                   ₡{facturasCost.toLocaleString()} IVAI
                 </span>
               </div>
             )}
+            {transactionCost > 0 && (
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-m font-medium text-gray-900">
+                  Costo Transacciones:
+                </span>
+                <span className="text-xs font-semibold text-black">
+                  ₡{transactionCost.toLocaleString()} IVAI
+                </span>
+              </div>
+            )}
+
             <div className="mt-4 flex items-center justify-between border-t border-gray-300 pt-4">
               <span className="text-lg font-semibold text-gray-900">
                 Costo total:

@@ -483,7 +483,7 @@ export default function Contact() {
               Comenzá con nostros
             </h3>
             <p className="mb-8 text-gray-600">
-              Agenda una llamada gratuita con uno de nuestros asesores
+              Agendá una llamada gratuita con uno de nuestros asesores
               para resolver todas tus dudas.
             </p>
             <a href="/schedule">

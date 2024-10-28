@@ -137,8 +137,8 @@ export default function Partners() {
               </p>
               <p className="mb-4 text-sm text-white sm:text-base">
                 Servicios privados de marca blanca: nunca nos
-                pondremos en contacto con sus clientes. Obtené precios
-                al por mayor con descuento.
+                pondremos en contacto con tus clientes. Obtené mejores
+                tarifas al traer más cuentas.
               </p>
             </div>
           </div>
@@ -295,7 +295,7 @@ export default function Partners() {
           Preguntas Frequentes
         </h2>
         <p className="mx-auto mb-12 max-w-3xl text-center text-gray-600">
-          Todo lo que ocupas saber sobre nuestros servicios.
+          Todo lo que ocupás saber de nuestros servicios.
         </p>
         <FAQ faqs={faqs} />
       </section>

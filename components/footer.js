@@ -18,12 +18,12 @@ export default function Footer(props) {
           </div>
           <div className="mt-4 flex space-x-4">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/jrc_consulting/"
               target="_blank"
               rel="noopener noreferrer">
               <svg
-                width="35px"
-                height="35px"
+                width="40px"
+                height="40px"
                 viewBox="0 -0.5 25 25"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ export default function Footer(props) {
               <svg className="h-6 w-6 fill-current"></svg>
             </a>
             <a
-              href="https://twitter.com"
+              href="https://www.facebook.com/jrcconsultingcr/"
               target="_blank"
               rel="noopener noreferrer">
               <svg
@@ -81,24 +81,23 @@ export default function Footer(props) {
                 height="35px"
                 viewBox="0 0 24 24"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                stroke="">
+                xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
                   stroke-linecap="round"
                   stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
-                  {" "}
                   <path
-                    d="M19.83 8.00001C19.83 8.17001 19.83 8.35001 19.83 8.52001C19.8393 10.0302 19.5487 11.5272 18.9751 12.9242C18.4014 14.3212 17.5562 15.5904 16.4883 16.6583C15.4204 17.7262 14.1512 18.5714 12.7542 19.1451C11.3572 19.7187 9.86017 20.0093 8.34999 20C6.15213 20.0064 3.9992 19.3779 2.14999 18.19C2.47999 18.19 2.78999 18.19 3.14999 18.19C4.96345 18.19 6.72433 17.5808 8.14999 16.46C7.30493 16.4524 6.48397 16.1774 5.80489 15.6744C5.12581 15.1714 4.62349 14.4662 4.36999 13.66C4.62464 13.7006 4.88213 13.7207 5.13999 13.72C5.49714 13.7174 5.85281 13.6738 6.19999 13.59C5.2965 13.4056 4.48448 12.9147 3.90135 12.2003C3.31822 11.486 2.99981 10.5921 2.99999 9.67001C3.55908 9.97841 4.18206 10.153 4.81999 10.18C4.25711 9.80767 3.79593 9.30089 3.47815 8.7055C3.16038 8.11011 2.99604 7.44489 2.99999 6.77001C3.00124 6.06749 3.18749 5.37769 3.53999 4.77001C4.55172 6.01766 5.81423 7.03889 7.24575 7.76757C8.67727 8.49625 10.2459 8.91613 11.85 9.00001C11.7865 8.69737 11.753 8.38922 11.75 8.08001C11.7239 7.25689 11.9526 6.44578 12.4047 5.75746C12.8569 5.06913 13.5104 4.53714 14.2762 4.23411C15.0419 3.93109 15.8826 3.87181 16.6833 4.06437C17.484 4.25693 18.2057 4.69195 18.75 5.31001C19.655 5.12822 20.5214 4.78981 21.31 4.31001C21.0088 5.24317 20.3754 6.0332 19.53 6.53001C20.3337 6.44316 21.1194 6.23408 21.86 5.91001C21.3116 6.71097 20.6361 7.41694 19.86 8.00001H19.83Z"
-                    fill="#878787"></path>{" "}
+                    d="M22 12C22 5.92487 17.0751 1 11 1C4.92487 1 0 5.92487 0 12C0 17.4036 3.65636 21.731 8.4375 22.8013V14.7305H5.89844V12H8.4375V9.79375C8.4375 7.31269 9.93069 6 12.2695 6C13.25 6 14.2813 6.16875 14.2813 6.16875V8.625H13.0562C11.8471 8.625 11.5625 9.29681 11.5625 10.1062V12H14.1563L13.7344 14.7305H11.5625V22.8013C16.3436 21.731 20 17.4036 20 12H22Z"
+                    fill="#878787"></path>
                 </g>
               </svg>
+
               <svg className="h-6 w-6 fill-current"></svg>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/jrcconsultinggroup/mycompany/"
               target="_blank"
               rel="noopener noreferrer">
               <svg
@@ -147,7 +146,7 @@ export default function Footer(props) {
             Blog
           </a>
           <a href="/partners" className="hover:underline">
-            Partners
+            Socios
           </a>
           <a href="/courses" className="hover:underline">
             Cursos

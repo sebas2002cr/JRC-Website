@@ -7,7 +7,7 @@
       },
       {
         "question": "¿Ocupás manejo de planilla?",
-        "disclaimer": ["Gestión RRHM", "Cálculo de Planilla / Salarios" , "Presentación de planilla CCSS" , 
+        "disclaimer": ["Gestión de Recursos Humanos", "Cálculo de Planilla / Salarios" , "Presentación de planilla CCSS" , 
         " Presentación de planilla INS" , "Cálculo de liquidaciones", " Control de permisos , vacaciones, aguinaldo", 
         "Periocidad semanal, quincenal o mensual"] ,
         "options": ["Si", "No"],
@@ -33,7 +33,7 @@
         "showCondition": "facturas === 'Si'"
       },
       {
-        "question": "Si emites más de 40 facturas al mes, ingresa la cantidad exacta:",
+        "question": "Si emitís más de 40 facturas al mes, ingresá la cantidad exacta:",
         "type": "number",
         "key": "facturasExactas",
         "showCondition": "cantidadFacturasEmitidas === 'Más de 40'"

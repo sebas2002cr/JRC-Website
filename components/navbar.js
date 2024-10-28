@@ -49,7 +49,7 @@ export default function Navbar(props) {
 
   const rightmenu = [
     { label: "Cursos", href: "/courses" },
-    { label: "Partners", href: "/partners" },
+    { label: "Socios", href: "/partners" },
     { label: "Empezar", href: "/pricing" }
   ];
 

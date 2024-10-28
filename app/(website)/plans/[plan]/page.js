@@ -156,6 +156,7 @@ export default function PlanPage() {
 
   // Filtrar preguntas según las respuestas actuales
   const filterQuestions = () => {
+    // Filtrar las preguntas de acuerdo a las respuestas seleccionadas
     return questions.filter(q => {
       if (
         q.key === "colaboradores" &&
@@ -187,9 +188,14 @@ export default function PlanPage() {
 
   const filteredQuestions = filterQuestions();
 
-  // Manejo de respuestas a las preguntas
   const handleAnswer = () => {
-    const currentQuestionKey = filteredQuestions[currentQuestion].key;
+    const currentQuestionKey =
+      filteredQuestions[currentQuestion]?.key;
+
+    if (currentQuestionKey === "completado") {
+      router.push(`/plans/${plan}/summary`);
+      return;
+    }
 
     if (filteredQuestions[currentQuestion].type === "number") {
       let value = "";
@@ -229,21 +235,45 @@ export default function PlanPage() {
         [currentQuestionKey]: selectedOption
       }));
 
-      if (currentQuestionKey === "facturas") {
-        setShowFacturasQuestion(selectedOption === "Si");
+      // Mostrar preguntas adicionales dependiendo de la respuesta
+      if (
+        currentQuestionKey === "facturas" &&
+        selectedOption === "Si"
+      ) {
+        setShowFacturasQuestion(true);
+        // Asegurarse de no avanzar automáticamente al resumen
+        if (
+          filteredQuestions.some(
+            q => q.key === "cantidadFacturasEmitidas"
+          )
+        ) {
+          return; // No avanzar, hay preguntas adicionales de facturas que mostrar
+        }
+      } else if (
+        currentQuestionKey === "facturas" &&
+        selectedOption === "No"
+      ) {
+        setShowFacturasQuestion(false);
       }
 
-      if (currentQuestionKey === "cantidadFacturasEmitidas") {
-        setShowFacturasInput(selectedOption === "Más de 40");
+      if (
+        currentQuestionKey === "cantidadFacturasEmitidas" &&
+        selectedOption === "Más de 40"
+      ) {
+        setShowFacturasInput(true);
+      } else {
+        setShowFacturasInput(false);
       }
     }
 
-    // Si el usuario ha respondido todas las preguntas, redirige a la página de resumen
-    if (currentQuestion + 1 >= filteredQuestions.length) {
-      router.push(`/plans/${plan}/summary`);
-      // Redirige a la página de resumen del plan actual
-    } else {
+    // Filtrar de nuevo las preguntas para incluir las adicionales
+    const updatedFilteredQuestions = filterQuestions();
+
+    // Si hay preguntas adicionales, no redirigir aún al resumen
+    if (currentQuestion + 1 < updatedFilteredQuestions.length) {
       setCurrentQuestion(prev => prev + 1);
+    } else {
+      router.push(`/plans/${plan}/summary`);
     }
   };
 
@@ -257,7 +287,15 @@ export default function PlanPage() {
 
   const handleNext = () => {
     setDirection("next");
-    handleAnswer(); // Lógica para avanzar a la siguiente pregunta
+
+    // Verificar si la pregunta actual tiene el key "completado"
+    const currentQuestionKey =
+      filteredQuestions[currentQuestion]?.key;
+    if (currentQuestionKey === "completado") {
+      router.push(`/plans/${plan}/summary`);
+    } else {
+      handleAnswer(); // Lógica para avanzar a la siguiente pregunta
+    }
   };
 
   const handlePrev = () => {
@@ -345,8 +383,11 @@ export default function PlanPage() {
                   </ul>
                 )}
 
-              {filteredQuestions[currentQuestion].type ===
-              "number" ? (
+              {filteredQuestions[currentQuestion].key ===
+              "completado" ? (
+                <div className="flex flex-col items-center justify-center"></div>
+              ) : filteredQuestions[currentQuestion].type ===
+                "number" ? (
                 <div>
                   <input
                     type="text"
@@ -432,9 +473,7 @@ export default function PlanPage() {
                   type="button"
                   onClick={handleNext}
                   className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#234621]">
-                  {currentQuestion < filteredQuestions.length - 1
-                    ? "Siguiente"
-                    : "Finalizar"}
+                  Siguiente
                 </button>
               </div>
             </motion.div>

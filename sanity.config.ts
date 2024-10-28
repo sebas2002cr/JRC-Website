@@ -15,6 +15,10 @@ import {
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { table } from "@sanity/table";
 import { codeInput } from "@sanity/code-input";
+import {createConfig} from 'sanity'
+import {documentInternationalization} from '@sanity/document-internationalization'
+
+
 
 export const PREVIEWABLE_DOCUMENT_TYPES: string[] = ["post"];
 console.log(projectId);
@@ -43,3 +47,20 @@ export default defineConfig({
     types: schemaTypes
   }
 });
+
+
+
+export const createConfig({
+  // ... all other config
+  plugins: [
+    // ... all other plugins
+    documentInternationalization({
+      // Required configuration
+      supportedLanguages: [
+        {id: 'es', title: 'Spanish'},
+        {id: 'en', title: 'English'}
+      ],
+      schemaTypes: ['lesson'],
+    })
+  ]
+})

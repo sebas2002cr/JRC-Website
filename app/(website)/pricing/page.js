@@ -251,7 +251,7 @@ export default function Pricing() {
               </h2>
               <p className="mt-6 text-lg leading-8 text-gray-600">
                 Para más Información sobre estos servicios dirígete a
-                nuestra pagina de contacto y haznos saber tus dudas.
+                nuestra página de contacto y haznos saber tus dudas.
               </p>
             </div>
             <motion.section
@@ -325,21 +325,6 @@ export default function Pricing() {
                       Obtención del número de cédula jurídica y
                       registro ante la Administración Tributaria.
                     </li>
-                    <li className="flex gap-x-3">
-                      <svg
-                        className="h-6 w-5 flex-none text-[#305832]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Asistencia en la apertura de cuentas bancarias y
-                      otros trámites financieros necesarios.
-                    </li>
                   </ul>
                 </div>
                 <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
@@ -361,10 +346,6 @@ export default function Pricing() {
                         className="mt-10 block w-full rounded-lg   bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
                         Comprar
                       </a>
-                      <p className="mt-6 text-xs leading-5 text-gray-600">
-                        Invoices and receipts available for easy
-                        company reimbursement
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -387,11 +368,16 @@ export default function Pricing() {
                     trámites necesarios para que tu empresa obtenga la
                     inscripción como PYME ante el Ministerio de
                     Economía, Industria y Comercio (MEIC) de Costa
-                    Rica.
+                    Rica, incluyendo el registro en el Sistema
+                    Electrónico de Información de Empresas (SIEC).
                   </p>
                   <div className="mt-10 flex items-center gap-x-4">
                     <h4 className="flex-none text-sm font-semibold leading-6 text-[#305832]">
-                      Nuestro servicio incluye:
+                      Acorde al artículo 3 de la Ley N°8262, todas las
+                      PYMES que quieran aprovechar <br /> los
+                      beneficios de la presente Ley, deberán
+                      satisfacer al menos
+                      <br /> dos de los siguientes requisitos:
                     </h4>
                     <div className="h-px flex-auto bg-gray-100"></div>
                   </div>
@@ -410,8 +396,8 @@ export default function Pricing() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Gestión de la Declaración de Impuestos sobre la
-                      renta.
+                      El pago de cargas sociales (Al menos 1
+                      colaborador en planillla de la CCSS).
                     </li>
                     <li className="flex gap-x-3">
                       <svg
@@ -425,8 +411,8 @@ export default function Pricing() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Obtención y mantenimiento de la Póliza de
-                      Riesgos del Trabajo del INS.
+                      El cumplimiento de obligaciones tributarias
+                      (Estar inscrito en el Ministerio de Hacienda).
                     </li>
                     <li className="flex gap-x-3">
                       <svg
@@ -440,22 +426,9 @@ export default function Pricing() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Actualización de planilla de la CCSS.
-                    </li>
-                    <li className="flex gap-x-3">
-                      <svg
-                        className="h-6 w-5 flex-none text-[#305832]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Registro en el Sistema Electrónico de
-                      Información de Empresas (SIEC)
+                      El cumplimiento de obligaciones laborales
+                      (Contar con una póliza de riegos del trabajo del
+                      INS).
                     </li>
                   </ul>
                 </div>
@@ -478,10 +451,6 @@ export default function Pricing() {
                         className="mt-10 block w-full rounded-lg   bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
                         Comprar
                       </a>
-                      <p className="mt-6 text-xs leading-5 text-gray-600">
-                        Invoices and receipts available for easy
-                        company reimbursement
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -588,13 +557,9 @@ export default function Pricing() {
                       </p>
                       <a
                         href="/contact"
-                        className="mt-10 block w-full rounded-lg  rounded-md bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
+                        className="mt-10 block w-full rounded-lg   bg-[#305832] px-3 py-2 text-white shadow-md transition duration-300 hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832]">
                         Obtener información
                       </a>
-                      <p className="mt-6 text-xs leading-5 text-gray-600">
-                        Invoices and receipts available for easy
-                        company reimbursement
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -619,7 +584,7 @@ export default function Pricing() {
             </span>
           </h2>
           <p className="mx-auto mb-12 max-w-3xl text-center text-gray-600">
-            Todo lo que ocupas saber sobre nuestros servicios.
+            Todo lo que ocupás saber de nuestros servicios.
           </p>
           <FAQ faqs={faqs} />
         </motion.section>

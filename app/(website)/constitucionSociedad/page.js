@@ -80,10 +80,10 @@ export default function CheckoutConstitucionSociedad() {
       try {
         setLoading(true);
         const amount = Math.round(planPrice * 100); // Convertir a la unidad menor de la moneda (centavos)
-
+        console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
         if (!paymentIntentId && onvoLoaded) {
           const { data } = await axios.post(
-            "https://jrc-backend.onrender.com/api/create-payment-intent",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/create-payment-intent`,
             {
               currency: "CRC",
               amount
@@ -134,7 +134,7 @@ export default function CheckoutConstitucionSociedad() {
 
                 try {
                   await axios.post(
-                    "https://jrc-backend.onrender.com/api/orders/pagosunicos",
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/orders/pagosunicos`,
                     orderPayload
                   );
                   console.log(
