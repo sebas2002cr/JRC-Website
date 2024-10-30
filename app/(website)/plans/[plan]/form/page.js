@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import axios from "axios";
 
 export default function CustomerInfoForm() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -23,6 +24,11 @@ export default function CustomerInfoForm() {
   const [totalCost, setTotalCost] = useState(0);
   const router = useRouter();
   const params = useParams(); // Para obtener el nombre del plan desde la URL
+  const [cotizacionGenerada, setCotizacionGenerada] = useState(false);
+  const [cotizacionNumber, setCotizacionNumber] = useState("");
+  const reviewName = localStorage.getItem("Review-name");
+  const reviewPositon = localStorage.getItem("Review-position");
+  const reviewMessage = localStorage.getItem("Review-message");
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
@@ -102,7 +108,7 @@ export default function CustomerInfoForm() {
     }));
   };
 
-  const handleContinueToPayments = () => {
+  const handleContinueToPayments = async () => {
     if (isFormValid) {
       localStorage.setItem(
         "customerInfo",
@@ -112,7 +118,6 @@ export default function CustomerInfoForm() {
       localStorage.setItem("planillaCost", planillaCost);
       localStorage.setItem("facturasCost", facturasCost);
       localStorage.setItem("totalCost", totalCost);
-      router.push(`/plans/${params.plan}/checkout`);
     } else {
       setValidationMessage(
         "Por favor, completa todos los campos antes de continuar."
@@ -120,6 +125,26 @@ export default function CustomerInfoForm() {
       setTimeout(() => {
         setValidationMessage("");
       }, 3000);
+    }
+
+    // Si la cotización no fue generada, genera el PDF y espera el número de cotización
+    if (!cotizacionGenerada) {
+      console.log("Generando cotización antes de continuar...");
+      const newCotizacionNumber = await generatePDF(); // Esperamos a que `generatePDF` complete y retorne el número de cotización
+      setCotizacionGenerada(true);
+      setCotizacionNumber(newCotizacionNumber);
+      console.log("Cotización generada:", newCotizacionNumber);
+      router.push(
+        `/plans/${params.plan}/checkout?cotizacion=${newCotizacionNumber}`
+      );
+    } else {
+      console.log(
+        "Cotización ya generada, usando número existente:",
+        cotizacionNumber
+      );
+      router.push(
+        `/plans/${params.plan}/checkout?cotizacion=${cotizacionNumber}`
+      );
     }
   };
 
@@ -177,6 +202,8 @@ export default function CustomerInfoForm() {
   };
 
   const generatePDF = async () => {
+    if (cotizacionGenerada) return; // Evita la generación si ya está hecha
+
     const storedCustomerInfo = localStorage.getItem("customerInfo");
     const storedAnswers = localStorage.getItem("answers");
     const storedPlan = localStorage.getItem("selectedPlan");
@@ -217,6 +244,7 @@ export default function CustomerInfoForm() {
     const cotizacionNumber = generateCotizacionNumber(
       customerInfo.name
     );
+    setCotizacionNumber(cotizacionNumber);
     const imgData = "/NEGRO-FONDO-BLANCO.jpg"; // Imagen del logo
 
     doc.addImage(imgData, "JPEG", 10, 10, 50, 20);
@@ -364,6 +392,46 @@ export default function CustomerInfoForm() {
     doc.addImage(imgDataFinal, "PNG", 180, 270, 25, 25); // Ajusta la posición del logo
 
     doc.save(`Cotización ${cotizacionNumber}.pdf`);
+    setCotizacionGenerada(true);
+    setCotizacionNumber(`Cotización ${cotizacionNumber}.pdf`);
+
+    const pdfBlob = doc.output("blob"); // Convierte el PDF a un Blob
+
+    // Configura la solicitud POST al backend
+    const formData = new FormData();
+    formData.append(
+      "pdf",
+      pdfBlob,
+      `Cotización_${cotizacionNumber}.pdf`
+    );
+    formData.append("customerEmail", customerInfo.email); // Añade cualquier información adicional que quieras enviar
+    formData.append("customerName", customerInfo.name);
+    formData.append("fileName", `Cotización ${cotizacionNumber}.pdf`);
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/email/recieve-quote-pdf`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("PDF enviado exitosamente al backend.");
+      } else {
+        console.error(
+          "Error al enviar el PDF al backend:",
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
+    // Retornamos el número de cotización para que `handleContinueToPayments` pueda usarlo
+    return cotizacionNumber;
   };
 
   return (
@@ -390,13 +458,11 @@ export default function CustomerInfoForm() {
         </div>
         {/* Reviews */}
         <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
-          <p className="text-black">
-            Recomendaría a JRC sin duda. Excelente asistencia.
-          </p>
+          <p className="text-black">{reviewMessage}</p>
           <div className="mt-4 flex items-center">
             <div>
-              <p className="font-bold text-black">Manuel</p>
-              <p className="text-sm text-gray-700">Manuel Web LLC</p>
+              <p className="font-bold text-black">{reviewName}</p>
+              <p className="text-sm text-gray-700">{reviewPositon}</p>
             </div>
           </div>
         </div>

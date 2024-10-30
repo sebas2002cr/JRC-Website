@@ -11,7 +11,11 @@ import {
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import {
+  useRouter,
+  useParams,
+  useSearchParams
+} from "next/navigation";
 
 export default function Checkout() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -34,6 +38,15 @@ export default function Checkout() {
   const router = useRouter();
   const params = useParams();
   const [orderNumber, setOrderNumber] = useState("");
+  const searchParams = useSearchParams();
+  const [cotizacion, setCotizacion] = useState("");
+
+  useEffect(() => {
+    const cotizacionParam = searchParams.get("cotizacion");
+    if (cotizacionParam) {
+      setCotizacion(cotizacionParam);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     // Cargar la información del cliente y los costos desde el localStorage
@@ -207,7 +220,8 @@ export default function Checkout() {
         planillaCost,
         facturasCost,
         totalCost
-      }
+      },
+      cotizacion
     };
   };
 

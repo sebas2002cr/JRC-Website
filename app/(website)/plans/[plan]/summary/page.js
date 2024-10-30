@@ -209,13 +209,11 @@ export default function SummaryPage() {
         </div>
         {/* Reviews */}
         <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
-          <p className="text-black">
-            Recomendaría a JRC sin duda. Excelente asistencia. Saludos
-          </p>
+          <p className="text-black">{reviewMessage}</p>
           <div className="mt-4 flex items-center">
             <div>
-              <p className="font-bold text-black">Manuel</p>
-              <p className="text-sm text-gray-700">Manuel Web LLC</p>
+              <p className="font-bold text-black">{reviewName}</p>
+              <p className="text-sm text-gray-700">{reviewPositon}</p>
             </div>
           </div>
         </div>
