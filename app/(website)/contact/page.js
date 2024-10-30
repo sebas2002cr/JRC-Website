@@ -44,7 +44,7 @@ export default function Contact() {
 
       // Realiza un POST al backend con axios
       const response = await axios.post(
-        "https://jrc-backend.onrender.comapi/email/contact",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/email/contact`,
         formData,
         {
           headers: {
