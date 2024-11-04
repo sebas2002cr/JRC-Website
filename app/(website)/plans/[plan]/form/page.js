@@ -40,6 +40,18 @@ export default function CustomerInfoForm() {
     );
   }, [customerInfo]);
 
+  // Inicializa un enlace temporal en el DOM al cargar el componente
+  useEffect(() => {
+    // Crear el enlace solo una vez al montar el componente
+    const linkElement = document.createElement("a");
+    linkElement.id = "pdfLink";
+    linkElement.style.display = "none"; // Oculto en el DOM
+    document.body.appendChild(linkElement);
+
+    // Limpieza al desmontar el componente
+    return () => document.body.removeChild(linkElement);
+  }, []);
+
   // Cargar datos de localStorage al montar el componente
   useEffect(() => {
     const savedInfo = localStorage.getItem("customerInfo");
@@ -395,9 +407,12 @@ export default function CustomerInfoForm() {
     const pdfBlob = doc.output("blob"); // Convierte el PDF a un Blob
     const pdfUrl = URL.createObjectURL(pdfBlob); // Crear un URL del blob
 
-    // Abrir el PDF en una nueva pestaña solo si `openInNewTab` es true
     if (openInNewTab) {
-      window.open(pdfUrl, "_blank");
+      // Obtiene el enlace temporal y configura su URL
+      const link = document.getElementById("pdfLink");
+      link.setAttribute("href", pdfUrl);
+      link.setAttribute("target", "_blank");
+      link.click(); // Simula el clic para abrir en una nueva pestaña
     }
 
     // Configura la solicitud POST al backend
