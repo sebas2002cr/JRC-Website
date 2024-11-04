@@ -8,6 +8,7 @@ import Image from "next/image";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 
 export default function CustomerInfoForm() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -18,6 +19,7 @@ export default function CustomerInfoForm() {
   });
   const [isFormValid, setIsFormValid] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [baseCost, setBaseCost] = useState(0);
   const [planillaCost, setPlanillaCost] = useState(0);
   const [facturasCost, setFacturasCost] = useState(0);
@@ -110,6 +112,7 @@ export default function CustomerInfoForm() {
 
   const handleContinueToPayments = async () => {
     if (isFormValid) {
+      setIsLoading(true);
       localStorage.setItem(
         "customerInfo",
         JSON.stringify(customerInfo)
@@ -118,6 +121,21 @@ export default function CustomerInfoForm() {
       localStorage.setItem("planillaCost", planillaCost);
       localStorage.setItem("facturasCost", facturasCost);
       localStorage.setItem("totalCost", totalCost);
+
+      // Si la cotización no fue generada, la crea pero sin abrir el PDF en una pestaña
+      let currentCotizacionNumber = cotizacionNumber;
+      if (!cotizacionGenerada) {
+        console.log("Generando cotización antes de continuar...");
+        currentCotizacionNumber = await generatePDF(false);
+        setCotizacionGenerada(true);
+        setCotizacionNumber(currentCotizacionNumber);
+      }
+
+      // Redirigir a la página de checkout con el número de cotización
+      router.push(
+        `/plans/${params.plan}/checkout?cotizacion=${currentCotizacionNumber}`
+      );
+      setIsLoading(false);
     } else {
       setValidationMessage(
         "Por favor, completa todos los campos antes de continuar."
@@ -125,26 +143,6 @@ export default function CustomerInfoForm() {
       setTimeout(() => {
         setValidationMessage("");
       }, 3000);
-    }
-
-    // Si la cotización no fue generada, genera el PDF y espera el número de cotización
-    if (!cotizacionGenerada) {
-      console.log("Generando cotización antes de continuar...");
-      const newCotizacionNumber = await generatePDF(); // Esperamos a que `generatePDF` complete y retorne el número de cotización
-      setCotizacionGenerada(true);
-      setCotizacionNumber(newCotizacionNumber);
-      console.log("Cotización generada:", newCotizacionNumber);
-      router.push(
-        `/plans/${params.plan}/checkout?cotizacion=${newCotizacionNumber}`
-      );
-    } else {
-      console.log(
-        "Cotización ya generada, usando número existente:",
-        cotizacionNumber
-      );
-      router.push(
-        `/plans/${params.plan}/checkout?cotizacion=${cotizacionNumber}`
-      );
     }
   };
 
@@ -163,10 +161,10 @@ export default function CustomerInfoForm() {
     }
   };
 
-  const handleSubmitQuote = e => {
+  const handleSubmitQuote = async e => {
     e.preventDefault();
     if (isFormValid) {
-      generatePDF();
+      await generatePDF(true); // Genera y abre el PDF en una nueva pestaña
       setValidationMessage("");
     } else {
       setValidationMessage(
@@ -201,8 +199,8 @@ export default function CustomerInfoForm() {
     router.push(`/plans/${params.plan}/summary`);
   };
 
-  const generatePDF = async () => {
-    if (cotizacionGenerada) return; // Evita la generación si ya está hecha
+  const generatePDF = async (openInNewTab = false) => {
+    if (cotizacionGenerada) return cotizacionNumber; // Evita la generación si ya está hecha
 
     const storedCustomerInfo = localStorage.getItem("customerInfo");
     const storedAnswers = localStorage.getItem("answers");
@@ -391,11 +389,16 @@ export default function CustomerInfoForm() {
     const imgDataFinal = "/pyme_costa_rica_image.png"; // Ruta de la imagen subida
     doc.addImage(imgDataFinal, "PNG", 180, 270, 25, 25); // Ajusta la posición del logo
 
-    doc.save(`${cotizacionNumber}.pdf`);
     setCotizacionGenerada(true);
     setCotizacionNumber(`${cotizacionNumber}`);
 
     const pdfBlob = doc.output("blob"); // Convierte el PDF a un Blob
+    const pdfUrl = URL.createObjectURL(pdfBlob); // Crear un URL del blob
+
+    // Abrir el PDF en una nueva pestaña solo si `openInNewTab` es true
+    if (openInNewTab) {
+      window.open(pdfUrl, "_blank");
+    }
 
     // Configura la solicitud POST al backend
     const formData = new FormData();
@@ -436,6 +439,18 @@ export default function CustomerInfoForm() {
 
   return (
     <div className=" flex min-h-screen flex-col bg-white lg:flex-row">
+      {/* Overlay de carga con blur y logo */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+          <Image
+            src="/img/JRCLogofull.png" // Ruta de la imagen del logo de JRC
+            alt="Cargando..."
+            width={200}
+            height={100}
+            className="animate-pulse" // Añade una animación de pulso
+          />
+        </div>
+      )}
       {/* Panel Izquierdo */}
       <div className=" flex w-full flex-col items-center justify-between bg-[#305832] p-8 lg:w-1/3">
         {/* Logo */}
