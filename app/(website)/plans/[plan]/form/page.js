@@ -247,7 +247,7 @@ export default function CustomerInfoForm() {
     setCotizacionNumber(cotizacionNumber);
     const imgData = "/NEGRO-FONDO-BLANCO.jpg"; // Imagen del logo
 
-    doc.addImage(imgData, "JPEG", 10, 10, 50, 20);
+    doc.addImage(imgData, "JPEG", 5, 5, 30, 30);
 
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
@@ -391,9 +391,9 @@ export default function CustomerInfoForm() {
     const imgDataFinal = "/pyme_costa_rica_image.png"; // Ruta de la imagen subida
     doc.addImage(imgDataFinal, "PNG", 180, 270, 25, 25); // Ajusta la posición del logo
 
-    doc.save(`Cotización ${cotizacionNumber}.pdf`);
+    doc.save(`${cotizacionNumber}.pdf`);
     setCotizacionGenerada(true);
-    setCotizacionNumber(`Cotización ${cotizacionNumber}.pdf`);
+    setCotizacionNumber(`${cotizacionNumber}`);
 
     const pdfBlob = doc.output("blob"); // Convierte el PDF a un Blob
 
@@ -406,7 +406,7 @@ export default function CustomerInfoForm() {
     );
     formData.append("customerEmail", customerInfo.email); // Añade cualquier información adicional que quieras enviar
     formData.append("customerName", customerInfo.name);
-    formData.append("fileName", `Cotización ${cotizacionNumber}.pdf`);
+    formData.append("fileName", `${cotizacionNumber}.pdf`);
 
     try {
       const response = await axios.post(
