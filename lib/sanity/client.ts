@@ -15,7 +15,9 @@ import {
   getAll,
   reviewsQuery,
   faqsQuery,
-  searchquery
+  searchquery,
+  coursesQuery,
+  singleCourseQuery
 } from "./groq";
 import { createClient } from "next-sanity";
 
@@ -53,6 +55,22 @@ export async function getAllPosts() {
   }
   return [];
 }
+
+
+export async function getAllCourses() {
+  if (client) {
+    return (await client.fetch(coursesQuery)) || [];
+  }
+  return [];
+}
+
+export async function getSingleCourse() {
+  if (client) {
+    return (await client.fetch(singleCourseQuery)) || [];
+  }
+  return [];
+}
+
 
 export async function getSettings() {
   if (client) {
