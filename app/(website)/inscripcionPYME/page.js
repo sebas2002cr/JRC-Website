@@ -25,7 +25,7 @@ export default function CheckoutConstitucionSociedad() {
   const [isFormComplete, setIsFormComplete] = useState(false); // Estado para habilitar/deshabilitar el botón
   const router = useRouter();
 
-  const planPrice = 295000; // Precio fijo para el servicio de Constitución de una Sociedad
+  const planPrice = 1000; // Precio fijo para el servicio de Constitución de una Sociedad
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
@@ -408,32 +408,36 @@ export default function CheckoutConstitucionSociedad() {
                   En JRC, nos encargamos de gestionar todos los
                   trámites necesarios para que tu empresa obtenga la
                   inscripción como PYME ante el Ministerio de
-                  Economía, Industria y Comercio (MEIC) de Costa Rica.
+                  Economía, Industria y Comercio (MEIC) de Costa Rica,
+                  incluyendo el registro en el Sistema Electrónico de
+                  Información de Empresas (SIEC).
                 </p>
 
-                <h3 className="mb-6 text-xl font-semibold text-gray-400 underline">
-                  Nuestro servicio incluye:
+                <h3 className="text-md mb-6 font-semibold text-[#305832] underline">
+                  Acorde al artículo 3 de la Ley N°8262, todas las
+                  PYMES que quieran aprovechar los beneficios de la
+                  presente Ley, deberán satisfacer al menos dos de los
+                  siguientes requisitos:
                 </h3>
 
                 <ul className="mb-4 list-disc space-y-3 pl-5 text-gray-800">
                   <li>
-                    Gestión de la Declaración de Impuestos sobre la
-                    renta.
-                  </li>
-                  <li>Actualización de planilla de la CCSS.</li>
-                  <li>
-                    Obtención y mantenimiento de la Póliza de Riesgos
-                    del Trabajo del INS.
+                    El pago de cargas sociales (Al menos 1 colaborador
+                    en planillla de la CCSS).
                   </li>
                   <li>
-                    Registro en el Sistema Electrónico de Información
-                    de Empresas (SIEC)
+                    El cumplimiento de obligaciones tributarias (Estar
+                    inscrito en el Ministerio de Hacienda).
+                  </li>
+                  <li>
+                    El cumplimiento de obligaciones laborales (Contar
+                    con una póliza de riegos del trabajo del INS).
                   </li>
                 </ul>
 
                 <div className="relative text-right">
                   <h2 className="text-3xl font-extrabold text-[#305832]">
-                    ¢295.000
+                    ¢{planPrice.toLocaleString()}
                   </h2>
                   <span className="text-sm text-gray-500">
                     IVA incluido

@@ -411,7 +411,7 @@ export default function CheckoutConstitucionSociedad() {
                   cumplimiento de todos los requisitos legales y
                   fiscales.
                 </p>
-                <h3 className="mb-6 text-xl font-semibold text-gray-400 underline">
+                <h3 className="text-md mb-6 font-semibold text-[#305832] underline">
                   Nuestro servicio incluye:
                 </h3>
 
@@ -427,10 +427,6 @@ export default function CheckoutConstitucionSociedad() {
                   <li>
                     Obtención del número de cédula jurídica y registro
                     ante la Administración Tributaria.
-                  </li>
-                  <li>
-                    Asistencia en la apertura de cuentas bancarias y
-                    otros trámites financieros.
                   </li>
                 </ul>
 
