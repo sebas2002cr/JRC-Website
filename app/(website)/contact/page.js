@@ -138,9 +138,11 @@ export default function Contact() {
                     encType="multipart/form-data">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div>
+                        <label className="font-bold text-gray-500">
+                          Nombre
+                        </label>
                         <input
                           type="text"
-                          placeholder="Nombre"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.nombre ? "border-red-500" : "border-gray-300"}`}
                           {...register("nombre", {
                             required: "Este campo es requerido"
@@ -153,9 +155,11 @@ export default function Contact() {
                         )}
                       </div>
                       <div>
+                        <label className="font-bold text-gray-500">
+                          Apellido
+                        </label>
                         <input
                           type="text"
-                          placeholder="Apellido"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.apellido ? "border-red-500" : "border-gray-300"}`}
                           {...register("apellido", {
                             required: "Este campo es requerido"
@@ -170,9 +174,11 @@ export default function Contact() {
                     </div>
 
                     <div className="mb-4">
+                      <label className="font-bold text-gray-500">
+                        Correo electrónico
+                      </label>
                       <input
                         type="email"
-                        placeholder="Correo electrónico"
                         className={`w-full rounded-lg border px-4 py-3 ${errors.email ? "border-red-500" : "border-gray-300"}`}
                         {...register("email", {
                           required: "Este campo es requerido",
@@ -191,9 +197,11 @@ export default function Contact() {
 
                     <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div>
+                        <label className="font-bold text-gray-500">
+                          Teléfono
+                        </label>
                         <input
                           type="text"
-                          placeholder="Teléfono"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.telefono ? "border-red-500" : "border-gray-300"}`}
                           {...register("telefono", {
                             required: "Este campo es requerido"
@@ -206,9 +214,11 @@ export default function Contact() {
                         )}
                       </div>
                       <div>
+                        <label className="font-bold text-gray-500">
+                          Empresa / Nombre Comercial
+                        </label>
                         <input
                           type="text"
-                          placeholder="Empresa / Nombre Comercial"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.empresa ? "border-red-500" : "border-gray-300"}`}
                           {...register("empresa")}
                         />
@@ -217,12 +227,15 @@ export default function Contact() {
 
                     <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="w-full">
+                        <label className="font-bold text-gray-500">
+                          Tipo de persona
+                        </label>
                         <select
                           className="w-full rounded-lg border border-gray-300 px-4 py-3"
                           {...register("tipoPersona", {
                             required: "Este campo es requerido"
                           })}>
-                          <option value="">Tipo de persona</option>
+                          <option value=""></option>
                           <option value="personaFisica">
                             Persona Física
                           </option>
@@ -232,9 +245,11 @@ export default function Contact() {
                         </select>
                       </div>
                       <div className="w-full">
+                        <label className="font-bold text-gray-500">
+                          Puesto
+                        </label>
                         <input
                           type="text"
-                          placeholder="Puesto"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.puesto ? "border-red-500" : "border-gray-300"}`}
                           {...register("puesto")}
                         />
@@ -242,12 +257,15 @@ export default function Contact() {
                     </div>
 
                     <div className="mb-4 w-full">
+                      <label className="font-bold text-gray-500">
+                        Tema
+                      </label>
                       <select
                         className="w-full rounded-lg border border-gray-300 px-4 py-3"
                         {...register("tema", {
                           required: "Este campo es requerido"
                         })}>
-                        <option value="">Tema</option>
+                        <option value=""></option>
                         <option value="consultoria">
                           Consultoría
                         </option>
@@ -298,8 +316,10 @@ export default function Contact() {
                     </div>
 
                     <div className="mb-4 w-full">
+                      <label className="font-bold text-gray-500">
+                        Detalles adicionales
+                      </label>
                       <textarea
-                        placeholder="Detalles adicionales"
                         className="w-full rounded-lg border border-gray-300 px-4 py-3"
                         {...register("detalles")}></textarea>
                     </div>

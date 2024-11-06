@@ -327,7 +327,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.name}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="Ingrese su nombre completo"
+                      placeholder="Juan Perez Sanchez"
                     />
                   </div>
 
@@ -342,7 +342,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.email}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="Ingrese su correo electrónico"
+                      placeholder="email@gmail.com"
                     />
                   </div>
 
@@ -358,7 +358,7 @@ export default function CheckoutConstitucionSociedad() {
                       onChange={handleInputChange}
                       required
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="Ingrese su número de teléfono"
+                      placeholder="6894-3453"
                     />
                   </div>
 
@@ -372,9 +372,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.idType}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200">
-                      <option value="">
-                        Seleccione el tipo de cédula
-                      </option>
+                      <option value="">ID</option>
                       <option value="fisica">Cédula Física</option>
                       <option value="juridica">
                         Cédula Jurídica
@@ -393,7 +391,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.idNumber}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="Ingrese su número de cédula"
+                      placeholder="3-101-123456"
                     />
                   </div>
                 </form>
