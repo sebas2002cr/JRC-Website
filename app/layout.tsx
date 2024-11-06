@@ -31,8 +31,8 @@ export default function RootLayout({
       <GlobalSeoScript
     translationMode="client_side_only"
     apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
-    originalLanguage="en"
-    allowedLanguages={["es"]}
+    originalLanguage="es"
+    allowedLanguages={["en"]}
     excludeClasses="class1, class2"
     excludeIds="id1, id2"
     useBrowserLanguage="true"
