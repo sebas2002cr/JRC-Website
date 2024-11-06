@@ -2,6 +2,9 @@ import "@/styles/tailwind.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
+import {GlobalSeoScript} from "globalseo-next";
+import {GlobalSeoSelector} from "globalseo-next";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,6 +27,15 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable)}>
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
+      <GlobalSeoScript
+    translationMode="subdomain"
+    apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
+    originalLanguage="es"
+    allowedLanguages={["en"]}
+    excludeClasses="class1, class2"
+    excludeIds="id1, id2"
+  />
+  <GlobalSeoSelector color="#385230" />
         <Providers>{children}</Providers>
       </body>
     </html>
