@@ -4,6 +4,7 @@ import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
 import {GlobalSeoScript} from "globalseo-next";
 import {GlobalSeoSelector} from "globalseo-next";
+import { white } from "tailwindcss/colors";
 
 
 const inter = Inter({
@@ -28,12 +29,13 @@ export default function RootLayout({
       className={cx(inter.variable, lora.variable)}>
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
       <GlobalSeoScript
-    translationMode="subdomain"
+    translationMode="client_side_only"
     apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
     originalLanguage="es"
     allowedLanguages={["en"]}
     excludeClasses="class1, class2"
     excludeIds="id1, id2"
+    useBrowserLanguage="true"
   />
   <GlobalSeoSelector color="#385230" />
         <Providers>{children}</Providers>
