@@ -328,6 +328,13 @@ export default function PlanPage() {
             Hacemos que las empresas puedan progresar y crecer.
           </h1>
         </div>
+        <div>
+          <a href="/pricing">
+            <button className="w-fill mx-auto mt-6 rounded border border-white bg-white p-4 px-6 py-2  font-extrabold text-[#305832]   sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
+              Volver a los planes
+            </button>
+          </a>
+        </div>
         {/* Reviews */}
         <div className="mt-auto hidden rounded-lg bg-[#d6e8d2] p-4 lg:block">
           <p className="text-black">{reviewMessage}</p>

@@ -2,10 +2,9 @@ import "@/styles/tailwind.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
-import {GlobalSeoScript} from "globalseo-next";
-import {GlobalSeoSelector} from "globalseo-next";
+import { GlobalSeoScript } from "globalseo-next";
+import { GlobalSeoSelector } from "globalseo-next";
 import { white } from "tailwindcss/colors";
-
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,20 +23,25 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
       suppressHydrationWarning
-      className={cx(inter.variable, lora.variable)}>
+      className={cx(inter.variable, lora.variable)}
+    >
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
-      <GlobalSeoScript
-    translationMode="client_side_only"
-    apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
-    originalLanguage="es"
-    allowedLanguages={["en"]}
-    excludeClasses="class1, class2"
-    excludeIds="id1, id2"
-    useBrowserLanguage="true"
-  />
-  <GlobalSeoSelector color="#385230" />
+        <GlobalSeoScript
+          translationMode="client_side_only"
+          apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
+          originalLanguage="es"
+          allowedLanguages={["en"]}
+          excludeClasses="class1, class2"
+          excludeIds="id1, id2"
+          useBrowserLanguage="true"
+        />
+        
+        {/* Wrapper para el GlobalSeoSelector con z-index alto */}
+        <div className="fixed top-2 left-4 bg-white border border-[#305832] shadow-lg p-2 rounded-lg z-[100]">
+          <GlobalSeoSelector color="#305832" />
+        </div>
+
         <Providers>{children}</Providers>
       </body>
     </html>
