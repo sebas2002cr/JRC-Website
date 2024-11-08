@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function SummaryPage() {
   const reviewMessage = localStorage.getItem("Review-message");
 
   // Función para calcular los costos base según el plan
-  const calculateBaseCost = answers => {
+  const calculateBaseCost = useCallback((answers) => {
     switch (params.plan) {
       case "starter":
         return answers.tipoPersona === "Física" ? 45000 : 65000;
@@ -32,23 +32,22 @@ export default function SummaryPage() {
       default:
         return 0;
     }
-  };
+  }, [params.plan]);
 
   // Función para calcular el costo de planilla
-  const calculatePlanillaCost = (answers, plan) => {
+  const calculatePlanillaCost = useCallback((answers, plan) => {
     const colaboradoresPagados =
       plan === "full-compliance"
-        ? Math.max(answers.colaboradores - 5, 0) // Restamos los 5 colaboradores gratuitos
+        ? Math.max(answers.colaboradores - 5, 0)
         : answers.colaboradores;
-
+  
     return answers.manejoPlanilla === "Si"
       ? colaboradoresPagados * 10000 * 1.13
       : 0;
-  };
+  }, []);
 
-  const calculateFacturasCost = answers => {
+  const calculateFacturasCost = useCallback((answers) => {
     const { cantidadFacturasEmitidas, facturasExactas } = answers;
-
     switch (cantidadFacturasEmitidas) {
       case "1-10":
         return 10000 * 1.13;
@@ -63,30 +62,30 @@ export default function SummaryPage() {
       default:
         return 0;
     }
-  };
+  }, []);
 
   // Función para calcular el costo de transacciones adicionales
-  const calculateTransactionCost = answers => {
-    const maxFreeTransactions = 50;
-    const additionalTransactionCost = 500 * 1.13; // 500 colones más IVA por cada transacción adicional
-    const transactions = parseInt(answers.transacciones, 10) || 0;
+const calculateTransactionCost = useCallback((answers) => {
+  const maxFreeTransactions = 50;
+  const additionalTransactionCost = 500 * 1.13;
+  const transactions = parseInt(answers.transacciones, 10) || 0;
 
-    if (transactions > maxFreeTransactions) {
-      const extraTransactions = transactions - maxFreeTransactions;
-      return extraTransactions * additionalTransactionCost;
-    }
-    return 0;
-  };
+  if (transactions > maxFreeTransactions) {
+    const extraTransactions = transactions - maxFreeTransactions;
+    return extraTransactions * additionalTransactionCost;
+  }
+  return 0;
+}, []);
 
   // Modificar la función calculateTotalCost para incluir el costo de transacciones
-  const calculateTotalCost = answers => {
+  const calculateTotalCost = useCallback((answers) => {
     const baseCost = calculateBaseCost(answers);
     const additionalCost =
       calculatePlanillaCost(answers, params.plan) +
       calculateFacturasCost(answers) +
-      calculateTransactionCost(answers); // Agregar el costo de transacciones adicionales
+      calculateTransactionCost(answers);
     return baseCost + additionalCost;
-  };
+  }, [calculateBaseCost, calculatePlanillaCost, calculateFacturasCost, calculateTransactionCost, params.plan]);
 
   // Cargar datos de localStorage cuando se monta el componente
   useEffect(() => {
@@ -152,7 +151,7 @@ export default function SummaryPage() {
       setTransactionCost(calculateTransactionCost(parsedAnswers));
       setTotalCost(calculateTotalCost(parsedAnswers)); // Incluir el cálculo total actualizado
     }
-  }, [params.plan]);
+  }, [params.plan, calculateBaseCost, calculatePlanillaCost, calculateFacturasCost, calculateTransactionCost, calculateTotalCost]);
 
   // Función para manejar el botón 'Atrás'
   const handleBack = () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState , useCallback} from "react";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
@@ -187,17 +187,16 @@ export default function CheckoutConstitucionSociedad() {
     setCustomerInfo({ ...customerInfo, [name]: value });
   };
 
-  const createOrderPayload = () => {
-    const savedInfo = JSON.parse(
-      localStorage.getItem("customerInfo")
-    );
-    return {
-      orderNumber,
-      plan: "Constitución de una Sociedad",
-      customerInfo: savedInfo,
-      amount: planPrice
-    };
+// Definir `createOrderPayload` usando `useCallback`
+const createOrderPayload = useCallback(() => {
+  const savedInfo = JSON.parse(localStorage.getItem("customerInfo"));
+  return {
+    orderNumber,
+    plan: "Constitución de una Sociedad",
+    customerInfo: savedInfo,
+    amount: planPrice
   };
+}, [orderNumber, planPrice]);
 
   const handleBack = () => {
     router.push("/pricing");

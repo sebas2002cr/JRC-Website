@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import { Disclosure } from "@headlessui/react";
 import Container from "@/components/container";
 import Link from "next/link";
@@ -13,33 +13,33 @@ export default function Navbar(props) {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY && window.scrollY > 100) {
         setShowNavbar(false);
       } else {
         setShowNavbar(true);
       }
-
+  
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
-
+  
       setLastScrollY(window.scrollY);
     }
-  };
+  }, [lastScrollY]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
-
+  
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [lastScrollY]);
+  }, [handleScroll]);
 
   const leftmenu = [
     { label: "Blog", href: "/blog" },
