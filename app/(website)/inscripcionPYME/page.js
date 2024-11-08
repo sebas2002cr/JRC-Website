@@ -25,7 +25,7 @@ export default function CheckoutConstitucionSociedad() {
   const [isFormComplete, setIsFormComplete] = useState(false); // Estado para habilitar/deshabilitar el botón
   const router = useRouter();
 
-  const planPrice = 295000; // Precio fijo para el servicio de Constitución de una Sociedad
+  const planPrice = parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_PYME, 10); // Precio fijo para el servicio de Constitución de una Sociedad
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
