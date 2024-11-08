@@ -18,6 +18,7 @@ export default function CheckoutConstitucionSociedad() {
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [paymentError, setPaymentError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [onvoLoaded, setOnvoLoaded] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -97,6 +98,7 @@ export default function CheckoutConstitucionSociedad() {
                 setShowErrorModal(true);
               },
               onSuccess: async () => {
+                setIsLoading(true);
                 const savedInfo = JSON.parse(
                   localStorage.getItem("customerInfo")
                 );
@@ -113,6 +115,7 @@ export default function CheckoutConstitucionSociedad() {
                     "Faltan datos en la información del cliente."
                   );
                   setShowErrorModal(true);
+                  setIsLoading(false);
                   return;
                 }
 
@@ -129,6 +132,8 @@ export default function CheckoutConstitucionSociedad() {
                   setPaymentSuccess(true);
                 } catch (error) {
                   console.error("Error al enviar la factura:", error);
+                }finally {
+                  setIsLoading(false); // Desactiva la pantalla de carga al finalizar
                 }
               },
               publicKey,
@@ -137,10 +142,12 @@ export default function CheckoutConstitucionSociedad() {
             })
             .render("#onvo-container");
         }
+
       } catch (error) {
         setPaymentError("Error al crear el intento de pago.");
       } finally {
         setLoading(false);
+        
       }
     };
 
@@ -199,6 +206,18 @@ export default function CheckoutConstitucionSociedad() {
 
   return (
     <>
+    {/* Overlay de carga con blur y logo */}
+    {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+          <Image
+            src="/img/JRCLogofull.png" // Ruta de la imagen del logo de JRC
+            alt="Cargando..."
+            width={200}
+            height={100}
+            className="animate-pulse" // Añade una animación de pulso
+          />
+        </div>
+      )}
       {/* Franja verde con el logo de JRC */}
       <div className="flex w-full justify-center bg-[#305832] py-4">
         <Link href="/">

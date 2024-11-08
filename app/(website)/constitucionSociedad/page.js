@@ -18,6 +18,7 @@ export default function CheckoutConstitucionSociedad() {
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [paymentError, setPaymentError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [onvoLoaded, setOnvoLoaded] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -25,8 +26,8 @@ export default function CheckoutConstitucionSociedad() {
   const [isFormComplete, setIsFormComplete] = useState(false); // Estado para habilitar/deshabilitar el botón
   const router = useRouter();
 
-  const planPrice = 452000; // Precio fijo para el servicio de Constitución de una Sociedad
-  //   const planPrice = 500;  //PRECIO PARA HACER UNA PRUEBA.
+  const planPrice = parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_CONSTITUTION, 10); // Precio fijo para el servicio de Constitución de una Sociedad
+
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
@@ -98,6 +99,7 @@ export default function CheckoutConstitucionSociedad() {
                 setShowErrorModal(true);
               },
               onSuccess: async () => {
+                setIsLoading(true);
                 const savedInfo = JSON.parse(
                   localStorage.getItem("customerInfo")
                 );
@@ -114,6 +116,7 @@ export default function CheckoutConstitucionSociedad() {
                     "Faltan datos en la información del cliente."
                   );
                   setShowErrorModal(true);
+                  setIsLoading(false);
                   return;
                 }
 
@@ -130,6 +133,8 @@ export default function CheckoutConstitucionSociedad() {
                   setPaymentSuccess(true);
                 } catch (error) {
                   console.error("Error al enviar la factura:", error);
+                }finally {
+                  setIsLoading(false); // Desactiva la pantalla de carga al finalizar
                 }
               },
               publicKey,
@@ -416,7 +421,7 @@ export default function CheckoutConstitucionSociedad() {
 
                 <div className="relative text-right">
                   <h2 className="text-3xl font-extrabold text-[#305832]">
-                    ¢452.000
+                  ¢{planPrice.toLocaleString()}
                   </h2>
                   <span className="text-sm text-gray-500">
                     IVA incluido

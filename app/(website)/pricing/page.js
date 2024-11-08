@@ -335,7 +335,7 @@ export default function Pricing() {
                       </p>
                       <p className="mt-6 flex items-baseline justify-center gap-x-2">
                         <span className="text-5xl font-bold tracking-tight text-gray-900">
-                          ¢452.000
+                        {parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_CONSTITUTION).toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\s/g, ".")}
                         </span>
                         <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
                           IVAI
@@ -440,7 +440,8 @@ export default function Pricing() {
                       </p>
                       <p className="mt-6 flex items-baseline justify-center gap-x-2">
                         <span className="text-5xl font-bold tracking-tight text-gray-900">
-                          ¢295.000
+                        {parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_PYME).toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\s/g, ".")}
+
                         </span>
                         <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
                           IVAI
