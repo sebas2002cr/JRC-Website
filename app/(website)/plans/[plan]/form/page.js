@@ -137,7 +137,6 @@ export default function CustomerInfoForm() {
       // Si la cotización no fue generada, la crea pero sin abrir el PDF en una pestaña
       let currentCotizacionNumber = cotizacionNumber;
       if (!cotizacionGenerada) {
-        console.log("Generando cotización antes de continuar...");
         currentCotizacionNumber = await generatePDF(false);
         setCotizacionGenerada(true);
         setCotizacionNumber(currentCotizacionNumber);
@@ -438,7 +437,6 @@ export default function CustomerInfoForm() {
       );
 
       if (response.status === 200) {
-        console.log("PDF enviado exitosamente al backend.");
       } else {
         console.error(
           "Error al enviar el PDF al backend:",

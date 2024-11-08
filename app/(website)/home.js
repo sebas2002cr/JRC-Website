@@ -127,6 +127,7 @@ export default function Post({ posts }) {
               layout="fill" // Hace que la imagen ocupe todo el contenedor
               objectFit="cover" // Hace que se comporte como un background
               className="absolute inset-0 z-0"
+              priority
             />
             <div className="absolute inset-0 z-10 bg-[#305832] opacity-75"></div>
             <div className="relative z-20 mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8">

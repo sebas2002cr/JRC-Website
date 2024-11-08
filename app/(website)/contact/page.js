@@ -54,7 +54,6 @@ export default function Contact() {
       );
 
       const result = response.data;
-      console.log("Response from server:", result);
 
       if (result.success) {
         setIsSuccess(true);

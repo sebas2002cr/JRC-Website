@@ -40,10 +40,6 @@ export default function CheckoutConstitucionSociedad() {
     const savedInfo = localStorage.getItem("customerInfo");
     if (savedInfo) {
       setCustomerInfo(JSON.parse(savedInfo));
-      console.log(
-        "Datos cargados desde localStorage:",
-        JSON.parse(savedInfo)
-      );
     }
   }, []);
 
@@ -104,10 +100,6 @@ export default function CheckoutConstitucionSociedad() {
                 const savedInfo = JSON.parse(
                   localStorage.getItem("customerInfo")
                 );
-                console.log(
-                  "Datos del cliente al procesar el pago:",
-                  savedInfo
-                );
 
                 // Validación de los datos del cliente
                 if (
@@ -126,19 +118,13 @@ export default function CheckoutConstitucionSociedad() {
 
                 // Enviar los datos al backend
                 const orderPayload = createOrderPayload();
-                console.log(
-                  "Datos que se enviarán al backend:",
-                  orderPayload
-                );
 
                 try {
                   await axios.post(
                     `${process.env.NEXT_PUBLIC_API_URL}/api/orders/pagosunicos`,
                     orderPayload
                   );
-                  console.log(
-                    "Factura generada y enviada correctamente."
-                  );
+
                   // Cambia el estado de paymentSuccess a true
                   setPaymentSuccess(true);
                 } catch (error) {
@@ -342,7 +328,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.email}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="email@gmail.com"
+                      placeholder="email@jrc.cr"
                     />
                   </div>
 
@@ -372,7 +358,7 @@ export default function CheckoutConstitucionSociedad() {
                       value={customerInfo.idType}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200">
-                      <option value="">ID</option>
+                      <option value=""></option>
                       <option value="fisica">Cédula Física</option>
                       <option value="juridica">
                         Cédula Jurídica

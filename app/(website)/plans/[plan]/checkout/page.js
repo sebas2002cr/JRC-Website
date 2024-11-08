@@ -135,10 +135,6 @@ export default function Checkout() {
                     `${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
                     orderPayload
                   );
-                  console.log(
-                    "Información de orden enviada exitosamente"
-                  );
-                  console.log(orderPayload);
                 } catch (error) {
                   console.error(
                     "Error al enviar la información de la orden:",

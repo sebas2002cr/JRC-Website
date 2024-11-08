@@ -64,11 +64,10 @@ export default function Partners() {
         "https://jrc-backend.onrender.com/api/email/partners",
         contactInfo
       );
-      console.log("Enviada la info de contacto");
     } catch (error) {
       console.error("Error al enviar la info:", error);
     }
-    console.log("Enviando datos de contacto: ", contactInfo);
+
     setContactInfo({ name: "", email: "", message: "" });
     closeModal();
   };

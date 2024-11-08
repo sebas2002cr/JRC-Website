@@ -26,6 +26,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable)}
     >
+      <head>
+        <title>JRC Consulting Group</title>
+        <link rel="icon" href="/BLANCO-FONDO-NEGRO.ico" />
+      </head>
+
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
         <GlobalSeoScript
           translationMode="client_side_only"
@@ -38,7 +43,7 @@ export default function RootLayout({
         />
         
         {/* Wrapper para el GlobalSeoSelector con z-index alto */}
-        <div className="fixed top-2 left-4 bg-white border border-[#305832] shadow-lg p-2 rounded-lg z-[100]">
+        <div className="fixed bottom-2 right-4 bg-white border border-[#305832] shadow-lg p-2 rounded-lg z-[100]">
           <GlobalSeoSelector color="#305832" />
         </div>
 

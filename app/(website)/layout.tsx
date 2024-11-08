@@ -41,9 +41,6 @@ export default function Layout({ children, params }) {
 
   return (
     <>
-      {/* Añadir título y favicon */}
-      <title>JRC Consulting Group</title>
-      <link rel="icon" href="/BLANCO-FONDO-NEGRO.ico" />
 
       {!noNavbarRoutes.includes(pathname) && <Navbar />}
       
