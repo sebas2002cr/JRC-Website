@@ -19,6 +19,7 @@ export default function SummaryPage() {
   const reviewName = localStorage.getItem("Review-name");
   const reviewPositon = localStorage.getItem("Review-position");
   const reviewMessage = localStorage.getItem("Review-message");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Función para calcular los costos base según el plan
   const calculateBaseCost = useCallback((answers) => {
@@ -162,6 +163,7 @@ const calculateTransactionCost = useCallback((answers) => {
   const handleContinue = () => {
     // Usamos answers del estado
     if (answers) {
+      setIsLoading(true);
       const baseCost = calculateBaseCost(answers, params.plan);
       const planillaCost = calculatePlanillaCost(
         answers,
@@ -178,13 +180,27 @@ const calculateTransactionCost = useCallback((answers) => {
       localStorage.setItem("transactions", transactionCost);
 
       router.push(`/plans/${params.plan}/form`);
+      setIsLoading(false); 
     } else {
       console.error("No se encontraron los datos de 'answers'.");
+      setIsLoading(false); 
     }
   };
 
   return (
     <div className="flex min-h-screen flex-col bg-white lg:flex-row">
+            {/* Overlay de carga con blur y logo */}
+            {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+          <Image
+            src="/img/JRCLogofull.png" // Ruta de la imagen del logo de JRC
+            alt="Cargando..."
+            width={200}
+            height={100}
+            className="animate-pulse" // Añade una animación de pulso
+          />
+        </div>
+      )}
       {/* Panel Izquierdo */}
       <div className="flex w-full flex-col items-center justify-between bg-[#305832] p-8 lg:w-1/3">
         {/* Logo */}

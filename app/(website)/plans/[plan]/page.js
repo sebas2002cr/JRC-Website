@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation"; // Para obtener los parámetros de la URL
 
 export default function PlanPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const params = useParams(); // Usar useParams para obtener los parámetros de la URL
   const [plan, setPlan] = useState(null); // Estado para el nombre del plan
@@ -288,18 +289,22 @@ export default function PlanPage() {
     setError("");
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setDirection("next");
-
+    setIsLoading(true); // Activa el estado de carga
+  
     // Verificar si la pregunta actual tiene el key "completado"
-    const currentQuestionKey =
-      filteredQuestions[currentQuestion]?.key;
+    const currentQuestionKey = filteredQuestions[currentQuestion]?.key;
     if (currentQuestionKey === "completado") {
-      router.push(`/plans/${plan}/summary`);
+      // Redirige a la página de resumen y desactiva la pantalla de carga después de la navegación
+      await router.push(`/plans/${plan}/summary`);
+      setIsLoading(false); // Desactiva el estado de carga después de la navegación
     } else {
       handleAnswer(); // Lógica para avanzar a la siguiente pregunta
+      setIsLoading(false); // Desactiva el estado de carga si no hay redirección
     }
   };
+  
 
   const handlePrev = () => {
     setDirection("prev");
@@ -308,6 +313,19 @@ export default function PlanPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white lg:flex-row">
+
+      {/* Overlay de carga con blur y logo */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+          <Image
+            src="/img/JRCLogofull.png" // Ruta de la imagen del logo de JRC
+            alt="Cargando..."
+            width={200}
+            height={100}
+            className="animate-pulse" // Añade una animación de pulso
+          />
+        </div>
+      )}
       {/* Panel Izquierdo */}
       <div className="flex w-full flex-col items-center justify-between bg-[#305832] p-8 lg:w-1/3">
         {/* Logo */}
@@ -479,7 +497,7 @@ export default function PlanPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={handleNext}
+                  onClick={handleNext} 
                   className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#234621]">
                   Siguiente
                 </button>

@@ -187,16 +187,17 @@ export default function CheckoutConstitucionSociedad() {
     setCustomerInfo({ ...customerInfo, [name]: value });
   };
 
-// Definir `createOrderPayload` usando `useCallback`
-const createOrderPayload = useCallback(() => {
-  const savedInfo = JSON.parse(localStorage.getItem("customerInfo"));
-  return {
-    orderNumber,
-    plan: "Constitución de una Sociedad",
-    customerInfo: savedInfo,
-    amount: planPrice
+  const createOrderPayload = () => {
+    const savedInfo = JSON.parse(
+      localStorage.getItem("customerInfo")
+    );
+    return {
+      orderNumber,
+      plan: "Constitución de una Sociedad",
+      customerInfo: savedInfo,
+      amount: planPrice
+    };
   };
-}, [orderNumber, planPrice]);
 
   const handleBack = () => {
     router.push("/pricing");
