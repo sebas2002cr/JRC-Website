@@ -31,6 +31,20 @@ export default function CustomerInfoForm() {
   const reviewName = localStorage.getItem("Review-name");
   const reviewPositon = localStorage.getItem("Review-position");
   const reviewMessage = localStorage.getItem("Review-message");
+  const [showMobileDisclaimer, setShowMobileDisclaimer] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowMobileDisclaimer(window.innerWidth <= 768);
+    };
+  
+    handleResize(); // Ejecuta la función al cargar
+    window.addEventListener("resize", handleResize);
+  
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+
 
   // Guardar datos en localStorage cuando cambian
   useEffect(() => {
@@ -502,10 +516,17 @@ export default function CustomerInfoForm() {
           <h1 className="mb-8 text-center text-3xl font-extrabold text-[#305832] lg:text-center">
             Un último paso...
           </h1>
+          {showMobileDisclaimer && (
+  <div className="bg-gray-200 p-3 text-center text-xs text-gray-600 mb-4 rounded">
+    Nota: La descarga de la cotización puede verse afectada en navegadores como Safari debido a bloqueos de ventanas emergentes.
+  </div>
+)}
           <span className="text-md mb-8 text-center font-semibold text-gray-500 ">
             Bríndanos tu información para ponernos en contacto con
             vos.
           </span>
+
+
           <div className="mb-8 mt-8 rounded-lg bg-white p-6 shadow-md">
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
