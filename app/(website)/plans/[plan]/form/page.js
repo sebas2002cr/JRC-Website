@@ -412,7 +412,7 @@ export default function CustomerInfoForm() {
     doc.setFont("helvetica", "normal");
     doc.text("JRC CONSULTING GROUP ©", 130, 290);
     const imgDataFinal = "/pyme_costa_rica_image.png"; // Ruta de la imagen subida
-    doc.addImage(imgDataFinal, "PNG", 180, 270, 25, 25); // Ajusta la posición del logo
+    doc.addImage(imgDataFinal, "PNG", 180, 255, 25, 40); // Ajusta la posición del logo
 
     setCotizacionGenerada(true);
     setCotizacionNumber(`${cotizacionNumber}`);
