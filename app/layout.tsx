@@ -4,7 +4,8 @@ import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
 import { GlobalSeoScript } from "globalseo-next";
 import { GlobalSeoSelector } from "globalseo-next";
-import { white } from "tailwindcss/colors";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
   subsets: ["latin"],
