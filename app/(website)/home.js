@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
-import { useTranslation } from "react-i18next";
 import Image from "next/image";
 
 export default function Post({ posts }) {
