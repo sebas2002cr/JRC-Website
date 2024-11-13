@@ -33,15 +33,15 @@ export default function RootLayout({
       </head>
 
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
-        <GlobalSeoScript
-          translationMode="client_side_only"
-          apiKey="5d2881c5-4892-4dd7-a5a0-d85aeaf4b235"
-          originalLanguage="es"
-          allowedLanguages={["en"]}
-          excludeClasses="class1, class2"
-          excludeIds="id1, id2"
-          useBrowserLanguage="true"
-        />
+      <GlobalSeoScript
+    translationMode="client_side_only"
+    apiKey="aa26dc8d-924e-4a67-8736-88c509353158"
+    originalLanguage="es"
+    allowedLanguages={["en"]}
+    excludeClasses="class1, class2"
+    excludeIds="id1, id2"
+    useBrowserLanguage="false"
+  />
         
         {/* Wrapper para el GlobalSeoSelector con z-index alto */}
         <div className="fixed bottom-2 right-4 bg-white border border-[#305832] shadow-lg p-2 rounded-lg z-[100]">
