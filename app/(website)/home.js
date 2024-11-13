@@ -434,13 +434,7 @@ export default function Post({ posts }) {
                             Marzo 31
                           </time>
                           <p className="mt-3 text-sm text-gray-500">
-                            El Impuesto de Timbre Educación y Cultura
-                            en Costa Rica es un tributo aplicado a
-                            ciertos documentos legales y contables,
-                            como contratos y escrituras. Se paga
-                            mediante la adhesión de timbres fiscales,
-                            y su objetivo principal es financiar
-                            programas educativos y culturales.
+                          El Timbre de Educación y Cultura (TEC) es un tributo creado por la Ley N° 5.923, la cual señala que las sociedades mercantiles y sucursales de sociedades extranjeras que estén inscritas ante el Registro Nacional deben realizar el pago anual en febrero y marzo.
                           </p>
                         </div>
                         <div className="flex flex-col before:dark:bg-violet-600 sm:relative sm:before:absolute sm:before:left-[-35px] sm:before:top-2 sm:before:z-[1] sm:before:h-4 sm:before:w-4 sm:before:rounded-full">
