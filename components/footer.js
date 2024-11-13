@@ -10,6 +10,7 @@ export default function Footer(props) {
             src="img/JRCLogofull.png"
             alt="JRC Logo"
             className="mb-4 w-40" // Ajusta el tamaño del logo aquí
+            priority
           />
           <div className="text-center md:text-left">
             Trejos Montealegre
