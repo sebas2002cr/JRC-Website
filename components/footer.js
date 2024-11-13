@@ -1,6 +1,12 @@
-import ThemeSwitch from "@/components/themeSwitch";
+
 
 export default function Footer(props) {
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = "img/JRCLogofull.png";
+  }, []);
+  
   return (
     <div className="w-full bg-[#305832] text-white">
       <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between px-4 py-12 md:flex-row">
@@ -10,7 +16,6 @@ export default function Footer(props) {
             src="img/JRCLogofull.png"
             alt="JRC Logo"
             className="mb-4 w-40" // Ajusta el tamaño del logo aquí
-            priority
           />
           <div className="text-center md:text-left">
             Trejos Montealegre

@@ -7,7 +7,6 @@ import FAQ from "@/components/faqs";
 import Image from "next/image";
 
 export default function Post({ posts }) {
-  const { t } = useTranslation();
   const [openFAQ, setOpenFAQ] = useState(null);
   const [faqs, setFaqs] = useState([]);
   const [reviews, setReviews] = useState([]);
