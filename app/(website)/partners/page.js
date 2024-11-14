@@ -291,7 +291,7 @@ export default function Partners() {
       {/* Sección de Preguntas Frecuentes */}
       <section className="w-full bg-white py-16">
         <h2 className="mb-8 text-center text-3xl font-semibold">
-          Preguntas Frequentes
+          Preguntas Frecuentes
         </h2>
         <p className="mx-auto mb-12 max-w-3xl text-center text-gray-600">
           Todo lo que ocupás saber de nuestros servicios.
