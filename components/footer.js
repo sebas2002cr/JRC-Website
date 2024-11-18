@@ -172,7 +172,7 @@ export default function Footer(props) {
         <div>
           © {new Date().getFullYear()} JRC. All rights reserved.
         </div>
-        <div>
+        <div className="pb-4">
           Sitio Web creado por: 
           <a href="https://www.linkedin.com/in/sebasop/" target="_blank" rel="noopener noreferrer" className='text-blue-300 underline'> Sebastian Obando Paniagua</a>
         </div>
