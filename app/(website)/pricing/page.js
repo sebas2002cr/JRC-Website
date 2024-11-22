@@ -161,9 +161,10 @@ export default function Pricing() {
                     <span className="text-5xl font-bold tracking-tight">
                       {plan.price}
                     </span>
-                    <span className="text-sm font-semibold leading-6 tracking-wide ">
+                    <span className="text-sm font-semibold leading-6 tracking-wide">
                       {" "}
-                      IVAI
+                      IVAI{" "}
+                      <span className="text-[10px]">/mensual</span>
                     </span>
                   </p>
                 </div>
