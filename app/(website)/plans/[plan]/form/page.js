@@ -620,7 +620,7 @@ export default function CustomerInfoForm() {
                 type="button"
                 onClick={handleContinueToPayments}
                 className="mb-4 w-full rounded-lg bg-[#305832] py-3 font-semibold text-white transition-all duration-300 hover:bg-[#234621]">
-                Continuar
+                Continuar a la página de pago
               </button>
             </form>
             <button

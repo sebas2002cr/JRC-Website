@@ -331,7 +331,7 @@ const calculateTransactionCost = useCallback((answers) => {
             type="button"
             className="mt-6 w-full rounded-lg border border-[#305832] bg-white py-3 font-semibold text-[#305832] transition-all duration-300 hover:bg-[#305832] hover:text-white"
             onClick={handleContinue}>
-            Continuar con el pago
+            Continuar 
           </button>
         </div>
       </div>
