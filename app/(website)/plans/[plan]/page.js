@@ -13,9 +13,16 @@ export default function PlanPage() {
   const params = useParams(); // Usar useParams para obtener los parámetros de la URL
   const [plan, setPlan] = useState(null); // Estado para el nombre del plan
   const validPlans = ["starter", "professional", "full-compliance"]; // Nombres de planes válidos
-  const reviewName = localStorage.getItem("Review-name");
-  const reviewPositon = localStorage.getItem("Review-position");
-  const reviewMessage = localStorage.getItem("Review-message");
+  // localStorage no existe en el servidor: se lee tras el montaje.
+  const [reviewName, setReviewName] = useState("");
+  const [reviewPositon, setReviewPositon] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
+
+  useEffect(() => {
+    setReviewName(localStorage.getItem("Review-name") || "");
+    setReviewPositon(localStorage.getItem("Review-position") || "");
+    setReviewMessage(localStorage.getItem("Review-message") || "");
+  }, []);
 
   // Verifica que el plan en la URL sea válido
   useEffect(() => {

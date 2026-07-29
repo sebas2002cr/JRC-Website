@@ -1,13 +1,7 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function Footer(props) {
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = "img/JRCLogofull.png";
-  }, []);
-  
   return (
     <div className="w-full bg-[#305832] text-white">
       <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between px-4 py-12 md:flex-row">

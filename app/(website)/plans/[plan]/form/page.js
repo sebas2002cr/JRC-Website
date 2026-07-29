@@ -28,10 +28,17 @@ export default function CustomerInfoForm() {
   const params = useParams(); // Para obtener el nombre del plan desde la URL
   const [cotizacionGenerada, setCotizacionGenerada] = useState(false);
   const [cotizacionNumber, setCotizacionNumber] = useState("");
-  const reviewName = localStorage.getItem("Review-name");
-  const reviewPositon = localStorage.getItem("Review-position");
-  const reviewMessage = localStorage.getItem("Review-message");
+  // localStorage no existe en el servidor: se lee tras el montaje.
+  const [reviewName, setReviewName] = useState("");
+  const [reviewPositon, setReviewPositon] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
   const [showMobileDisclaimer, setShowMobileDisclaimer] = useState(false);
+
+  useEffect(() => {
+    setReviewName(localStorage.getItem("Review-name") || "");
+    setReviewPositon(localStorage.getItem("Review-position") || "");
+    setReviewMessage(localStorage.getItem("Review-message") || "");
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {

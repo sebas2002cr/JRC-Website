@@ -16,10 +16,17 @@ export default function SummaryPage() {
   const [facturasCost, setFacturasCost] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   const [transactionCost, setTransactionCost] = useState(0);
-  const reviewName = localStorage.getItem("Review-name");
-  const reviewPositon = localStorage.getItem("Review-position");
-  const reviewMessage = localStorage.getItem("Review-message");
+  // localStorage no existe en el servidor: se lee tras el montaje.
+  const [reviewName, setReviewName] = useState("");
+  const [reviewPositon, setReviewPositon] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setReviewName(localStorage.getItem("Review-name") || "");
+    setReviewPositon(localStorage.getItem("Review-position") || "");
+    setReviewMessage(localStorage.getItem("Review-message") || "");
+  }, []);
 
   // Función para calcular los costos base según el plan
   const calculateBaseCost = useCallback((answers) => {
