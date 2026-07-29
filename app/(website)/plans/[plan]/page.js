@@ -537,13 +537,34 @@ export default function PlanPage() {
                               option
                             )
                           }
-                          className={`w-full rounded-lg border py-3 font-bold transition-all duration-300 ${
+                          // El hover pinta la opcion de verde (es lo que le da
+                          // vida al paso). Por eso la opcion ya elegida NO
+                          // puede usar ese mismo verde: al volver atras se
+                          // veia igual que un hover y no se distinguia lo
+                          // marcado de lo que estabas señalando. La elegida
+                          // va en verde oscuro, con anillo y un check.
+                          className={`flex w-full items-center justify-center gap-2 rounded-lg border-2 py-3 font-bold transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none ${
                             selectedOptions[
                               filteredQuestions[currentQuestion].key
                             ] === option
-                              ? "bg-[#305832] text-white"
+                              ? "border-[#234621] bg-[#234621] text-white shadow-md ring-2 ring-[#305832] ring-offset-2"
                               : "border-[#305832] bg-white text-[#305832] hover:bg-[#305832] hover:text-white"
                           }`}>
+                          {selectedOptions[
+                            filteredQuestions[currentQuestion].key
+                          ] === option && (
+                            <svg
+                              aria-hidden="true"
+                              className="h-5 w-5 shrink-0"
+                              viewBox="0 0 20 20"
+                              fill="currentColor">
+                              <path
+                                fillRule="evenodd"
+                                d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.8 3.79 6.8-6.8a1 1 0 011.4 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          )}
                           {option}
                         </button>
                       </div>
@@ -556,13 +577,13 @@ export default function PlanPage() {
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-400">
+                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all duration-200 ease-out hover:bg-gray-400 hover:shadow-md active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none">
                   Atrás
                 </button>
                 <button
                   type="button"
-                  onClick={handleNext} 
-                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#234621]">
+                  onClick={handleNext}
+                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-all duration-200 ease-out hover:bg-[#234621] hover:shadow-md active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none">
                   Siguiente
                 </button>
               </div>
