@@ -170,31 +170,35 @@ export default function PlanPage() {
     }
   }, []);
 
-  // Filtrar preguntas según las respuestas actuales
-  const filterQuestions = () => {
+  // Filtrar preguntas según las respuestas actuales.
+  //
+  // Recibe las respuestas a usar en vez de leer siempre el estado: cuando se
+  // acaba de responder algo, `answers` todavia no refleja ese cambio (setState
+  // es asincrono) y hay que decidir con el valor nuevo.
+  const filterQuestions = (answersToUse = answers) => {
     // Filtrar las preguntas de acuerdo a las respuestas seleccionadas
     return questions.filter(q => {
       if (
         q.key === "colaboradores" &&
-        answers.manejoPlanilla !== "Si"
+        answersToUse.manejoPlanilla !== "Si"
       ) {
         return false;
       }
       if (
         q.key === "cantidadFacturasEmitidas" &&
-        answers.facturas !== "Si"
+        answersToUse.facturas !== "Si"
       ) {
         return false;
       }
       if (
         q.key === "facturasExactas" &&
-        answers.cantidadFacturasEmitidas !== "Más de 40"
+        answersToUse.cantidadFacturasEmitidas !== "Más de 40"
       ) {
         return false;
       }
       if (
         q.key === "cantidadFacturasRecibidas" &&
-        answers.facturas !== "Si"
+        answersToUse.facturas !== "Si"
       ) {
         return false;
       }
@@ -204,7 +208,14 @@ export default function PlanPage() {
 
   const filteredQuestions = filterQuestions();
 
-  const handleAnswer = () => {
+  /**
+   * Valida la pregunta actual, guarda la respuesta y decide si avanzar.
+   *
+   * @param {string|null} optionOverride Opcion recien elegida. Hace falta
+   *   porque al avanzar automaticamente el estado `selectedOptions` todavia
+   *   no contiene la seleccion.
+   */
+  const handleAnswer = (optionOverride = null) => {
     const currentQuestionKey =
       filteredQuestions[currentQuestion]?.key;
 
@@ -212,6 +223,9 @@ export default function PlanPage() {
       router.push(`/plans/${plan}/summary`);
       return;
     }
+
+    // Respuestas incluyendo la de esta pregunta, para decidir con datos al dia.
+    let nextAnswers = answers;
 
     if (filteredQuestions[currentQuestion].type === "number") {
       let value = "";
@@ -237,12 +251,14 @@ export default function PlanPage() {
       }
 
       setError("");
-      setAnswers(prevAnswers => ({
-        ...prevAnswers,
+      nextAnswers = {
+        ...answers,
         [currentQuestionKey]: parseInt(value, 10)
-      }));
+      };
+      setAnswers(nextAnswers);
     } else {
-      const selectedOption = selectedOptions[currentQuestionKey];
+      const selectedOption =
+        optionOverride ?? selectedOptions[currentQuestionKey];
 
       if (!selectedOption) {
         setError("Seleccioná una opción para continuar.");
@@ -250,10 +266,11 @@ export default function PlanPage() {
       }
 
       setError("");
-      setAnswers(prevAnswers => ({
-        ...prevAnswers,
+      nextAnswers = {
+        ...answers,
         [currentQuestionKey]: selectedOption
-      }));
+      };
+      setAnswers(nextAnswers);
 
       // Mostrar preguntas adicionales dependiendo de la respuesta
       if (
@@ -286,8 +303,12 @@ export default function PlanPage() {
       }
     }
 
-    // Filtrar de nuevo las preguntas para incluir las adicionales
-    const updatedFilteredQuestions = filterQuestions();
+    // Filtrar de nuevo las preguntas para incluir las adicionales.
+    // Se pasan las respuestas ya actualizadas: con el estado anterior, una
+    // respuesta que abre una pregunta nueva (por ejemplo manejar planilla ->
+    // cuantos colaboradores) no se veia aqui, y el cotizador se saltaba esa
+    // pregunta y se iba derecho al resumen.
+    const updatedFilteredQuestions = filterQuestions(nextAnswers);
 
     // Si hay preguntas adicionales, no redirigir aún al resumen
     if (currentQuestion + 1 < updatedFilteredQuestions.length) {
@@ -303,6 +324,14 @@ export default function PlanPage() {
       [key]: option
     }));
     setError("");
+
+    // Las opciones son excluyentes: elegir una ya es la respuesta, no hace
+    // falta confirmar con "Siguiente". Se pasa la opcion directamente porque
+    // setSelectedOptions todavia no se refleja en el estado.
+    // (El boton "Siguiente" sigue ahi: las preguntas donde hay que escribir
+    // un numero lo necesitan.)
+    setDirection("next");
+    handleAnswer(option);
   };
 
   const handleNext = async () => {
@@ -323,6 +352,13 @@ export default function PlanPage() {
   
 
   const handlePrev = () => {
+    // En la primera pregunta no hay paso anterior dentro del cotizador:
+    // "Atrás" devuelve a la comparativa de planes en vez de quedarse muerto.
+    if (currentQuestion === 0) {
+      router.push("/pricing");
+      return;
+    }
+
     setDirection("prev");
     setCurrentQuestion(prev => prev - 1);
   };
@@ -520,8 +556,7 @@ export default function PlanPage() {
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-400"
-                  disabled={currentQuestion === 0}>
+                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-400">
                   Atrás
                 </button>
                 <button
