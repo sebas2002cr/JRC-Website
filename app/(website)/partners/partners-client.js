@@ -79,9 +79,9 @@ export default function Partners() {
         <p className="text-s mb-4 text-center font-bold text-gray-700">
           Socios y Afiliados
         </p>
-        <h2 className="mb-4 text-4xl font-bold text-[#305832] sm:text-6xl">
+        <h1 className="mb-4 text-4xl font-bold text-[#305832] sm:text-6xl">
           Potenciá tu negocio
-        </h2>
+        </h1>
         <p className="text-sm text-gray-600 sm:text-base">
           Ofrecemos servicios de creación y cumplimiento de empresas
           para ampliar tus ingresos y agilizar operaciones internas.

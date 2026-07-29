@@ -163,9 +163,9 @@ export default function Post({ posts }) {
             transition={{ duration: 0.6 }}
             variants={fadeInLeft}>
             <div className="text-left md:w-1/4">
-              <h3 className="mb-4 text-xl font-semibold text-[#305832]">
+              <p className="mb-4 text-xl font-semibold text-[#305832]">
                 Cómo funciona
-              </h3>
+              </p>
               <h2 className="mb-6 text-3xl font-bold text-black">
                 Empezá en cuestión de minutos
               </h2>
@@ -199,9 +199,9 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">
+                  <h3 className="font-bold text-black">
                     Elegí el plan que se ajuste a vos
-                  </h4>
+                  </h3>
                   <p className="text-gray-600">
                     Explorá nuestras opciones y seleccioná el plan que
                     mejor se adapte a tus necesidades o a las de tu
@@ -225,9 +225,9 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">
+                  <h3 className="font-bold text-black">
                     Contanos más sobre tu Negocio
-                  </h4>
+                  </h3>
                   <p className="text-gray-600">
                     Completá el formulario para que podamos entender
                     mejor lo que necesitás y personalizar el plan
@@ -251,9 +251,9 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className=" font-bold text-black">
+                  <h3 className=" font-bold text-black">
                     Recibí tu cotización y completá el pago
-                  </h4>
+                  </h3>
                   <p className="text-gray-600">
                     Con base en tus necesidades, recibirás una
                     cotización clara. Una vez confirmado, podrás
@@ -277,9 +277,9 @@ export default function Post({ posts }) {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-black">
+                  <h3 className="font-bold text-black">
                     Relajate, Nosotros nos ocupamos del resto
-                  </h4>
+                  </h3>
                   <p className="text-gray-600">
                     Terminá el proceso y dejá todo en nuestras manos.
                     Nos encargamos de implementar tu plan mientras vos

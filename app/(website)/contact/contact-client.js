@@ -123,9 +123,9 @@ export default function Contact() {
               <p className="text-s mb-4 text-center font-bold text-[#305832]">
                 Contacto
               </p>
-              <h2 className="mb-4 text-center text-4xl font-bold text-gray-700">
+              <h1 className="mb-4 text-center text-4xl font-bold text-gray-700">
                 Nos encantaría saber de vos
-              </h2>
+              </h1>
               <p className="mb-8 text-center text-gray-600">
                 Estaremos más que felices en atender tus consultas.
               </p>

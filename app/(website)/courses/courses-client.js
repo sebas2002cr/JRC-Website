@@ -18,9 +18,9 @@ export default function Courses() {
   return (
     <div className="bg-gray-50 p-6 sm:p-8">
       <section className="mb-12 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-[#305832] sm:text-4xl">
+        <h1 className="mb-4 text-3xl font-bold text-[#305832] sm:text-4xl">
           Cursos
-        </h2>
+        </h1>
         <p className="text-base text-gray-600 sm:text-lg">
           Descubre tu potencial en finanzas y contabilidad con
           nuestros cursos.

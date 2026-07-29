@@ -220,12 +220,18 @@ export default function CheckoutConstitucionSociedad() {
 
       {/* Contenido principal */}
       <div className="m-auto flex w-full flex-col items-center justify-center bg-transparent p-4 md:flex-row">
+        {/* La pagina no tiene un titulo visible propio: este h1 le da a
+            buscadores y lectores de pantalla el tema de la pagina sin
+            alterar el diseno. */}
+        <h1 className="sr-only">
+          Constitución de sociedades en Costa Rica
+        </h1>
         {paymentSuccess ? (
           // Pantalla de éxito
           <div className="w-full max-w-5xl rounded-lg border bg-white p-12 text-center shadow-lg">
-            <h3 className="text-4xl font-bold text-gray-600">
+            <h2 className="text-4xl font-bold text-gray-600">
               ¡Gracias por confiar en JRC Consulting Group!
-            </h3>
+            </h2>
             <p className="mt-4 text-xl text-green-700">
               Tu transacción ha sido exitosa. Uno de nuestros agentes
               se pondrá en contacto contigo en breve.

@@ -141,10 +141,10 @@ export default function Pricing() {
               variants={cardHover}
               transition={{ type: "spring", stiffness: 100 }}>
               <div>
-                <h1
+                <h3
                   className={`mt-2 text-3xl font-bold ${plan.popular ? "text-white" : "text-[#305832]"}`}>
                   {plan.name}
-                </h1>
+                </h3>
                 <hr
                   className={`my-4 ${plan.popular ? "border-white" : "border-gray-400"}`}
                 />
