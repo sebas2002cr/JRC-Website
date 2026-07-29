@@ -159,6 +159,9 @@ export default function Footer(props) {
           <Link href="/contact" className="hover:underline">
             Contacto
           </Link>
+          <Link href="/schedule?from=footer" className="hover:underline">
+            Agendá una consulta
+          </Link>
         </div>
       </div>
 

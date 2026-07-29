@@ -68,7 +68,7 @@ export default function Navbar(props) {
           <div className="flex items-center justify-center bg-black py-2 text-center text-sm text-white">
             <span>
               📞 ¿Tenés preguntas? &nbsp;
-              <Link className="underline" href="/schedule">
+              <Link className="underline" href="/schedule?from=navbar">
                 Programá hoy mismo una consulta gratuita
               </Link>
             </span>

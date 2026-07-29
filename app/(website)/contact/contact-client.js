@@ -506,7 +506,7 @@ export default function Contact() {
               Agendá una llamada gratuita con uno de nuestros asesores
               para resolver todas tus dudas.
             </p>
-            <Link href="/schedule">
+            <Link href="/schedule?from=contact">
               <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
                 Comenzar
               </button>
