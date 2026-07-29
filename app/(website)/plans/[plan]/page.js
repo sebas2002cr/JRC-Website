@@ -551,13 +551,18 @@ export default function PlanPage() {
                               option
                             )
                           }
-                          // Solo transicion de color, sin movimiento ni
-                          // sombra. ease-out (no ease-in-out): ease-in-out
-                          // arranca lento y luego acelera, lo que hace que el
-                          // verde parezca entrar de golpe al final. ease-out
-                          // empieza de inmediato y desacelera, que es lo que
-                          // se siente gradual. 500ms para que se note.
-                          className="w-full rounded-lg border border-[#305832] bg-white py-3 font-bold text-[#305832] transition-colors duration-500 ease-out hover:bg-[#305832] hover:text-white motion-reduce:transition-none">
+                          // Solo transicion de color, sin movimiento.
+                          // ease-out (no ease-in-out): ease-in-out arranca
+                          // lento y acelera despues, y el verde parece entrar
+                          // de golpe al final; ease-out empieza de inmediato
+                          // y desacelera, que es lo que se siente gradual.
+                          //
+                          // Sin motion-reduce: esa media query es para el
+                          // movimiento que puede causar malestar, no para un
+                          // cambio de color. Al aplicarla aqui, cualquiera con
+                          // las animaciones del sistema desactivadas se
+                          // quedaba sin transicion y el color entraba de golpe.
+                          className="w-full rounded-lg border border-[#305832] bg-white py-3 font-bold text-[#305832] transition-colors duration-500 ease-out hover:bg-[#305832] hover:text-white">
                           {option}
                         </button>
                       </div>
@@ -570,13 +575,13 @@ export default function PlanPage() {
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors duration-500 ease-out hover:bg-gray-400 motion-reduce:transition-none">
+                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors duration-500 ease-out hover:bg-gray-400">
                   Atrás
                 </button>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-colors duration-500 ease-out hover:bg-[#234621] motion-reduce:transition-none">
+                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-colors duration-500 ease-out hover:bg-[#234621]">
                   Siguiente
                 </button>
               </div>
