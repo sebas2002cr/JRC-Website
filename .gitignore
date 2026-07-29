@@ -15,6 +15,9 @@
 # production
 /build
 
+# salida de `sanity build`: se regenera, no se versiona
+/dist
+
 # misc
 .DS_Store
 *.pem
