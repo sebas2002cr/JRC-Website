@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, notFound } from "next/navigation";
 import { useParams } from "next/navigation"; // Para obtener los parámetros de la URL
+
+// Fuera del componente: es una constante, y asi el useEffect que la usa no
+// necesita listarla como dependencia.
+const validPlans = ["starter", "professional", "full-compliance"]; // Nombres de planes válidos
 
 export default function PlanPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const params = useParams(); // Usar useParams para obtener los parámetros de la URL
   const [plan, setPlan] = useState(null); // Estado para el nombre del plan
-  const validPlans = ["starter", "professional", "full-compliance"]; // Nombres de planes válidos
   // localStorage no existe en el servidor: se lee tras el montaje.
   const [reviewName, setReviewName] = useState("");
   const [reviewPositon, setReviewPositon] = useState("");
@@ -30,7 +33,9 @@ export default function PlanPage() {
     if (validPlans.includes(plan)) {
       setPlan(plan);
     } else {
-      router.push("/404"); // Redirigir a una página 404 si el plan no es válido
+      // No existe una ruta /404: en App Router lo correcto es notFound(),
+      // que muestra la pagina de "no encontrado" sin cambiar la URL.
+      notFound();
     }
   }, [params, router]);
 

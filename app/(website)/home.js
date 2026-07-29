@@ -5,6 +5,7 @@ import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Post({ posts }) {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -99,11 +100,11 @@ export default function Post({ posts }) {
               contabilidad.
             </p>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
-              <a href="/pricing">
+              <Link href="/pricing">
                 <button className="mx-auto w-3/4 rounded-lg bg-[#305832] px-6 py-2 text-white shadow-md  duration-700 ease-in-out hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832] sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
                   Empezá a trabajar con nosotros
                 </button>
-              </a>
+              </Link>
             </div>
           </motion.section>
 
@@ -176,11 +177,11 @@ export default function Post({ posts }) {
                 documentos necesarios para constituir su empresa y
                 cumplir la normativa.{" "}
               </p>
-              <a href="/pricing">
+              <Link href="/pricing">
                 <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
                   Empezar
                 </button>
-              </a>
+              </Link>
             </div>
             <div className="flex flex-col gap-8 md:w-1/3">
               <div className="my-3 flex items-start gap-4">
@@ -312,11 +313,11 @@ export default function Post({ posts }) {
                   enfoque innovador garantizan que tu negocio esté
                   siempre en las mejores manos.
                 </p>
-                <a href="/blog">
+                <Link href="/blog">
                   <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
                     Noticias relevantes para tu negocio
                   </button>
-                </a>
+                </Link>
               </div>
 
               <div class="m-4 mt-16">
@@ -324,6 +325,7 @@ export default function Post({ posts }) {
                   <div>
                     <img
                       src="/img/tax.png"
+                      alt="Declaraciones de impuestos al día con JRC Consulting Group"
                       class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
                     />
                   </div>
@@ -358,6 +360,7 @@ export default function Post({ posts }) {
                   <div>
                     <img
                       src="/img/team.png"
+                      alt="Equipo de JRC Consulting Group asesorando a un cliente"
                       class="w-full rounded-md object-contain shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
                     />
                   </div>
@@ -570,11 +573,11 @@ export default function Post({ posts }) {
                 Agendá una llamada gratuita con uno de nuestros
                 asesores para resolver todas tus dudas.
               </p>
-              <a href="/schedule">
+              <Link href="/schedule">
                 <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
                   Comenzar
                 </button>
-              </a>
+              </Link>
             </div>
           </motion.section>
         </div>

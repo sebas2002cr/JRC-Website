@@ -1,6 +1,7 @@
 "use client";
 
 import Container from "@/components/container";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -104,7 +105,7 @@ export default function Contact() {
         {/* Sección de la imagen */}
         <div className="w-full md:w-1/2">
           <img
-            src="img/socios-jrc.jpeg"
+            src="/img/socios-jrc.jpeg"
             alt="Contact Image"
             className="h-full w-full object-cover"
           />
@@ -505,11 +506,11 @@ export default function Contact() {
               Agendá una llamada gratuita con uno de nuestros asesores
               para resolver todas tus dudas.
             </p>
-            <a href="/schedule">
+            <Link href="/schedule">
               <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
                 Comenzar
               </button>
-            </a>
+            </Link>
           </div>
         </section>
       </motion.section>

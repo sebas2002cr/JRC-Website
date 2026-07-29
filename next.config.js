@@ -8,12 +8,13 @@ const nextConfig = {
     remotePatterns: [{ hostname: "cdn.sanity.io" }]
   },
   typescript: {
-    // Set this to false if you want production builds to abort if there's type errors
-    ignoreBuildErrors: process.env.VERCEL_ENV === "production"
+    // Estaba atado a `VERCEL_ENV === "production"`, que dejaba pasar los
+    // errores de tipos justo en produccion y en cambio rompia los builds de
+    // preview. Ahora los errores rompen el build en todos los entornos.
+    ignoreBuildErrors: false
   },
   eslint: {
-    /// Set this to false if you want production builds to abort if there's lint errors
-    ignoreDuringBuilds: process.env.VERCEL_ENV === "production"
+    ignoreDuringBuilds: false
   }
 };
 

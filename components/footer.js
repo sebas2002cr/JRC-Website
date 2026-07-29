@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Link from 'next/link';
 
 export default function Footer(props) {
   return (
@@ -8,7 +9,7 @@ export default function Footer(props) {
         {/* Sección de la izquierda con el logo */}
         <div className="flex flex-col items-center md:items-start">
           <img
-            src="img/JRCLogofull.png"
+            src="/img/JRCLogofull.png"
             alt="JRC Logo"
             className="mb-4 w-40" // Ajusta el tamaño del logo aquí
           />
@@ -143,21 +144,21 @@ export default function Footer(props) {
 
         {/* Sección de enlaces */}
         <div className="mt-8 flex flex-col justify-center space-y-4 text-center md:mt-0 md:flex-row md:justify-end md:space-x-8 md:space-y-0">
-          <a href="/blog" className="hover:underline">
+          <Link href="/blog" className="hover:underline">
             Blog
-          </a>
-          <a href="/partners" className="hover:underline">
+          </Link>
+          <Link href="/partners" className="hover:underline">
             Socios
-          </a>
-          <a href="/courses" className="hover:underline">
+          </Link>
+          <Link href="/courses" className="hover:underline">
             Cursos
-          </a>
-          <a href="/pricing" className="hover:underline">
+          </Link>
+          <Link href="/pricing" className="hover:underline">
             Precios
-          </a>
-          <a href="/contact" className="hover:underline">
+          </Link>
+          <Link href="/contact" className="hover:underline">
             Contacto
-          </a>
+          </Link>
         </div>
       </div>
 
