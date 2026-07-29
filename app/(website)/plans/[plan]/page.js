@@ -551,11 +551,13 @@ export default function PlanPage() {
                               option
                             )
                           }
-                          // Solo se animan colores y sombra, sin mover el
-                          // boton: el desplazamiento se siente como un tic
-                          // seco. 300ms con ease-in-out para que el verde
-                          // entre y salga de forma gradual.
-                          className="w-full rounded-lg border border-[#305832] bg-white py-3 font-bold text-[#305832] shadow-sm transition-[background-color,color,border-color,box-shadow] duration-300 ease-in-out hover:bg-[#305832] hover:text-white hover:shadow-md motion-reduce:transition-none">
+                          // Solo transicion de color, sin movimiento ni
+                          // sombra. ease-out (no ease-in-out): ease-in-out
+                          // arranca lento y luego acelera, lo que hace que el
+                          // verde parezca entrar de golpe al final. ease-out
+                          // empieza de inmediato y desacelera, que es lo que
+                          // se siente gradual. 500ms para que se note.
+                          className="w-full rounded-lg border border-[#305832] bg-white py-3 font-bold text-[#305832] transition-colors duration-500 ease-out hover:bg-[#305832] hover:text-white motion-reduce:transition-none">
                           {option}
                         </button>
                       </div>
@@ -568,13 +570,13 @@ export default function PlanPage() {
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 shadow-sm transition-[background-color,box-shadow] duration-300 ease-in-out hover:bg-gray-400 hover:shadow-md motion-reduce:transition-none">
+                  className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors duration-500 ease-out hover:bg-gray-400 motion-reduce:transition-none">
                   Atrás
                 </button>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white shadow-sm transition-[background-color,box-shadow] duration-300 ease-in-out hover:bg-[#234621] hover:shadow-md motion-reduce:transition-none">
+                  className="rounded-lg bg-[#305832] px-6 py-3 font-semibold text-white transition-colors duration-500 ease-out hover:bg-[#234621] motion-reduce:transition-none">
                   Siguiente
                 </button>
               </div>
