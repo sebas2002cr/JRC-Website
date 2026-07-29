@@ -7,6 +7,7 @@ import { GlobalSeoScript } from "globalseo-next";
 import { GlobalSeoSelector } from "globalseo-next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ogImage } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,13 +42,15 @@ export const metadata: Metadata = {
     siteName: "JRC Consulting Group",
     title:
       "JRC Consulting Group | Contabilidad y asesoría tributaria en Costa Rica",
-    description: siteDescription
+    description: siteDescription,
+    images: [ogImage]
   },
   twitter: {
     card: "summary_large_image",
     title:
       "JRC Consulting Group | Contabilidad y asesoría tributaria en Costa Rica",
-    description: siteDescription
+    description: siteDescription,
+    images: [ogImage.url]
   }
 };
 
