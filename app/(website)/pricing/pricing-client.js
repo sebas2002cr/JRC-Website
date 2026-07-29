@@ -4,68 +4,7 @@ import { getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
 import Link from "next/link";
-
-const services = [
-  "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual)",
-  "Asignación de ejecutivo de cuenta",
-  "Asesoría tributaria y fiscal por parte del ejecutivo",
-  "Acompañamiento mensual en el pago de impuestos",
-  "Proyecciones trimestrales de Renta",
-  "Elaboración de Estados Financieros en formato QuickBooks Online",
-  "Elaboración y presentación de planilla CCSS e INS – Máximo 5 colaboradores"
-];
-
-const plans = [
-  {
-    name: "Starter",
-    description: "La etapa inicial para pequeñas empresas.",
-    price: "¢45.000",
-    cta: "Escoger Plan",
-    popular: false,
-    url: "/plans/starter",
-    features: [
-      "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual)",
-      "Asignación de ejecutivo de cuenta",
-      "Asesoría tributaria y fiscal por parte del ejecutivo",
-      "Acompañamiento mensual en el pago de impuestos",
-      "Proyecciones trimestrales de Renta"
-    ]
-  },
-  {
-    name: "Professional",
-    description:
-      "El apoyo que necesitas a medida que tu empresa crece.",
-    price: "¢99.500",
-    cta: "Escoger Plan",
-    popular: true,
-    url: "/plans/professional",
-    features: [
-      "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual)",
-      "Asignación de ejecutivo de cuenta",
-      "Asesoría tributaria y fiscal por parte del ejecutivo",
-      "Acompañamiento mensual en el pago de impuestos",
-      "Proyecciones trimestrales de Renta",
-      "Elaboración de Estados Financieros en formato QuickBooks Online"
-    ]
-  },
-  {
-    name: "Full Compliance",
-    description: "Soporte completo en contabilidad y planilla.",
-    price: "¢130.000",
-    cta: "Escoger Plan",
-    popular: false,
-    url: "/plans/full-compliance",
-    features: [
-      "Declaraciones mensuales D-104 (IVA) & D-101 (Renta anual)",
-      "Asignación de ejecutivo de cuenta",
-      "Asesoría tributaria y fiscal por parte del ejecutivo",
-      "Acompañamiento mensual en el pago de impuestos",
-      "Proyecciones trimestrales de Renta",
-      "Elaboración de Estados Financieros en formato QuickBooks Online",
-      "Elaboración y presentación de planilla CCSS e INS – Máximo 5 colaboradores"
-    ]
-  }
-];
+import { plans, services } from "@/lib/plans";
 
 export default function Pricing() {
   const [faqs, setFaqs] = useState([]);

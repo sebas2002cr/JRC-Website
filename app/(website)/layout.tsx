@@ -1,5 +1,12 @@
 import SiteChrome from "@/components/siteChrome";
+import JsonLd from "@/components/jsonLd";
+import { organizationSchema } from "@/lib/schema";
 
 export default function Layout({ children }) {
-  return <SiteChrome>{children}</SiteChrome>;
+  return (
+    <>
+      <JsonLd data={organizationSchema()} />
+      <SiteChrome>{children}</SiteChrome>
+    </>
+  );
 }

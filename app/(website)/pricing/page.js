@@ -1,4 +1,6 @@
 import { pageMetadata } from "@/lib/seo";
+import { pricingSchema } from "@/lib/schema";
+import JsonLd from "@/components/jsonLd";
 import PricingPage from "./pricing-client";
 
 export const metadata = pageMetadata({
@@ -9,5 +11,10 @@ export const metadata = pageMetadata({
 });
 
 export default function Page() {
-  return <PricingPage />;
+  return (
+    <>
+      <JsonLd data={pricingSchema()} />
+      <PricingPage />
+    </>
+  );
 }
