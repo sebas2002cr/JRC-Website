@@ -53,7 +53,7 @@ export default function Pricing() {
             <span>para empezar</span>
           </h1>
           <p className="w-full pt-6 text-lg font-normal text-gray-400 md:text-xl">
-            Elige un plan que funcione mejor para vos y tu equipo.
+            Elegí un plan que funcione mejor para vos y tu equipo.
           </p>
         </div>
 
@@ -190,8 +190,8 @@ export default function Pricing() {
                 Otros de nuestros servicios
               </h2>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                Para más Información sobre estos servicios dirígete a
-                nuestra página de contacto y haznos saber tus dudas.
+                Para más información sobre estos servicios andá a
+                nuestra página de contacto y contanos tus dudas.
               </p>
             </div>
             <motion.section

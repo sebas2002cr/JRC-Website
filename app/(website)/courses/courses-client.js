@@ -22,7 +22,7 @@ export default function Courses() {
           Cursos
         </h1>
         <p className="text-base text-gray-600 sm:text-lg">
-          Descubre tu potencial en finanzas y contabilidad con
+          Descubrí tu potencial en finanzas y contabilidad con
           nuestros cursos.
         </p>
       </section>
@@ -66,7 +66,10 @@ export default function Courses() {
                     fill="currentColor">
                     <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
                   </svg>
-                  <span>{course.lessons} lessons</span>
+                  <span>
+                    {course.lessons}{" "}
+                    {course.lessons === 1 ? "lección" : "lecciones"}
+                  </span>
                 </span>
                 <span className="flex items-center space-x-1">
                   <svg
@@ -76,7 +79,10 @@ export default function Courses() {
                     fill="currentColor">
                     <path d="M12 7a5 5 0 110 10 5 5 0 010-10zM3.74 3.74a7.998 7.998 0 0110.51-.1A8 8 0 003.74 3.74zm16.53 4.82a8.017 8.017 0 01-11.05 11.05A8 8 0 0020.27 8.56z" />
                   </svg>
-                  <span>{course.duration} hrs</span>
+                  <span>
+                    {course.duration}{" "}
+                    {course.duration === 1 ? "hora" : "horas"}
+                  </span>
                 </span>
               </div>
               <a

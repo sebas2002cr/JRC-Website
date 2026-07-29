@@ -33,8 +33,12 @@ export default function Partners() {
     fetchSanityFAQs();
   }, []);
 
-  // Open modal
-  const openModal = () => setIsModalOpen(true);
+  // Open modal. Recibe el tipo de socio de la tarjeta desde la que se abrio
+  // para dejarlo preseleccionado: la eleccion ya se hizo al hacer clic.
+  const openModal = (partnerType = "Afiliado") => {
+    setContactInfo(prevInfo => ({ ...prevInfo, partnerType }));
+    setIsModalOpen(true);
+  };
 
   // Close modal and reset fields
   const closeModal = () => {
@@ -68,7 +72,6 @@ export default function Partners() {
       console.error("Error al enviar la info:", error);
     }
 
-    setContactInfo({ name: "", email: "", message: "" });
     closeModal();
   };
 
@@ -108,7 +111,7 @@ export default function Partners() {
               Afiliados
             </p>
             <p className="mb-4 text-sm text-[#305832] sm:text-base">
-              Recomienda y ganá, así de sencillo. Los pagos comienzan
+              Recomendá y ganá, así de sencillo. Los pagos comienzan
               en 5% por referencia, pagados mensualmente.
             </p>
           </div>
@@ -122,9 +125,9 @@ export default function Partners() {
             />
           </div>
           <button
-            onClick={openModal}
+            onClick={() => openModal("Afiliado")}
             className="absolute bottom-0 left-1/2 w-[70%] translate-x-[-50%] translate-y-[125%] transform rounded-lg bg-[#305832] px-4 py-[0.5rem] text-center text-base text-white opacity-0 transition duration-300 group-hover:translate-y-[50%] group-hover:opacity-100">
-            Contáctanos
+            Contactanos
           </button>
         </div>
 
@@ -151,9 +154,9 @@ export default function Partners() {
             />
           </div>
           <button
-            onClick={openModal}
+            onClick={() => openModal("Marca Blanca")}
             className="absolute bottom-0 left-1/2 w-[70%] translate-x-[-50%] translate-y-[125%] transform rounded-lg border border-[#305832] bg-white px-4 py-[0.5rem] text-center text-base text-[#305832] opacity-0 transition duration-300 group-hover:translate-y-[50%] group-hover:opacity-100">
-            Contáctanos
+            Contactanos
           </button>
         </div>
       </div>
@@ -179,7 +182,7 @@ export default function Partners() {
                 <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
                   <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      Contáctanos
+                      Contactanos
                     </h3>
                     <button
                       onClick={closeModal}
@@ -244,7 +247,7 @@ export default function Partners() {
                         <label
                           htmlFor="partnerType"
                           className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                          Tipo de Partner
+                          Tipo de socio
                         </label>
                         <select
                           name="partnerType"
@@ -263,15 +266,22 @@ export default function Partners() {
                         <label
                           htmlFor="message"
                           className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                          Mensaje
+                          Mensaje{" "}
+                          <span className="font-normal text-gray-500">
+                            (opcional)
+                          </span>
                         </label>
+                        {/* Opcional a proposito: un campo libre obligatorio
+                            frena envios. El placeholder orienta para que el
+                            lead siga siendo util al priorizar. */}
                         <textarea
                           name="message"
                           id="message"
+                          rows={3}
+                          placeholder="Contanos brevemente sobre tu negocio y cuántos clientes manejás."
                           value={contactInfo.message}
                           onChange={handleInputChange}
                           className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                          required
                         />
                       </div>
                       <button

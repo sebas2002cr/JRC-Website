@@ -185,7 +185,10 @@ export default function CheckoutConstitucionSociedad() {
 
   const handleInputChange = e => {
     const { name, value } = e.target;
-    setCustomerInfo({ ...customerInfo, [name]: value });
+    // El telefono solo acepta digitos (8 en Costa Rica).
+    const cleaned =
+      name === "phone" ? value.replace(/\D/g, "").slice(0, 8) : value;
+    setCustomerInfo({ ...customerInfo, [name]: cleaned });
   };
 
   const createOrderPayload = () => {
@@ -248,7 +251,7 @@ export default function CheckoutConstitucionSociedad() {
               se pondrá en contacto contigo en breve.
             </p>
             <p className="mt-4 text-lg text-gray-700">
-              Si tienes alguna pregunta, no dudes en contactarnos.
+              Si tenés alguna pregunta, contactanos con confianza.
               Estamos aquí para ayudarte.
             </p>
 
@@ -361,13 +364,15 @@ export default function CheckoutConstitucionSociedad() {
                     </label>
                     <input
                       id="phone"
-                      type="text"
+                      type="tel"
+                      inputMode="numeric"
+                      maxLength={8}
                       name="phone"
                       value={customerInfo.phone}
                       onChange={handleInputChange}
                       required
                       className="block w-full rounded-lg border border-[#305832] bg-gray-50 p-3 text-gray-700 shadow-sm transition-colors focus:border-green-500 focus:ring focus:ring-green-200"
-                      placeholder="6894-3453"
+                      placeholder="88887777"
                     />
                   </div>
 

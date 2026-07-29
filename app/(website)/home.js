@@ -133,21 +133,15 @@ export default function Post({ posts }) {
               {/* Contenido de estadísticas */}
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <Counter end={11} duration={2000} />
+                  <Counter end={13} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Años de Experiencia</p>
               </div>
               <div className="flex flex-col items-center p-4">
                 <p className="text-5xl font-bold">
-                  <Counter end={500} duration={2000} />
+                  <Counter end={1000} duration={2000} />
                 </p>
                 <p className="mt-2 text-xl">Clientes</p>
-              </div>
-              <div className="flex flex-col items-center p-4">
-                <p className="text-5xl font-bold">
-                  <Counter end={20} duration={2000} />
-                </p>
-                <p className="mt-2 text-xl">Colaboradores</p>
               </div>
             </div>
           </motion.section>
@@ -172,9 +166,9 @@ export default function Post({ posts }) {
               </h2>
               <p className="mb-3 text-gray-600">
                 Nosotros nos encargamos del papeleo legal y de los
-                quebraderos de cabeza. Dedique unos minutos a rellenar
+                quebraderos de cabeza. Dedicá unos minutos a llenar
                 algunos datos y nosotros crearemos todos los
-                documentos necesarios para constituir su empresa y
+                documentos necesarios para constituir tu empresa y
                 cumplir la normativa.{" "}
               </p>
               <Link href="/pricing">
@@ -227,7 +221,7 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h3 className="font-bold text-black">
-                    Contanos más sobre tu Negocio
+                    Contanos más sobre tu negocio
                   </h3>
                   <p className="text-gray-600">
                     Completá el formulario para que podamos entender
@@ -279,7 +273,7 @@ export default function Post({ posts }) {
                 </div>
                 <div>
                   <h3 className="font-bold text-black">
-                    Relajate, Nosotros nos ocupamos del resto
+                    Relajate, nosotros nos ocupamos del resto
                   </h3>
                   <p className="text-gray-600">
                     Terminá el proceso y dejá todo en nuestras manos.
@@ -567,7 +561,7 @@ export default function Post({ posts }) {
                 />
               </div>
               <h3 className="mb-4 text-2xl font-semibold">
-                Empezá con nostros
+                Empezá con nosotros
               </h3>
               <p className="mb-8 text-gray-600">
                 Agendá una llamada gratuita con uno de nuestros

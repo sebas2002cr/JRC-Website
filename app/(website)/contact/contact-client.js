@@ -200,11 +200,26 @@ export default function Contact() {
                           Teléfono
                         </label>
                         <input
-                          type="text"
+                          type="tel"
+                          inputMode="numeric"
+                          maxLength={8}
+                          placeholder="88887777"
                           className={`w-full rounded-lg border px-4 py-3 ${errors.telefono ? "border-red-500" : "border-gray-300"}`}
                           {...register("telefono", {
-                            required: "Este campo es requerido"
+                            required: "Este campo es requerido",
+                            // Los telefonos de Costa Rica son 8 digitos.
+                            pattern: {
+                              value: /^\d{8}$/,
+                              message:
+                                "Ingresá los 8 dígitos de tu teléfono, sin espacios ni guiones"
+                            }
                           })}
+                          onInput={e => {
+                            e.target.value = e.target.value.replace(
+                              /\D/g,
+                              ""
+                            );
+                          }}
                         />
                         {errors.telefono && (
                           <span className="text-sm text-red-500">
@@ -362,7 +377,7 @@ export default function Contact() {
           variants={fadeInLeft}>
           <Container>
             <h2 className="mb-12 text-center text-4xl font-semibold">
-              Estamos a su disposición
+              Estamos a tu disposición
             </h2>
             <div className="grid grid-cols-1 gap-8 rounded-lg bg-white p-8 text-gray-900 shadow-lg md:grid-cols-3">
               <div className="flex flex-col items-center text-center">
@@ -464,7 +479,7 @@ export default function Contact() {
           variants={fadeInUp}>
           <Container>
             <h2 className="mb-12 text-center text-4xl font-semibold">
-              Encuéntranos en Google Maps
+              Encontranos en Google Maps
             </h2>
             <div className="h-96 w-full">
               <iframe
@@ -499,7 +514,7 @@ export default function Contact() {
               />
             </div>
             <h3 className="mb-4 text-2xl font-semibold">
-              Comenzá con nostros
+              Comenzá con nosotros
             </h3>
             <p className="mb-8 text-gray-600">
               Agendá una llamada gratuita con uno de nuestros asesores

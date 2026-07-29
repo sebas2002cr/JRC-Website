@@ -137,9 +137,14 @@ export default function CustomerInfoForm() {
 
   const handleChange = e => {
     const { name, value } = e.target;
+    // El telefono solo acepta digitos (8 en Costa Rica): evita que lleguen
+    // letras o formatos raros a la cotizacion.
+    const cleaned =
+      name === "phone" ? value.replace(/\D/g, "").slice(0, 8) : value;
+
     setCustomerInfo(prevInfo => ({
       ...prevInfo,
-      [name]: value
+      [name]: cleaned
     }));
   };
 
@@ -586,7 +591,10 @@ export default function CustomerInfoForm() {
                 <input
                   id="phone"
                   name="phone"
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={8}
+                  placeholder="88887777"
                   value={customerInfo.phone}
                   onChange={handleChange}
                   required

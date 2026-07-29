@@ -228,7 +228,11 @@ export default function PlanPage() {
         (currentQuestionKey === "facturasExactas" &&
           parseInt(value) <= 40)
       ) {
-        setError("Por favor, introduce un número válido.");
+        setError(
+          currentQuestionKey === "facturasExactas"
+            ? "Ingresá un número mayor a 40."
+            : "Ingresá un número válido."
+        );
         return;
       }
 
@@ -241,7 +245,7 @@ export default function PlanPage() {
       const selectedOption = selectedOptions[currentQuestionKey];
 
       if (!selectedOption) {
-        setError("Por favor, selecciona una opción.");
+        setError("Seleccioná una opción para continuar.");
         return;
       }
 
@@ -428,7 +432,13 @@ export default function PlanPage() {
                 "number" ? (
                 <div>
                   <input
+                    // inputMode numeric en vez de type="number": abre el
+                    // teclado numerico en movil pero sin las flechitas ni el
+                    // scroll que cambia el valor por accidente.
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="off"
                     className="w-full rounded-lg border px-3 py-3 text-gray-700 focus:outline-none"
                     value={
                       filteredQuestions[currentQuestion].key ===
@@ -440,31 +450,38 @@ export default function PlanPage() {
                           : transacciones
                     }
                     onChange={e => {
+                      // Se descarta todo lo que no sea digito, asi no entran
+                      // letras ni simbolos a la cotizacion.
+                      const soloDigitos = e.target.value.replace(
+                        /\D/g,
+                        ""
+                      );
+
                       if (
                         filteredQuestions[currentQuestion].key ===
                         "colaboradores"
                       ) {
-                        setColaboradores(e.target.value);
+                        setColaboradores(soloDigitos);
                       } else if (
                         filteredQuestions[currentQuestion].key ===
                         "facturasExactas"
                       ) {
-                        setFacturasExactas(e.target.value);
+                        setFacturasExactas(soloDigitos);
                       } else if (
                         filteredQuestions[currentQuestion].key ===
                         "transacciones"
                       ) {
-                        setTransacciones(e.target.value);
+                        setTransacciones(soloDigitos);
                       }
                     }}
                     placeholder={
                       filteredQuestions[currentQuestion].key ===
                       "colaboradores"
-                        ? "Introduce el número de colaboradores"
+                        ? "Ingresá el número de colaboradores"
                         : filteredQuestions[currentQuestion].key ===
                             "facturasExactas"
-                          ? "Introduce la cantidad exacta de facturas"
-                          : "Introduce el número de transacciones"
+                          ? "Ingresá la cantidad exacta de facturas"
+                          : "Ingresá el número de transacciones"
                     }
                   />
                   {error && (
