@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Link from 'next/link';
 
 export default function Footer(props) {
   return (
@@ -144,21 +143,22 @@ export default function Footer(props) {
 
         {/* Sección de enlaces */}
         <div className="mt-8 flex flex-col justify-center space-y-4 text-center md:mt-0 md:flex-row md:justify-end md:space-x-8 md:space-y-0">
-          <Link href="/blog" className="hover:underline">
+          {/* <a> y no <Link>: ver el comentario en components/navbar.js */}
+          <a href="/blog" className="hover:underline">
             Blog
-          </Link>
-          <Link href="/partners" className="hover:underline">
+          </a>
+          <a href="/partners" className="hover:underline">
             Socios
-          </Link>
-          <Link href="/courses" className="hover:underline">
+          </a>
+          <a href="/courses" className="hover:underline">
             Cursos
-          </Link>
-          <Link href="/pricing" className="hover:underline">
+          </a>
+          <a href="/pricing" className="hover:underline">
             Precios
-          </Link>
-          <Link href="/contact" className="hover:underline">
+          </a>
+          <a href="/contact" className="hover:underline">
             Contacto
-          </Link>
+          </a>
         </div>
       </div>
 

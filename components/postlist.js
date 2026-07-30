@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { cx } from "@/utils/all";
 import { urlForImage } from "@/lib/sanity/image";
 import { parseISO, format } from "date-fns";
@@ -32,7 +31,7 @@ export default function PostList({
           className={cx(
             " overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105   dark:bg-gray-800"
           )}>
-          <Link
+          <a
             className={cx(
               "relative block",
               aspect === "landscape"
@@ -62,7 +61,7 @@ export default function PostList({
                 <PhotoIcon />
               </span>
             )}
-          </Link>
+          </a>
         </div>
 
         <div className={cx(minimal && "flex items-center")}>
@@ -83,7 +82,7 @@ export default function PostList({
                   : "font-semibold leading-snug tracking-tight",
                 "mt-2    dark:text-white"
               )}>
-              <Link
+              <a
                 href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${
                   post.slug.current
                 }`}>
@@ -97,24 +96,24 @@ export default function PostList({
       dark:from-purple-800 dark:to-purple-900">
                   {post.title}
                 </span>
-              </Link>
+              </a>
             </h2>
 
             <div className="hidden">
               {post.excerpt && (
                 <p className="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400">
-                  <Link
+                  <a
                     href={`/post/${
                       pathPrefix ? `${pathPrefix}/` : ""
                     }${post.slug.current}`}>
                     {post.excerpt}
-                  </Link>
+                  </a>
                 </p>
               )}
             </div>
 
             <div className="mt-3 flex items-center space-x-3 text-gray-500 dark:text-gray-400">
-              <Link href={``}>
+              <a href={``}>
                 <div className="flex items-center gap-3">
                   <div className="relative h-5 w-5 flex-shrink-0">
                     {post?.author?.image && (
@@ -131,7 +130,7 @@ export default function PostList({
                     {post?.author?.name}
                   </span>
                 </div>
-              </Link>
+              </a>
               <span className="text-xs text-gray-300 dark:text-gray-600">
                 &bull;
               </span>

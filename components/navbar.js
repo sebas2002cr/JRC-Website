@@ -3,10 +3,23 @@
 import { Fragment, useState, useEffect, useCallback } from "react";
 import { Disclosure } from "@headlessui/react";
 import Container from "@/components/container";
-import Link from "next/link";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import { motion } from "framer-motion";
+
+/**
+ * Ojo: los enlaces de navegacion usan <a> y NO <Link> a proposito.
+ *
+ * El script de traduccion de globalseo parchea history.pushState, que es como
+ * navega el App Router. Cuando <Link> navega del lado del cliente, el traductor
+ * reescribe el DOM mientras React desmonta el arbol anterior, y React falla con
+ * "Cannot read properties of null (reading 'removeChild')".
+ *
+ * Con <a> cada navegacion es una carga de pagina completa: React se monta de
+ * cero, no hay nada que desmontar y el conflicto desaparece. Se pierde la
+ * transicion instantanea, que es el precio acordado por tener el traductor
+ * funcionando de forma estable.
+ */
 
 export default function Navbar(props) {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -86,19 +99,21 @@ export default function Navbar(props) {
                       <div className="order-1 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:justify-end md:gap-5">
                         {leftmenu.map((item, index) => (
                           <Fragment key={`${item.label}${index}`}>
-                            <Link
+                            {/* <a> y no <Link> a proposito: ver el comentario
+                                al inicio del archivo. */}
+                            <a
                               href={item.href}
                               key={`${item.label}${index}`}
                               className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
                               onClick={() => close()}>
                               {item.label}
-                            </Link>
+                            </a>
                           </Fragment>
                         ))}
                       </div>
 
                       <div className="flex w-full items-center justify-between md:w-auto">
-                        <Link href="/" className="w-16 dark:hidden">
+                        <a href="/" className="w-16 dark:hidden">
                           <Image
                             src="/Logo-blanco.svg"
                             alt="Nuevo Logo"
@@ -107,8 +122,8 @@ export default function Navbar(props) {
                             priority={true}
                             sizes="(max-width: 640px) 100vw, 200px"
                           />
-                        </Link>
-                        <Link
+                        </a>
+                        <a
                           href="/"
                           className="hidden w-28 dark:block">
                           {props.logoalt ? (
@@ -123,7 +138,7 @@ export default function Navbar(props) {
                               JRC
                             </span>
                           )}
-                        </Link>
+                        </a>
                         <Disclosure.Button
                           aria-label="Toggle Menu"
                           className="ml-auto transform rounded-md px-2 py-1 text-gray-500 transition duration-300 hover:scale-110 hover:bg-gray-100 focus:text-[#305832] focus:outline-none dark:text-gray-300 md:hidden">
@@ -150,7 +165,7 @@ export default function Navbar(props) {
                       <div className="order-2 hidden w-full flex-col items-center justify-start md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:gap-5">
                         {rightmenu.map((item, index) => (
                           <Fragment key={`${item.label}${index}`}>
-                            <Link
+                            <a
                               href={item.href}
                               key={`${item.label}${index}`}
                               className={`px-4 py-2 ${
@@ -160,7 +175,7 @@ export default function Navbar(props) {
                               }`}
                               onClick={() => close()}>
                               {item.label}
-                            </Link>
+                            </a>
                           </Fragment>
                         ))}
                       </div>
@@ -175,14 +190,14 @@ export default function Navbar(props) {
                         transition={{ duration: 1.0 }}
                         className="mt-2 w-full flex-col space-y-2 rounded-lg bg-white p-4 shadow-lg">
                         {mobilemenu.map((item, index) => (
-                          <Link
+                          <a
                             href={item.href}
                             key={`${item.label}${index}`}
                             className="block w-full rounded-lg border border-[#305832] px-4 py-2 text-sm font-medium text-[#305832] hover:bg-[#305832] hover:text-white"
                             onClick={() => close()} // Aquí cerramos el menú al hacer clic en un enlace
                           >
                             {item.label}
-                          </Link>
+                          </a>
                         ))}
                       </motion.div>
                     </Disclosure.Panel>

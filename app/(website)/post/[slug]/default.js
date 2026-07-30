@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import Container from "@/components/container";
 import { notFound } from "next/navigation";
 import { PortableText } from "@/lib/sanity/plugins/portabletext";
@@ -53,7 +52,7 @@ export default function Post(props) {
               </div>
               <div>
                 <p className="text-gray-800 dark:text-gray-400">
-                  <Link href={``}>{post.author.name}</Link>
+                  <a href={``}>{post.author.name}</a>
                 </p>
                 <div className="flex items-center space-x-2 text-sm">
                   <time
@@ -91,11 +90,11 @@ export default function Post(props) {
             {post.body && <PortableText value={post.body} />}
           </div>
           <div className="mb-7 mt-7 flex justify-center">
-            <Link
+            <a
               href="/blog"
               className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
               ← Volver
-            </Link>
+            </a>
           </div>
         </article>
       </Container>

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
-import Link from "next/link";
 import { plans, services } from "@/lib/plans";
 
 export default function Pricing() {
@@ -120,11 +119,11 @@ export default function Pricing() {
                   Más popular
                 </div>
               )}
-              <Link href={plan.url} className="mt-8">
+              <a href={plan.url} className="mt-8">
                 <p className="w-full rounded-full border border-[#305832] bg-white py-3 text-center font-semibold text-[#305832]">
                   {plan.cta}
                 </p>
-              </Link>
+              </a>
             </motion.div>
           ))}
         </div>

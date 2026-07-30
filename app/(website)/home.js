@@ -98,11 +98,12 @@ export default function Post({ posts }) {
               contabilidad.
             </p>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
-              <Link href="/pricing">
+              {/* <a> y no <Link>: ver el comentario en components/navbar.js */}
+              <a href="/pricing">
                 <button className="mx-auto w-3/4 rounded-lg bg-[#305832] px-6 py-2 text-white shadow-md  duration-700 ease-in-out hover:border hover:border-[#305832] hover:bg-white hover:text-[#305832] sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
                   Empezá a trabajar con nosotros
                 </button>
-              </Link>
+              </a>
             </div>
           </motion.section>
 
@@ -169,11 +170,11 @@ export default function Post({ posts }) {
                 documentos necesarios para constituir tu empresa y
                 cumplir la normativa.{" "}
               </p>
-              <Link href="/pricing">
+              <a href="/pricing">
                 <button className="rounded-lg bg-[#305832] px-8 py-3 text-white shadow-md hover:bg-[#234621]">
                   Empezar
                 </button>
-              </Link>
+              </a>
             </div>
             <div className="flex flex-col gap-8 md:w-1/3">
               <div className="my-3 flex items-start gap-4">
@@ -305,11 +306,11 @@ export default function Post({ posts }) {
                   enfoque innovador garantizan que tu negocio esté
                   siempre en las mejores manos.
                 </p>
-                <Link href="/blog">
+                <a href="/blog">
                   <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
                     Noticias relevantes para tu negocio
                   </button>
-                </Link>
+                </a>
               </div>
 
               <div class="m-4 mt-16">

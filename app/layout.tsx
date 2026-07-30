@@ -87,6 +87,7 @@ export default function RootLayout({
           allowedLanguages={["en"]}
           useBrowserLanguage="false"
           delay="1200"
+          dynamicTranslation="false"
         />
 
         {/* Wrapper para el GlobalSeoSelector con z-index alto */}
