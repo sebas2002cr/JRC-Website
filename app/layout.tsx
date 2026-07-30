@@ -8,6 +8,7 @@ import { GlobalSeoSelector } from "globalseo-next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ogImage } from "@/lib/seo";
+import CanonicalGuard from "@/components/canonicalGuard";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -66,6 +67,11 @@ export default function RootLayout({
       className={cx(inter.variable, lora.variable)}
     >
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
+        {/* Tiene que ir antes del script de globalseo: blinda el canonical
+            que sirve el servidor para que el traductor no lo deje huerfano
+            y React no reviente al navegar. Ver components/canonicalGuard.js. */}
+        <CanonicalGuard />
+
         {/* El traductor de globalseo, cargado a mano en vez de con
             <GlobalSeoScript>.
 
