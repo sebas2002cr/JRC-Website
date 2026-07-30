@@ -26,20 +26,18 @@ export default function Post({ posts }) {
     const fetchSanityReviews = async () => {
       const data = await getReviews();
       setReviews(data);
-      const randomNumber = Math.floor(Math.random() * 7);
 
-      const reviewName = localStorage.setItem(
-        "Review-name",
-        data[randomNumber].name
-      );
-      const reviewPosition = localStorage.setItem(
-        "Review-position",
-        data[randomNumber].position
-      );
-      const reviewMessage = localStorage.setItem(
-        "Review-message",
-        data[randomNumber].review
-      );
+      // Si no hay reseñas no hay nada que guardar. Antes se usaba
+      // Math.random() * 7, que daba por hecho que en Sanity hay
+      // exactamente 7: con menos, el indice caia fuera del array y el
+      // home reventaba con "Cannot read properties of undefined".
+      if (!data?.length) return;
+
+      const review = data[Math.floor(Math.random() * data.length)];
+
+      localStorage.setItem("Review-name", review?.name ?? "");
+      localStorage.setItem("Review-position", review?.position ?? "");
+      localStorage.setItem("Review-message", review?.review ?? "");
     };
 
     fetchSanityReviews();
