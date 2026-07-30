@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
-import { GlobalSeoScript } from "globalseo-next";
+import Script from "next/script";
 import { GlobalSeoSelector } from "globalseo-next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -66,28 +66,39 @@ export default function RootLayout({
       className={cx(inter.variable, lora.variable)}
     >
       <body className="antialiased text-gray-800 dark:bg-black dark:text-gray-400">
-        {/* TODO: la apiKey deberia vivir solo en una env var. Se deja el
+        {/* El traductor de globalseo, cargado a mano en vez de con
+            <GlobalSeoScript>.
+
+            Motivo: ese componente monta el script con la estrategia por
+            defecto de next/script, que lo ejecuta mientras React todavia
+            esta hidratando. El script reescribe el DOM con textContent, y
+            esa carrera provocaba de forma intermitente
+            "Cannot read properties of null (reading 'removeChild')", que
+            deja la pagina en blanco con "Application error". El componente
+            del paquete descarta los props extra, asi que no acepta un
+            `strategy`; de ahi que se use next/script directamente.
+
+            strategy="lazyOnload" lo retrasa hasta despues del load de la
+            pagina, cuando React ya termino: se acaba la carrera y el
+            selector de abajo sigue funcionando igual.
+
+            data-dynamic-translation="false" ademas apaga el MutationObserver,
+            que era la otra pieza que competia con React.
+
+            TODO: la apiKey deberia vivir solo en una env var. Se deja el
             valor actual como fallback porque aun no esta configurada en
-            Vercel y sin ella el selector de idioma dejaria de funcionar.
-            (Ya era publica: este script corre en el navegador.) */}
-        {/* `delay` intenta mitigar un conflicto con React: el script de
-            globalseo parchea history.pushState (que es como navega el App
-            Router de Next) y al detectar el cambio de ruta reescribe el
-            texto con textContent mientras React todavia esta desmontando el
-            arbol anterior. Eso provoca
-            "Cannot read properties of null (reading 'removeChild')".
-            Darle margen reduce la carrera; no la elimina. */}
-        <GlobalSeoScript
-          translationMode="client_side_only"
-          apiKey={
+            Vercel. Ya era publica: este script corre en el navegador. */}
+        <Script
+          src="https://unpkg.com/globalseo/dist/translate.js"
+          strategy="lazyOnload"
+          data-globalseo-key={
             process.env.NEXT_PUBLIC_GLOBALSEO_API_KEY ||
             "aa26dc8d-924e-4a67-8736-88c509353158"
           }
-          originalLanguage="es"
-          allowedLanguages={["en"]}
-          useBrowserLanguage="false"
-          delay="1200"
-          dynamicTranslation="false"
+          data-original-language="es"
+          data-allowed-languages="en"
+          data-use-browser-language="false"
+          data-dynamic-translation="false"
         />
 
         {/* Wrapper para el GlobalSeoSelector con z-index alto */}
