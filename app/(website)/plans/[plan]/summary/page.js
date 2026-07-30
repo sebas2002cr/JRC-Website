@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
+import { formatColones } from "@/lib/format";
 
 export default function SummaryPage() {
   const router = useRouter();
@@ -280,7 +281,7 @@ const calculateTransactionCost = useCallback((answers) => {
                 Costo del plan:
               </span>
               <span className="text-xs font-semibold text-black">
-                ₡{baseCost.toLocaleString()} IVAI / mensual
+                ₡{formatColones(baseCost)} IVAI / mensual
               </span>
             </div>
             <div className="mb-4 flex items-center justify-between">
@@ -294,7 +295,7 @@ const calculateTransactionCost = useCallback((answers) => {
                   Costo Planilla:
                 </span>
                 <span className="text-xs font-semibold text-black">
-                  ₡{planillaCost.toLocaleString()} IVAI
+                  ₡{formatColones(planillaCost)} IVAI
                 </span>
               </div>
             )}
@@ -304,7 +305,7 @@ const calculateTransactionCost = useCallback((answers) => {
                   Costo Facturas:
                 </span>
                 <span className="text-xs font-semibold text-black">
-                  ₡{facturasCost.toLocaleString()} IVAI
+                  ₡{formatColones(facturasCost)} IVAI
                 </span>
               </div>
             )}
@@ -314,7 +315,7 @@ const calculateTransactionCost = useCallback((answers) => {
                   Costo Transacciones:
                 </span>
                 <span className="text-xs font-semibold text-black">
-                  ₡{transactionCost.toLocaleString()} IVAI
+                  ₡{formatColones(transactionCost)} IVAI
                 </span>
               </div>
             )}
@@ -326,7 +327,7 @@ const calculateTransactionCost = useCallback((answers) => {
             </div>
             <div className="flex items-center justify-between pt-4">
               <span className="text-2xl font-extrabold text-gray-900">
-                ₡{totalCost.toLocaleString()}
+                ₡{formatColones(totalCost)}
               </span>
               <span className="text-xs font-bold text-gray-700">
                 IVAI / mensual

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getAllCourses } from "@/lib/sanity/client";
 import Image from "next/image";
+import { formatColones } from "@/lib/format";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -56,7 +57,7 @@ export default function Courses() {
               </div>
               <div className="flex items-center space-x-4 text-sm text-gray-600 sm:text-base">
                 <span className="text-lg font-extrabold sm:text-xl">
-                  ₡{course.price.toLocaleString()}
+                  ₡{formatColones(course.price)}
                 </span>
                 <span className="flex items-center space-x-1">
                   <svg

@@ -16,6 +16,7 @@ import {
   useParams,
   useSearchParams
 } from "next/navigation";
+import { formatColones } from "@/lib/format";
 
 export default function Checkout() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -325,7 +326,7 @@ export default function Checkout() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold sm:text-base lg:text-lg">
-                  ₡{baseCost.toLocaleString()}
+                  ₡{formatColones(baseCost)}
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
@@ -336,7 +337,7 @@ export default function Checkout() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold sm:text-base lg:text-lg">
-                  ₡{planillaCost.toLocaleString()}
+                  ₡{formatColones(planillaCost)}
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
@@ -347,7 +348,7 @@ export default function Checkout() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold sm:text-base lg:text-lg">
-                  ₡{facturasCost.toLocaleString()}
+                  ₡{formatColones(facturasCost)}
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
@@ -358,7 +359,7 @@ export default function Checkout() {
                   </span>
                 </div>
                 <span className="text-sm font-bold sm:text-base lg:text-2xl">
-                  ₡{totalCost.toLocaleString()}
+                  ₡{formatColones(totalCost)}
                   <span className="text-xs text-gray-400">
                     {" "}
                     IVAI / mensual
@@ -422,21 +423,21 @@ export default function Checkout() {
                     <FaMoneyBillWave className="mr-2 text-[#305832]" />
                     <span>Costo base del plan</span>
                   </div>
-                  <span>₡{baseCost.toLocaleString()}</span>
+                  <span>₡{formatColones(baseCost)}</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
                   <div className="flex items-center">
                     <FaUserFriends className="mr-2 text-[#305832]" />
                     <span>Costo adicional por planilla</span>
                   </div>
-                  <span>₡{planillaCost.toLocaleString()}</span>
+                  <span>₡{formatColones(planillaCost)}</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
                   <div className="flex items-center">
                     <FaFileInvoiceDollar className="mr-2 text-[#305832]" />
                     <span>Costo adicional por facturas</span>
                   </div>
-                  <span>₡{facturasCost.toLocaleString()}</span>
+                  <span>₡{formatColones(facturasCost)}</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
                   <div className="flex items-center">
@@ -444,7 +445,7 @@ export default function Checkout() {
                     <span className="font-bold">Costo total</span>
                   </div>
                   <span className="text-2xl font-bold">
-                    ₡{totalCost.toLocaleString()}
+                    ₡{formatColones(totalCost)}
                     <span className="text-xs text-gray-400">
                       {" "}
                       IVAI

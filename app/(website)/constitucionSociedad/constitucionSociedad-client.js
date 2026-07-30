@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { formatColones } from "@/lib/format";
 
 export default function CheckoutConstitucionSociedad() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -295,7 +296,7 @@ export default function CheckoutConstitucionSociedad() {
                   </span>
                 </div>
                 <span className="text-sm font-bold sm:text-base lg:text-2xl">
-                  ₡{planPrice.toLocaleString()}{" "}
+                  ₡{formatColones(planPrice)}{" "}
                   <span className="text-xs text-gray-400">IVAI</span>
                 </span>
               </div>
@@ -432,7 +433,7 @@ export default function CheckoutConstitucionSociedad() {
 
                 <div className="relative text-right">
                   <h2 className="text-3xl font-extrabold text-[#305832]">
-                  ¢{planPrice.toLocaleString()}
+                  ¢{formatColones(planPrice)}
                   </h2>
                   <span className="text-sm text-gray-500">
                     IVA incluido
