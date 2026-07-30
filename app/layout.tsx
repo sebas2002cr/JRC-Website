@@ -70,6 +70,13 @@ export default function RootLayout({
             valor actual como fallback porque aun no esta configurada en
             Vercel y sin ella el selector de idioma dejaria de funcionar.
             (Ya era publica: este script corre en el navegador.) */}
+        {/* `delay` intenta mitigar un conflicto con React: el script de
+            globalseo parchea history.pushState (que es como navega el App
+            Router de Next) y al detectar el cambio de ruta reescribe el
+            texto con textContent mientras React todavia esta desmontando el
+            arbol anterior. Eso provoca
+            "Cannot read properties of null (reading 'removeChild')".
+            Darle margen reduce la carrera; no la elimina. */}
         <GlobalSeoScript
           translationMode="client_side_only"
           apiKey={
@@ -78,9 +85,8 @@ export default function RootLayout({
           }
           originalLanguage="es"
           allowedLanguages={["en"]}
-          excludeClasses="class1, class2"
-          excludeIds="id1, id2"
           useBrowserLanguage="false"
+          delay="1200"
         />
 
         {/* Wrapper para el GlobalSeoSelector con z-index alto */}
