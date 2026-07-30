@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState , useCallback} from "react";
+import { useEffect, useState , useCallback, useRef} from "react";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
@@ -26,6 +26,8 @@ export default function CheckoutConstitucionSociedad() {
   const [orderNumber, setOrderNumber] = useState("");
   const [isFormComplete, setIsFormComplete] = useState(false); // Estado para habilitar/deshabilitar el botón
   const router = useRouter();
+  // La instancia del widget de ONVO, para poder cerrarla al salir.
+  const onvoWidget = useRef(null);
 
   const planPrice = parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_CONSTITUTION, 10); // Precio fijo para el servicio de Constitución de una Sociedad
 
@@ -92,7 +94,10 @@ export default function CheckoutConstitucionSociedad() {
             data;
           setPaymentIntentId(newPaymentIntentId);
 
-          onvo
+          // Se guarda la instancia antes de renderizar: .render() devuelve
+          // una promesa, no el widget, y lo que hace falta para cerrarlo al
+          // salir de la pagina es la instancia.
+          const widget = onvo
             .pay({
               onError: () => {
                 setPaymentError("Hubo un error procesando el pago.");
@@ -141,8 +146,10 @@ export default function CheckoutConstitucionSociedad() {
               publicKey,
               paymentIntentId: newPaymentIntentId,
               paymentType: "one_time"
-            })
-            .render("#onvo-container");
+            });
+
+          onvoWidget.current = widget;
+          widget.render("#onvo-container");
         }
       } catch (error) {
         setPaymentError("Error al crear el intento de pago.");
@@ -154,19 +161,6 @@ export default function CheckoutConstitucionSociedad() {
     if (onvoLoaded) {
       loadPayment(); // Cargar el SDK independientemente de si el formulario está completo
     }
-
-    const removeOnvoScript = () => {
-      const script = document.getElementById("onvo-script");
-      if (script) {
-        document.body.removeChild(script);
-        setOnvoLoaded(false);
-      }
-
-      const onvoContainer = document.getElementById("onvo-container");
-      if (onvoContainer) {
-        onvoContainer.innerHTML = "";
-      }
-    };
 
     // Generar un número de orden único
     const now = new Date();
@@ -182,6 +176,29 @@ export default function CheckoutConstitucionSociedad() {
     )}`;
     setOrderNumber(newOrderNumber);
   }, [paymentIntentId, onvoLoaded]);
+
+  // Limpieza del widget al salir de la pagina.
+  //
+  // Va en un useEffect propio con deps [] a proposito: el de arriba depende
+  // de [paymentIntentId, onvoLoaded], asi que una limpieza puesta ahi correria
+  // entre renders y se llevaria el widget que se acaba de montar.
+  //
+  // El SDK de ONVO es zoid, que vigila si su contenedor sigue en el DOM y
+  // lanza "Detected container element removed from DOM" cuando React desmonta
+  // la pagina. Cerrando la instancia antes se cancela esa vigilancia.
+  useEffect(() => {
+    return () => {
+      const widget = onvoWidget.current;
+      onvoWidget.current = null;
+      try {
+        if (widget && typeof widget.close === "function") widget.close();
+      } catch (error) {
+        // Si el SDK ya se cerro solo, no hay nada que rescatar.
+      }
+      const script = document.getElementById("onvo-script");
+      if (script) script.remove();
+    };
+  }, []);
 
   const handleInputChange = e => {
     const { name, value } = e.target;

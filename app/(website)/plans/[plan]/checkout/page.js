@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {
   FaMoneyBillWave,
@@ -41,6 +41,8 @@ export default function Checkout() {
   const [orderNumber, setOrderNumber] = useState("");
   const searchParams = useSearchParams();
   const [cotizacion, setCotizacion] = useState("");
+  // La instancia del widget de ONVO, para poder cerrarla al salir.
+  const onvoWidget = useRef(null);
 
   useEffect(() => {
     const cotizacionParam = searchParams.get("cotizacion");
@@ -115,7 +117,10 @@ export default function Checkout() {
             data;
           setPaymentIntentId(newPaymentIntentId);
 
-          onvo
+          // Se guarda la instancia antes de renderizar: .render() devuelve
+          // una promesa, no el widget, y lo que hace falta para cerrarlo al
+          // salir de la pagina es la instancia.
+          const widget = onvo
             .pay({
               onError: data => {
                 setPaymentError("Hubo un error procesando el pago.");
@@ -146,8 +151,10 @@ export default function Checkout() {
               publicKey,
               paymentIntentId: newPaymentIntentId,
               paymentType: "one_time"
-            })
-            .render("#onvo-container");
+            });
+
+          onvoWidget.current = widget;
+          widget.render("#onvo-container");
         }
       } catch (error) {
         setPaymentError("Error al crear el intento de pago.");
@@ -160,10 +167,11 @@ export default function Checkout() {
       loadPayment();
     }
 
+    // La llama onSuccess, para retirar el formulario de pago una vez cobrado.
     const removeOnvoScript = () => {
       const script = document.getElementById("onvo-script");
       if (script) {
-        document.body.removeChild(script);
+        script.remove();
         setOnvoLoaded(false);
       }
 
@@ -173,6 +181,29 @@ export default function Checkout() {
       }
     };
   }, [totalCost, paymentIntentId, onvoLoaded]);
+
+  // Limpieza del widget al salir de la pagina.
+  //
+  // Va en un useEffect propio con deps [] a proposito: el de arriba depende
+  // de [totalCost, paymentIntentId, onvoLoaded], asi que una limpieza puesta
+  // ahi correria entre renders y se llevaria el widget recien montado.
+  //
+  // El SDK de ONVO es zoid, que vigila si su contenedor sigue en el DOM y
+  // lanza "Detected container element removed from DOM" cuando React desmonta
+  // la pagina. Cerrando la instancia antes se cancela esa vigilancia.
+  useEffect(() => {
+    return () => {
+      const widget = onvoWidget.current;
+      onvoWidget.current = null;
+      try {
+        if (widget && typeof widget.close === "function") widget.close();
+      } catch (error) {
+        // Si el SDK ya se cerro solo, no hay nada que rescatar.
+      }
+      const script = document.getElementById("onvo-script");
+      if (script) script.remove();
+    };
+  }, []);
 
   // Función para manejar el clic en el botón de "Atrás"
   const handleBack = () => {
