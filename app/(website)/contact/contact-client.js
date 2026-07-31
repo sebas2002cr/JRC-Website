@@ -99,14 +99,14 @@ export default function Contact() {
   };
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-clip">
       <div className="flex flex-col md:flex-row">
         {/* Sección de la imagen */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:h-[38vw] md:w-1/2">
           <img
-            src="/img/socios-jrc.jpeg"
-            alt="Contact Image"
-            className="h-full w-full object-cover"
+            src="/img/socios-jrc-2.jpeg"
+            alt="Socios de JRC"
+            className="h-auto w-full object-cover object-center md:h-full"
           />
         </div>
 
@@ -126,10 +126,10 @@ export default function Contact() {
               <h1 className="mb-4 text-center text-4xl font-bold text-gray-700">
                 Nos encantaría saber de vos
               </h1>
-              <p className="mb-8 text-center text-gray-600">
+              <p className="mb-6 text-center text-gray-600">
                 Estaremos más que felices en atender tus consultas.
               </p>
-              <div className="rounded-xl bg-gray-50 p-8 shadow-lg">
+              <div className="rounded-xl bg-gray-50 p-6 shadow-lg">
                 {!isFormSubmitted ? (
                   <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -172,7 +172,7 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <div className="mb-4">
+                    <div>
                       <label className="font-bold text-gray-500">
                         Correo electrónico
                       </label>
@@ -194,7 +194,7 @@ export default function Contact() {
                       )}
                     </div>
 
-                    <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div>
                         <label className="font-bold text-gray-500">
                           Teléfono
@@ -239,7 +239,7 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="w-full">
                         <label className="font-bold text-gray-500">
                           Tipo de persona
@@ -270,7 +270,7 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <div className="mb-4 w-full">
+                    <div className="w-full">
                       <label className="font-bold text-gray-500">
                         Tema
                       </label>
@@ -288,7 +288,7 @@ export default function Contact() {
                       </select>
                     </div>
 
-                    <div className="mb-4 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="w-full">
                         <label className="mb-2 block text-gray-700">
                           Método preferido de contacto
@@ -329,7 +329,7 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <div className="mb-4 w-full">
+                    <div className="w-full">
                       <label className="font-bold text-gray-500">
                         Detalles adicionales
                       </label>
