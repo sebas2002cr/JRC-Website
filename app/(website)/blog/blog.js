@@ -1,116 +1,66 @@
-"use client";
-import { useState } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
-import { motion, AnimatePresence } from "framer-motion";
+import Filtros from "./filtros";
+import Paginacion from "./paginacion";
 
-export default function Blog({ posts, categories }) {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  // Filtrar posts por categoría seleccionada
-  const filteredPosts = selectedCategory
-    ? posts.filter(
-        post =>
-          post.categories &&
-          Array.isArray(post.categories) &&
-          post.categories.some(
-            category => category.slug.current === selectedCategory
-          )
-      )
-    : posts;
+export default function Blog({
+  posts,
+  total,
+  paginas,
+  pagina,
+  categorias,
+  categoriaActiva,
+  periodoActivo
+}) {
+  // Los dos destacados grandes solo tienen sentido en la portada del blog:
+  // en la pagina 4, o filtrando por categoria, no hay nada que "destacar".
+  const hayDestacados = pagina === 1 && !categoriaActiva && !periodoActivo;
+  const destacados = hayDestacados ? posts.slice(0, 2) : [];
+  const resto = hayDestacados ? posts.slice(2) : posts;
 
   return (
-    <>
-      {posts && (
-        <Container>
-          {/* Sección de Noticias Relevantes */}
-          <section className="mb-12 text-center">
-            <p className="text-sm font-semibold text-[#305832]">
-              Blog
-            </p>
-            <h1 className="text-4xl font-bold text-gray-800">
-              Noticias relevantes
-            </h1>
-            <p className="mb-8 mt-4 text-gray-600">
-              Mantente al día con las ultimas noticias y
-              actualizaciones del sector.
-            </p>
+    <Container>
+      <section className="mb-10 text-center">
+        <p className="text-sm font-semibold text-[#305832]">Blog</p>
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+          Noticias relevantes
+        </h1>
+        <p className="mb-8 mt-4 text-gray-600 dark:text-gray-400">
+          Mantente al día con las últimas noticias y actualizaciones del sector.
+        </p>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                className={`rounded-md px-4 py-2 ${
-                  !selectedCategory
-                    ? "bg-[#305832] text-white"
-                    : "border border-[#305832] text-[#305832]"
-                }`}
-                onClick={() => setSelectedCategory(null)}>
-                Todos
-              </button>
-              {categories.length > 0 &&
-                categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className={`rounded-md px-4 py-2 ${
-                      selectedCategory === category.slug.current
-                        ? "bg-[#305832] text-white"
-                        : "border border-[#305832] text-[#305832]"
-                    }`}
-                    onClick={() =>
-                      setSelectedCategory(category.slug.current)
-                    }>
-                    {category.title}
-                  </button>
-                ))}
+        <Filtros
+          categorias={categorias}
+          categoriaActiva={categoriaActiva}
+          periodoActivo={periodoActivo}
+          total={total}
+        />
+      </section>
+
+      {posts.length === 0 ? (
+        <div className="py-16 text-center text-gray-600 dark:text-gray-400">
+          <p className="text-lg font-medium">No hay noticias con esos filtros.</p>
+          <p className="mt-2">Probá con otra categoría u otro periodo.</p>
+        </div>
+      ) : (
+        <>
+          {destacados.length > 0 && (
+            <div className="mb-10 grid gap-10 md:grid-cols-2 lg:gap-10">
+              {destacados.map(post => (
+                <PostList key={post._id} post={post} aspect="landscape" preloadImage={true} />
+              ))}
             </div>
-          </section>
-
-          {/* Mostrar mensaje si no hay posts en la categoría seleccionada */}
-          {filteredPosts.length === 0 ? (
-            <div className="mt-10 text-center text-gray-600">
-              <p>No hay noticias en esta categoría por el momento.</p>
-              <p>¡Vuelve pronto para más actualizaciones!</p>
-            </div>
-          ) : (
-            <>
-              {/* Listado de Posts */}
-              <AnimatePresence>
-                <motion.div
-                  key={selectedCategory} // clave única para cada categoría
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5 }}
-                  className="grid gap-10 md:grid-cols-2 lg:gap-10">
-                  {filteredPosts.slice(0, 2).map(post => (
-                    <PostList
-                      key={post._id}
-                      post={post}
-                      aspect="landscape"
-                      preloadImage={true}
-                    />
-                  ))}
-                </motion.div>
-
-                <motion.div
-                  key={selectedCategory + "-grid"}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5 }}
-                  className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
-                  {filteredPosts.slice(2, 14).map(post => (
-                    <PostList
-                      key={post._id}
-                      post={post}
-                      aspect="square"
-                    />
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </>
           )}
-        </Container>
+
+          <div className="grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
+            {resto.map(post => (
+              <PostList key={post._id} post={post} aspect="square" />
+            ))}
+          </div>
+
+          <Paginacion pagina={pagina} paginas={paginas} total={total} />
+        </>
       )}
-    </>
+    </Container>
   );
 }

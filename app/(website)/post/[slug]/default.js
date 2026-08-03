@@ -7,6 +7,7 @@ import { parseISO, format } from "date-fns";
 
 import CategoryLabel from "@/components/blog/category";
 import AuthorCard from "@/components/blog/authorCard";
+import ContactoWhatsApp from "@/components/blog/contactoWhatsApp";
 
 export default function Post(props) {
   const { loading, post } = props;
@@ -84,11 +85,37 @@ export default function Post(props) {
         )}
       </div>
 
+      {/* Credito al fotografo. Las guidelines de la API de Pexels lo exigen
+          donde se use la foto, junto con el enlace a Pexels. */}
+      {post.mainImage?.credito && (
+        <div className="mx-auto max-w-screen-lg px-5 pt-2 text-right">
+          <a
+            href={post.mainImage.creditoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            {post.mainImage.credito}
+          </a>
+        </div>
+      )}
+
       <Container>
         <article className="mx-auto max-w-screen-md ">
           <div className="prose mx-auto my-3 dark:prose-invert prose-a:text-blue-600">
             {post.body && <PortableText value={post.body} />}
           </div>
+
+          <ContactoWhatsApp titulo={post.title} />
+
+          {/* La fuente va como TEXTO, sin enlace. El enlace a la nota
+              original vive solo en el CRM, para contrastar datos
+              internamente. */}
+          {post.fuenteMedio && (
+            <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+              Fuente: {post.fuenteMedio}
+            </p>
+          )}
+
           <div className="mb-7 mt-7 flex justify-center">
             <a
               href="/blog"

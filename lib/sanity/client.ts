@@ -3,6 +3,9 @@ import {
   postquery,
   limitquery,
   paginatedquery,
+  blogPageQuery,
+  categoriasConConteoQuery,
+  sitemapPostsQuery,
   configQuery,
   singlequery,
   pathquery,
@@ -30,8 +33,12 @@ if (!projectId) {
 /**
  * Checks if it's safe to create a client instance, as `@sanity/client` will throw an error if `projectId` is false
  */
+// useCdn viene de config.ts (activo en produccion). Antes estaba forzado a
+// false aca, lo que hacia que CADA lectura publica del blog golpeara la API
+// de Sanity sin cache. Con el listado paginado —que es dinamico porque
+// depende de los parametros de la URL— eso pasaba de ineficiente a notorio.
 const client = projectId
-  ? createClient({ projectId, dataset, apiVersion, useCdn:false })
+  ? createClient({ projectId, dataset, apiVersion, useCdn })
   : null;
 
 export const fetcher = async ([query, params]) => {
@@ -71,6 +78,49 @@ export async function getSingleCourse() {
   return [];
 }
 
+
+/** Cuántas notas se muestran por página en el listado del blog. */
+export const POSTS_POR_PAGINA = 10;
+
+/**
+ * Una página del listado del blog, ya filtrada.
+ *
+ * Antes la página pedía TODOS los posts y mostraba los primeros 14,
+ * descartando el resto en silencio. Con 97 notas publicadas eso dejaba 83
+ * invisibles. Acá se pide solo la página que se va a mostrar, y el total
+ * viene en la misma consulta para poder dibujar la paginación.
+ */
+export async function getBlogPage({ pagina = 1, categoria = "", desde = "" } = {}) {
+  if (!client) return { posts: [], total: 0, paginas: 0, pagina: 1 };
+
+  const inicio = (Math.max(pagina, 1) - 1) * POSTS_POR_PAGINA;
+
+  const { posts, total } = await client.fetch(blogPageQuery, {
+    categoria,
+    desde,
+    inicio,
+    fin: inicio + POSTS_POR_PAGINA,
+  });
+
+  return {
+    posts: posts || [],
+    total: total || 0,
+    paginas: Math.ceil((total || 0) / POSTS_POR_PAGINA),
+    pagina: Math.max(pagina, 1),
+  };
+}
+
+/** Todas las categorías con su cantidad de notas. */
+export async function getCategoriasConConteo() {
+  if (client) return (await client.fetch(categoriasConConteoQuery)) || [];
+  return [];
+}
+
+/** Slugs y fechas de todos los posts, para el sitemap. */
+export async function getPostsParaSitemap() {
+  if (client) return (await client.fetch(sitemapPostsQuery)) || [];
+  return [];
+}
 
 export async function getSettings() {
   if (client) {
