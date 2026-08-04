@@ -5,6 +5,7 @@ import {
   paginatedquery,
   blogPageQuery,
   categoriasConConteoQuery,
+  fechasPostsQuery,
   sitemapPostsQuery,
   configQuery,
   singlequery,
@@ -90,14 +91,15 @@ export const POSTS_POR_PAGINA = 10;
  * invisibles. Acá se pide solo la página que se va a mostrar, y el total
  * viene en la misma consulta para poder dibujar la paginación.
  */
-export async function getBlogPage({ pagina = 1, categoria = "", desde = "" } = {}) {
+export async function getBlogPage({ pagina = 1, categoria = "", desde = "", hasta = "" } = {}) {
   if (!client) return { posts: [], total: 0, paginas: 0, pagina: 1 };
 
   const inicio = (Math.max(pagina, 1) - 1) * POSTS_POR_PAGINA;
 
-  const { posts, total } = await client.fetch(blogPageQuery, {
+  const { posts, total, totalDelAnio } = await client.fetch(blogPageQuery, {
     categoria,
     desde,
+    hasta,
     inicio,
     fin: inicio + POSTS_POR_PAGINA,
   });
@@ -105,15 +107,41 @@ export async function getBlogPage({ pagina = 1, categoria = "", desde = "" } = {
   return {
     posts: posts || [],
     total: total || 0,
+    // Sin la categoría aplicada: es lo que muestra el chip "Todas". No se
+    // puede sumar el conteo de las categorías porque una nota puede estar
+    // en más de una y quedaría contada dos veces.
+    totalDelAnio: totalDelAnio || 0,
     paginas: Math.ceil((total || 0) / POSTS_POR_PAGINA),
     pagina: Math.max(pagina, 1),
   };
 }
 
-/** Todas las categorías con su cantidad de notas. */
-export async function getCategoriasConConteo() {
-  if (client) return (await client.fetch(categoriasConConteoQuery)) || [];
+/** Todas las categorías con su cantidad de notas dentro del rango pedido. */
+export async function getCategoriasConConteo({ desde = "", hasta = "" } = {}) {
+  if (client) return (await client.fetch(categoriasConConteoQuery, { desde, hasta })) || [];
   return [];
+}
+
+/**
+ * Los años que realmente tienen notas, del más nuevo al más viejo.
+ *
+ * Se derivan del contenido en vez de fijarse a mano: así el desplegable
+ * nunca ofrece un año vacío ni se queda corto cuando pase 2027.
+ */
+export async function getAniosConConteo(categoria = "") {
+  if (!client) return [];
+
+  const fechas = await client.fetch(fechasPostsQuery, { categoria });
+
+  const conteo = new Map<string, number>();
+  for (const { fecha } of fechas || []) {
+    const anio = String(fecha || "").slice(0, 4);
+    if (/^\d{4}$/.test(anio)) conteo.set(anio, (conteo.get(anio) || 0) + 1);
+  }
+
+  return [...conteo.entries()]
+    .map(([anio, count]) => ({ anio, count }))
+    .sort((a, b) => b.anio.localeCompare(a.anio));
 }
 
 /** Slugs y fechas de todos los posts, para el sitemap. */

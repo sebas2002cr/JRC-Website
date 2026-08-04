@@ -8,13 +8,15 @@ export default function Blog({
   total,
   paginas,
   pagina,
+  totalDelAnio,
   categorias,
   categoriaActiva,
-  periodoActivo
+  anios,
+  anioActivo
 }) {
   // Los dos destacados grandes solo tienen sentido en la portada del blog:
   // en la pagina 4, o filtrando por categoria, no hay nada que "destacar".
-  const hayDestacados = pagina === 1 && !categoriaActiva && !periodoActivo;
+  const hayDestacados = pagina === 1 && !categoriaActiva && !anioActivo;
   const destacados = hayDestacados ? posts.slice(0, 2) : [];
   const resto = hayDestacados ? posts.slice(2) : posts;
 
@@ -29,13 +31,15 @@ export default function Blog({
           Mantente al día con las últimas noticias y actualizaciones del sector.
         </p>
 
-        <Filtros
-          categorias={categorias}
-          categoriaActiva={categoriaActiva}
-          periodoActivo={periodoActivo}
-          total={total}
-        />
       </section>
+
+      <Filtros
+        categorias={categorias}
+        categoriaActiva={categoriaActiva}
+        anios={anios}
+        anioActivo={anioActivo}
+        totalDelAnio={totalDelAnio}
+      />
 
       {posts.length === 0 ? (
         <div className="py-16 text-center text-gray-600 dark:text-gray-400">

@@ -1,5 +1,9 @@
 import Blog from "./blog";
-import { getBlogPage, getCategoriasConConteo } from "@/lib/sanity/client";
+import {
+  getBlogPage,
+  getCategoriasConConteo,
+  getAniosConConteo
+} from "@/lib/sanity/client";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -10,40 +14,44 @@ export const metadata = pageMetadata({
 });
 
 /**
- * Traduce el filtro de periodo a una fecha ISO desde la cual buscar.
- * Se calcula en el servidor para que el filtro forme parte de la consulta a
- * Sanity y no de un descarte posterior en el navegador: filtrar despues de
- * traer los datos volveria a romper la paginacion.
+ * Rango de fechas de un año concreto, para la consulta a Sanity.
+ *
+ * Antes el filtro eran periodos relativos (última semana / último mes /
+ * último año). Se cambiaron por años por dos razones:
+ *
+ *  1. El listado ya abre con lo más reciente arriba, así que "última semana"
+ *     no ayudaba a encontrar lo nuevo: ya lo estabas viendo. Un filtro de
+ *     fecha sirve para volver a un momento, y eso es un año, no una ventana
+ *     móvil.
+ *  2. Los periodos relativos quedaban vacíos casi siempre. Con el contenido
+ *     de hoy, "última semana" y "último mes" devolvían 0 notas: tres de las
+ *     cuatro opciones eran callejones sin salida.
+ *
+ * Los años salen del contenido real (getAniosConConteo), así que la lista
+ * nunca ofrece un año vacío ni se queda corta con el paso del tiempo.
  */
-function fechaDesde(periodo) {
-  const ahora = new Date();
-
-  if (periodo === "semana") {
-    const desde = new Date(ahora);
-    desde.setDate(ahora.getDate() - 7);
-    return desde.toISOString();
-  }
-  if (periodo === "mes") {
-    const desde = new Date(ahora);
-    desde.setMonth(ahora.getMonth() - 1);
-    return desde.toISOString();
-  }
-  if (periodo === "anio") {
-    const desde = new Date(ahora);
-    desde.setFullYear(ahora.getFullYear() - 1);
-    return desde.toISOString();
-  }
-  return "";
+function rangoDelAnio(anio) {
+  if (!/^\d{4}$/.test(String(anio || ""))) return { desde: "", hasta: "" };
+  return {
+    desde: `${anio}-01-01T00:00:00.000Z`,
+    hasta: `${anio}-12-31T23:59:59.999Z`
+  };
 }
 
 export default async function IndexPage({ searchParams }) {
   const pagina = Number(searchParams?.page) || 1;
   const categoria = searchParams?.categoria || "";
-  const periodo = searchParams?.periodo || "";
+  const anio = /^\d{4}$/.test(searchParams?.anio || "") ? searchParams.anio : "";
 
-  const [datos, categorias] = await Promise.all([
-    getBlogPage({ pagina, categoria, desde: fechaDesde(periodo) }),
-    getCategoriasConConteo()
+  const { desde, hasta } = rangoDelAnio(anio);
+
+  const [datos, categorias, anios] = await Promise.all([
+    getBlogPage({ pagina, categoria, desde, hasta }),
+    // Los conteos de categoría se cruzan con el año elegido, y los de año
+    // con la categoría elegida. Así ningún filtro visible lleva a una
+    // página vacía.
+    getCategoriasConConteo({ desde, hasta }),
+    getAniosConConteo(categoria)
   ]);
 
   return (
@@ -51,7 +59,8 @@ export default async function IndexPage({ searchParams }) {
       {...datos}
       categorias={categorias}
       categoriaActiva={categoria}
-      periodoActivo={periodo}
+      anios={anios}
+      anioActivo={anio}
     />
   );
 }
