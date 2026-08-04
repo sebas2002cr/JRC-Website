@@ -13,11 +13,19 @@ import { cx } from "@/utils/all";
  * lo que rompia la paginacion.
  */
 
+// De lo mas reciente a lo mas amplio, que es como se lee naturalmente.
+//
+// "Todas" queda al final pero es el filtro POR DEFECTO, y eso es a
+// proposito: con los datos actuales del blog hay 0 notas de la ultima
+// semana y 0 del ultimo mes, asi que arrancar con un periodo estrecho
+// dejaria la pagina del blog vacia para cualquier visitante. Como el
+// listado ya viene ordenado de lo mas nuevo a lo mas viejo, lo ultimo
+// publicado es igualmente lo primero que se ve.
 const PERIODOS = [
-  { valor: "", etiqueta: "Todo el tiempo" },
   { valor: "semana", etiqueta: "Última semana" },
   { valor: "mes", etiqueta: "Último mes" },
-  { valor: "anio", etiqueta: "Último año" }
+  { valor: "anio", etiqueta: "Último año" },
+  { valor: "", etiqueta: "Todas" }
 ];
 
 const VERDE = "#305832";

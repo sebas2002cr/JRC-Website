@@ -4,6 +4,7 @@ import { urlForImage } from "@/lib/sanity/image";
 import { parseISO, format } from "date-fns";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import CategoryLabel from "@/components/blog/category";
+import AvatarAutor from "@/components/blog/avatarAutor";
 
 export default function PostList({
   post,
@@ -16,9 +17,6 @@ export default function PostList({
 }) {
   const imageProps = post?.mainImage
     ? urlForImage(post.mainImage)
-    : null;
-  const AuthorimageProps = post?.author?.image
-    ? urlForImage(post.author.image)
     : null;
   return (
     <>
@@ -113,24 +111,14 @@ export default function PostList({
             </div>
 
             <div className="mt-3 flex items-center space-x-3 text-gray-500 dark:text-gray-400">
-              <a href={``}>
-                <div className="flex items-center gap-3">
-                  <div className="relative h-5 w-5 flex-shrink-0">
-                    {post?.author?.image && (
-                      <Image
-                        src={AuthorimageProps.src}
-                        alt={post?.author?.name}
-                        className="rounded-full object-cover"
-                        fill
-                        sizes="20px"
-                      />
-                    )}
-                  </div>
-                  <span className="truncate text-sm">
-                    {post?.author?.name}
-                  </span>
-                </div>
-              </a>
+              <div className="flex items-center gap-2">
+                {/* Con respaldo: el autor que crea el CRM no trae foto, y
+                    sin esto quedaba un hueco al lado del nombre. */}
+                <AvatarAutor author={post?.author} size={20} />
+                <span className="truncate text-sm">
+                  {post?.author?.name}
+                </span>
+              </div>
               <span className="text-xs text-gray-300 dark:text-gray-600">
                 &bull;
               </span>

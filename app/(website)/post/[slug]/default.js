@@ -8,6 +8,7 @@ import { parseISO, format } from "date-fns";
 import CategoryLabel from "@/components/blog/category";
 import AuthorCard from "@/components/blog/authorCard";
 import ContactoWhatsApp from "@/components/blog/contactoWhatsApp";
+import AvatarAutor from "@/components/blog/avatarAutor";
 
 export default function Post(props) {
   const { loading, post } = props;
@@ -20,10 +21,6 @@ export default function Post(props) {
 
   const imageProps = post?.mainImage
     ? urlForImage(post?.mainImage)
-    : null;
-
-  const AuthorimageProps = post?.author?.image
-    ? urlForImage(post.author.image)
     : null;
 
   return (
@@ -40,20 +37,10 @@ export default function Post(props) {
 
           <div className="mt-3 flex justify-center space-x-3 text-gray-500 ">
             <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 flex-shrink-0">
-                {AuthorimageProps && (
-                  <Image
-                    src={AuthorimageProps.src}
-                    alt={post?.author?.name}
-                    className="rounded-full object-cover"
-                    fill
-                    sizes="40px"
-                  />
-                )}
-              </div>
-              <div>
-                <p className="text-gray-800 dark:text-gray-400">
-                  <a href={``}>{post.author.name}</a>
+              <AvatarAutor author={post?.author} size={40} />
+              <div className="text-left">
+                <p className="font-medium text-gray-800 dark:text-gray-300">
+                  {post.author.name}
                 </p>
                 <div className="flex items-center space-x-2 text-sm">
                   <time
