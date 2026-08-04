@@ -75,9 +75,14 @@ export default function Filtros({
 
   const anioSeleccionado = (anios || []).find(a => a.anio === anioActivo);
 
+  // La barra es una banda con fondo propio y los controles van en blanco
+  // encima. Se probo antes sin fondo y sin bordes, buscando algo limpio, y
+  // el resultado fue que nada se leia como boton: sobre una pagina blanca,
+  // un control blanco sin borde es texto. El contraste banda/control es lo
+  // que hace que se entienda que hay algo que tocar.
   return (
-    <div className="mb-10 border-y border-gray-100 py-4 dark:border-gray-800">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-3">
+    <div className="mb-10 rounded-2xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900/60">
+      <div className="flex flex-wrap items-center gap-2">
         <Chip
           activo={!categoriaActiva}
           onClick={() => navegar("categoria", "")}
@@ -155,17 +160,22 @@ export default function Filtros({
   );
 }
 
+// Estilo compartido por los chips y por los desplegables, para que todo lo
+// que se puede tocar en la barra se vea igual.
+const BOTON_BASE =
+  "flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium shadow-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#305832]/40";
+
+const BOTON_INACTIVO =
+  "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-white";
+
+const BOTON_ACTIVO = "border-transparent text-white";
+
 function Chip({ activo, onClick, etiqueta, cantidad }) {
   return (
     <button
       onClick={onClick}
       aria-pressed={activo}
-      className={cx(
-        "flex shrink-0 items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-        activo
-          ? "text-white"
-          : "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
-      )}
+      className={cx(BOTON_BASE, activo ? BOTON_ACTIVO : BOTON_INACTIVO)}
       style={activo ? { backgroundColor: VERDE } : undefined}>
       <span>{etiqueta}</span>
       {/* El conteo ya venía en la consulta de categorías y no se usaba.
@@ -173,8 +183,10 @@ function Chip({ activo, onClick, etiqueta, cantidad }) {
           hacer clic. */}
       <span
         className={cx(
-          "text-xs tabular-nums",
-          activo ? "text-white/70" : "text-gray-400 dark:text-gray-500"
+          "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
+          activo
+            ? "bg-white/25 text-white"
+            : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400"
         )}>
         {cantidad}
       </span>
@@ -219,10 +231,10 @@ function Desplegable({ etiqueta, activo, alineacion = "left", children }) {
         aria-expanded={abierto}
         aria-haspopup="menu"
         className={cx(
-          "flex shrink-0 items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-          activo
-            ? "text-white"
-            : "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+          BOTON_BASE,
+          "gap-1.5",
+          activo ? BOTON_ACTIVO : BOTON_INACTIVO,
+          abierto && !activo && "border-gray-300 bg-gray-100 dark:border-gray-600"
         )}
         style={activo ? { backgroundColor: VERDE } : undefined}>
         {etiqueta}
