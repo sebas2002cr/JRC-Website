@@ -42,13 +42,30 @@ const client = projectId
   ? createClient({ projectId, dataset, apiVersion, useCdn })
   : null;
 
+/**
+ * Cuánto vale una respuesta de Sanity antes de volver a pedirla.
+ *
+ * HAY QUE PASARLO EN CADA CONSULTA. En el App Router, Next intercepta
+ * `fetch` y —si no se le dice otra cosa— guarda la respuesta con un
+ * revalidate de un año. O sea que el `export const revalidate = 60` de las
+ * páginas no alcanzaba: la página se volvía a renderizar cada minuto, pero
+ * los datos de Sanity salían de esa caché de un año.
+ *
+ * En la práctica eso significaba que una nota borrada del sitio seguía
+ * apareciendo, y que corregir una nota publicada no se veía nunca. Se
+ * detectó con una nota despublicada que seguía saliendo en el blog: en
+ * Sanity ya no existía, pero .next/cache/fetch-cache la tenía guardada con
+ * `revalidate: 31536000`.
+ */
+const CACHE = { next: { revalidate: 60 } };
+
 export const fetcher = async ([query, params]) => {
-  return client ? client.fetch(query, params) : [];
+  return client ? client.fetch(query, params, CACHE) : [];
 };
 
 (async () => {
   if (client) {
-    const data = await client.fetch(getAll);
+    const data = await client.fetch(getAll, {}, { cache: "no-store" });
     if (!data || !data.length) {
       console.error(
         "Sanity returns empty array. Are you sure the dataset is public?"
@@ -59,7 +76,7 @@ export const fetcher = async ([query, params]) => {
 
 export async function getAllPosts() {
   if (client) {
-    return (await client.fetch(postquery)) || [];
+    return (await client.fetch(postquery, {}, CACHE)) || [];
   }
   return [];
 }
@@ -67,14 +84,14 @@ export async function getAllPosts() {
 
 export async function getAllCourses() {
   if (client) {
-    return (await client.fetch(coursesQuery)) || [];
+    return (await client.fetch(coursesQuery, {}, CACHE)) || [];
   }
   return [];
 }
 
 export async function getSingleCourse() {
   if (client) {
-    return (await client.fetch(singleCourseQuery)) || [];
+    return (await client.fetch(singleCourseQuery, {}, CACHE)) || [];
   }
   return [];
 }
@@ -102,7 +119,7 @@ export async function getBlogPage({ pagina = 1, categoria = "", desde = "", hast
     hasta,
     inicio,
     fin: inicio + POSTS_POR_PAGINA,
-  });
+  }, CACHE);
 
   return {
     posts: posts || [],
@@ -118,7 +135,7 @@ export async function getBlogPage({ pagina = 1, categoria = "", desde = "", hast
 
 /** Todas las categorías con su cantidad de notas dentro del rango pedido. */
 export async function getCategoriasConConteo({ desde = "", hasta = "" } = {}) {
-  if (client) return (await client.fetch(categoriasConConteoQuery, { desde, hasta })) || [];
+  if (client) return (await client.fetch(categoriasConConteoQuery, { desde, hasta }, CACHE)) || [];
   return [];
 }
 
@@ -131,7 +148,7 @@ export async function getCategoriasConConteo({ desde = "", hasta = "" } = {}) {
 export async function getAniosConConteo(categoria = "") {
   if (!client) return [];
 
-  const fechas = await client.fetch(fechasPostsQuery, { categoria });
+  const fechas = await client.fetch(fechasPostsQuery, { categoria }, CACHE);
 
   const conteo = new Map<string, number>();
   for (const { fecha } of fechas || []) {
@@ -146,27 +163,27 @@ export async function getAniosConConteo(categoria = "") {
 
 /** Slugs y fechas de todos los posts, para el sitemap. */
 export async function getPostsParaSitemap() {
-  if (client) return (await client.fetch(sitemapPostsQuery)) || [];
+  if (client) return (await client.fetch(sitemapPostsQuery, {}, CACHE)) || [];
   return [];
 }
 
 export async function getSettings() {
   if (client) {
-    return (await client.fetch(configQuery)) || [];
+    return (await client.fetch(configQuery, {}, CACHE)) || [];
   }
   return [];
 }
 
 export async function getPostBySlug(slug) {
   if (client) {
-    return (await client.fetch(singlequery, { slug })) || {};
+    return (await client.fetch(singlequery, { slug }, CACHE)) || {};
   }
   return {};
 }
 
 export async function getAllPostsSlugs() {
   if (client) {
-    const slugs = (await client.fetch(pathquery)) || [];
+    const slugs = (await client.fetch(pathquery, {}, CACHE)) || [];
     return slugs.map(slug => ({ slug }));
   }
   return [];
@@ -174,7 +191,7 @@ export async function getAllPostsSlugs() {
 // Author
 export async function getAllAuthorsSlugs() {
   if (client) {
-    const slugs = (await client.fetch(authorsquery)) || [];
+    const slugs = (await client.fetch(authorsquery, {}, CACHE)) || [];
     return slugs.map(slug => ({ author: slug }));
   }
   return [];
@@ -182,14 +199,14 @@ export async function getAllAuthorsSlugs() {
 
 export async function getAuthorPostsBySlug(slug) {
   if (client) {
-    return (await client.fetch(postsbyauthorquery, { slug })) || {};
+    return (await client.fetch(postsbyauthorquery, { slug }, CACHE)) || {};
   }
   return {};
 }
 
 export async function getAllAuthors() {
   if (client) {
-    return (await client.fetch(allauthorsquery)) || [];
+    return (await client.fetch(allauthorsquery, {}, CACHE)) || [];
   }
   return [];
 }
@@ -198,7 +215,7 @@ export async function getAllAuthors() {
 
 export async function getAllCategories() {
   if (client) {
-    const slugs = (await client.fetch(catpathquery)) || [];
+    const slugs = (await client.fetch(catpathquery, {}, CACHE)) || [];
     return slugs.map(slug => ({ category: slug }));
   }
   return [];
@@ -206,28 +223,28 @@ export async function getAllCategories() {
 
 export async function getPostsByCategory(slug) {
   if (client) {
-    return (await client.fetch(postsbycatquery, { slug })) || {};
+    return (await client.fetch(postsbycatquery, { slug }, CACHE)) || {};
   }
   return {};
 }
 
 export async function getTopCategories() {
   if (client) {
-    return (await client.fetch(catquery)) || [];
+    return (await client.fetch(catquery, {}, CACHE)) || [];
   }
   return [];
 }
 
 export async function getReviews() {
   if (client) {
-    return (await client.fetch(reviewsQuery)) || [];
+    return (await client.fetch(reviewsQuery, {}, CACHE)) || [];
   }
   return [];
 }
 
 export async function getFAQs() {
   if (client) {
-    return (await client.fetch(faqsQuery)) || [];
+    return (await client.fetch(faqsQuery, {}, CACHE)) || [];
   }
   return [];
 }
@@ -241,7 +258,7 @@ export async function getPaginatedPosts({ limit, pageIndex = 0 }) {
       (await client.fetch(paginatedquery, {
         pageIndex: pageIndex,
         limit: limit
-      })) || []
+      }, CACHE)) || []
     );
   }
   return [];
