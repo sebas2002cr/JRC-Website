@@ -9,6 +9,7 @@ import CategoryLabel from "@/components/blog/category";
 import AuthorCard from "@/components/blog/authorCard";
 import ContactoWhatsApp from "@/components/blog/contactoWhatsApp";
 import AvatarAutor from "@/components/blog/avatarAutor";
+import { EnlaceVolver, BotonVolverFlotante } from "@/components/blog/volverAlBlog";
 
 export default function Post(props) {
   const { loading, post } = props;
@@ -27,6 +28,8 @@ export default function Post(props) {
     <>
       <Container className="!pt-0">
         <div className="mx-auto max-w-screen-md ">
+          <EnlaceVolver />
+
           <div className="flex justify-center">
             <CategoryLabel categories={post.categories} />
           </div>
@@ -59,31 +62,41 @@ export default function Post(props) {
         </div>
       </Container>
 
-      <div className="relative z-0 mx-auto aspect-video max-w-screen-lg overflow-hidden lg:rounded-lg">
-        {imageProps && (
-          <Image
-            src={imageProps.src}
-            alt={post.mainImage?.alt || "Thumbnail"}
-            loading="eager"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        )}
-      </div>
+      {/* La foto acompana, no encabeza.
+          Antes ocupaba todo el ancho (max-w-screen-lg) con proporcion 16:9,
+          o sea unos 1024x576: al abrir la nota lo primero y casi lo unico
+          que se veia era una foto de stock, y habia que bajar para empezar a
+          leer. Ahora se limita al mismo ancho que el texto y a una franja
+          mas baja, asi que entra en la misma lectura en vez de competir con
+          el titulo. Son imagenes ilustrativas de banco: no aportan
+          informacion que justifique ese protagonismo. */}
+      {imageProps && (
+        <figure className="mx-auto mt-6 max-w-screen-md px-8 xl:px-5">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-xl md:aspect-[2/1]">
+            <Image
+              src={imageProps.src}
+              alt={post.mainImage?.alt || "Thumbnail"}
+              loading="eager"
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </div>
 
-      {/* Credito al fotografo. Las guidelines de la API de Pexels lo exigen
-          donde se use la foto, junto con el enlace a Pexels. */}
-      {post.mainImage?.credito && (
-        <div className="mx-auto max-w-screen-lg px-5 pt-2 text-right">
-          <a
-            href={post.mainImage.creditoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            {post.mainImage.credito}
-          </a>
-        </div>
+          {/* Credito al fotografo. Las guidelines de la API de Pexels lo
+              exigen donde se use la foto, junto con el enlace a Pexels. */}
+          {post.mainImage?.credito && (
+            <figcaption className="pt-2 text-right">
+              <a
+                href={post.mainImage.creditoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                {post.mainImage.credito}
+              </a>
+            </figcaption>
+          )}
+        </figure>
       )}
 
       <Container>
@@ -106,12 +119,14 @@ export default function Post(props) {
           <div className="mb-7 mt-7 flex justify-center">
             <a
               href="/blog"
-              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
-              ← Volver
+              className="rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-[#305832] hover:text-[#305832] dark:border-gray-700 dark:text-gray-300 dark:hover:text-white">
+              ← Volver al blog
             </a>
           </div>
         </article>
       </Container>
+
+      <BotonVolverFlotante />
     </>
   );
 }

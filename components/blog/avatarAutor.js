@@ -10,21 +10,17 @@ import { cx } from "@/utils/all";
  * subirla al Studio. Sin respaldo, cada articulo mostraba un circulo vacio
  * al lado del nombre.
  *
- * El respaldo son las iniciales sobre el verde de marca. Si algun dia se le
- * sube una foto al autor en Sanity, esta pasa a usarse sola.
+ * El respaldo es un simbolo de autor sobre el verde de marca. Se probo
+ * antes con las iniciales ("EJ"), pero un par de letras sueltas se lee como
+ * un usuario cualquiera de un sistema, no como la firma de quien escribe.
+ * El icono comunica "esto lo firma alguien" sin depender de que el nombre
+ * abrevie bien.
+ *
+ * Si algun dia se le sube una foto al autor en Sanity, esta pasa a usarse
+ * sola y el simbolo desaparece.
  */
 
 const VERDE = "#305832";
-
-function iniciales(nombre) {
-  return String(nombre || "JRC")
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map(palabra => palabra[0])
-    .join("")
-    .toUpperCase();
-}
 
 export default function AvatarAutor({ author, size = 40, className }) {
   const imagen = author?.image ? urlForImage(author.image) : null;
@@ -46,15 +42,18 @@ export default function AvatarAutor({ author, size = 40, className }) {
 
   return (
     <div
-      className={cx("flex flex-shrink-0 items-center justify-center rounded-full font-semibold text-white", className)}
-      style={{
-        width: dimension,
-        height: dimension,
-        backgroundColor: VERDE,
-        fontSize: `${Math.round(size * 0.36)}px`
-      }}
+      className={cx("flex flex-shrink-0 items-center justify-center rounded-full text-white", className)}
+      style={{ width: dimension, height: dimension, backgroundColor: VERDE }}
+      title={author?.name || "Autor"}
       aria-hidden="true">
-      {iniciales(author?.name)}
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        style={{ width: `${Math.round(size * 0.58)}px`, height: `${Math.round(size * 0.58)}px` }}
+        aria-hidden="true">
+        <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
+        <path d="M12 14.25c-3.86 0-7 2.35-7 5.25 0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5c0-2.9-3.14-5.25-7-5.25Z" />
+      </svg>
     </div>
   );
 }
