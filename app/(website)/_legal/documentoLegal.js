@@ -52,7 +52,9 @@ export default function DocumentoLegal({ titulo, actualizado, children }) {
   return (
     <Container>
       <div className="mx-auto max-w-screen-md">
-        <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: VERDE }}>
+        {/* Mismas clases que components/ui/label.js y que el encabezado del
+            panel del boletin: un solo estilo de rotulo en todo el sitio. */}
+        <p className="text-xs font-medium uppercase tracking-wider" style={{ color: VERDE }}>
           Legal
         </p>
         <h1 className="mb-2 text-4xl font-bold text-gray-800 dark:text-white">{titulo}</h1>

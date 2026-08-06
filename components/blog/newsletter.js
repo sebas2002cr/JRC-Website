@@ -199,12 +199,28 @@ function PanelBoletin() {
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 dark:border-gray-800">
               <div className="flex items-center gap-2">
                 <IconoSobre className="h-5 w-5" style={{ color: VERDE }} />
-                <span
+                {/* Ahora que este es el titulo del panel deja de estar en
+                    mayusculas. Un rotulo en versalitas y con el tracking
+                    abierto (el de components/ui/label.js) es, por convencion,
+                    una etiqueta de categoria que anuncia al titulo que viene
+                    abajo; no es un titulo. Como abajo ya no hay ninguno, lo
+                    que corresponde es que este tome el estilo de titulo del
+                    sitio: caja normal y font-bold, igual que los h1 y h2 del
+                    resto de jrc.cr.
+
+                    El color va en clases y no en style={{ color: VERDE }}
+                    como el resto del panel, y es por el modo oscuro: un
+                    estilo en linea le gana siempre a cualquier clase, asi
+                    que con VERDE en linea no habria forma de aclararlo. El
+                    verde de marca es #305832, que sobre el fondo oscuro del
+                    panel (gray-900) queda en 2.2:1 de contraste y practicamente
+                    no se lee. El tono claro es el mismo verde subido de
+                    luminosidad y llega a 8.4:1. */}
+                <h2
                   id="titulo-newsletter"
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: VERDE }}>
+                  className="text-lg font-bold text-[#305832] dark:text-[#8cbe8f]">
                   Newsletter de JRC
-                </span>
+                </h2>
               </div>
               {/* -m-2 p-2: agranda la zona que responde al toque sin
                   agrandar la equis ni mover el encabezado. Con p-1 el
@@ -232,9 +248,13 @@ function PanelBoletin() {
                 <Resultado correo={correo} caso={resultado} />
               ) : (
                 <>
-                  <h2 className="mb-2 text-2xl font-bold text-gray-800 dark:text-white">
-                    Lo que cambió esta semana, en una sola lectura
-                  </h2>
+                  {/* El titulo del panel es "Newsletter de JRC", el del
+                      encabezado de arriba. Aca habia un h2 que decia "Lo que
+                      cambio esta semana, en una sola lectura" y competia con
+                      el: dos titulos seguidos, uno arriba del otro, sin que
+                      el segundo agregara nada que el parrafo no dijera mejor.
+                      El aria-labelledby del dialogo ya apuntaba al de arriba,
+                      asi que sacar este no le quita el nombre accesible. */}
                   {/* El texto no encierra el boletín en lo tributario: las
                       cuatro áreas son las que trabaja la firma, y hablarle
                       solo a "tu empresa" dejaba afuera a los independientes,
