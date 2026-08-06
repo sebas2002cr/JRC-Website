@@ -1,5 +1,9 @@
 import { getPostsParaSitemap, getAllCategories } from "@/lib/sanity/client";
 import { siteUrl } from "@/lib/seo";
+import {
+  LEGALES_PUBLICADAS,
+  PAGINAS_LEGALES as PAGINAS_LEGALES_BASE
+} from "@/app/(website)/_legal/datos";
 
 /**
  * Sitemap generado en cada pedido a partir de Sanity.
@@ -28,10 +32,35 @@ const PAGINAS_FIJAS = [
   { ruta: "/schedule", prioridad: 0.5, frecuencia: "monthly" }
 ];
 
+/**
+ * Las legales van aparte porque hoy pueden no existir.
+ *
+ * /privacidad y /terminos devuelven 404 mientras NEXT_PUBLIC_LEGALES no este
+ * encendida (ver _legal/documentoLegal.js). Anunciarlas igual seria mandar a
+ * Google a dos direcciones rotas, que es peor que no anunciarlas: los 404 en
+ * un sitemap cuentan como errores del sitio.
+ *
+ * Las paginas del boletin (/boletin/confirmar y /boletin/baja) NO van nunca:
+ * son el final de un enlace personal, no paginas del sitio, y ademas llevan
+ * un token en la direccion.
+ */
+// El interruptor y la lista salen de _legal/datos.js, que es el mismo lugar
+// de donde los lee el pie de pagina. Estaban escritos aca aparte, y con dos
+// copias de la misma condicion basta que una se quede atras para que el
+// sitio quede diciendo dos cosas distintas sobre si esas paginas existen.
+const PAGINAS_LEGALES = PAGINAS_LEGALES_BASE.map(pagina => ({
+  ruta: pagina.href,
+  prioridad: 0.3,
+  frecuencia: "yearly"
+}));
+
 export default async function sitemap() {
   const ahora = new Date();
 
-  const fijas = PAGINAS_FIJAS.map(pagina => ({
+  const fijas = [
+    ...PAGINAS_FIJAS,
+    ...(LEGALES_PUBLICADAS ? PAGINAS_LEGALES : [])
+  ].map(pagina => ({
     url: `${siteUrl}${pagina.ruta}`,
     lastModified: ahora,
     changeFrequency: pagina.frecuencia,

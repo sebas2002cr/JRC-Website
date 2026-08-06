@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { LEGALES_PUBLICADAS, PAGINAS_LEGALES } from "@/app/(website)/_legal/datos";
 
 export default function Footer(props) {
   return (
@@ -164,6 +165,31 @@ export default function Footer(props) {
 
       {/* Sección de derechos reservados */}
       <div className="mt-4 border-t border-white pt-4 text-center text-xs">
+        {/* Las legales van acá abajo, separadas de los enlaces de navegación
+            de arriba. Es donde las busca todo el mundo, y mezclarlas con
+            "Blog" o "Precios" las pondría a competir con lo que sí se quiere
+            que la gente visite.
+
+            Solo aparecen si están publicadas: apagadas, esas direcciones
+            devuelven 404, y un pie que enlaza a un 404 es peor que un pie
+            sin enlaces. */}
+        {LEGALES_PUBLICADAS && (
+          <div className="mb-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            {PAGINAS_LEGALES.map((pagina, i) => (
+              <React.Fragment key={pagina.href}>
+                {i > 0 && (
+                  <span aria-hidden="true" className="opacity-50">
+                    ·
+                  </span>
+                )}
+                <a href={pagina.href} className="underline hover:no-underline">
+                  {pagina.titulo}
+                </a>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+
         <div>
           © {new Date().getFullYear()} JRC. All rights reserved.
         </div>
