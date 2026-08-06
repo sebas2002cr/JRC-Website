@@ -52,7 +52,12 @@ export default function PostList({
                 priority={preloadImage ? true : false}
                 className="object-cover transition-all"
                 fill
-                sizes="(max-width: 768px) 30vw, 33vw"
+                // Decia "(max-width: 768px) 30vw", o sea que en un celular
+                // —donde la tarjeta ocupa el ancho COMPLETO— Next pedia una
+                // imagen de un tercio del ancho y la estiraba: por eso las
+                // fotos se veian borrosas en movil. Estos valores siguen los
+                // cortes reales de la grilla: una columna, dos, y tres.
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
               <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 text-gray-200">

@@ -2,6 +2,7 @@ import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import Filtros from "./filtros";
 import Paginacion from "./paginacion";
+import Newsletter from "@/components/blog/newsletter";
 
 export default function Blog({
   posts,
@@ -49,22 +50,31 @@ export default function Blog({
       ) : (
         <>
           {destacados.length > 0 && (
-            <div className="mb-10 grid gap-10 md:grid-cols-2 lg:gap-10">
+            <div className="mb-8 grid gap-8 md:mb-10 md:grid-cols-2 md:gap-10">
               {destacados.map(post => (
                 <PostList key={post._id} post={post} aspect="landscape" preloadImage={true} />
               ))}
             </div>
           )}
 
-          <div className="grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
+          {/* Tres cortes, no dos. Antes se pasaba de una columna a dos recien
+              en md (768) y a tres en xl (1280), asi que entre 1024 y 1280 —una
+              laptop comun— quedaban dos columnas de ~480px con la foto
+              cuadrada: tarjetas enormes, dos por pantalla. Ahora el salto a
+              tres ocurre en lg. */}
+          <div className="grid gap-8 sm:grid-cols-2 md:gap-10 lg:grid-cols-3">
             {resto.map(post => (
-              <PostList key={post._id} post={post} aspect="square" />
+              <PostList key={post._id} post={post} aspect="custom" />
             ))}
           </div>
 
           <Paginacion pagina={pagina} paginas={paginas} total={total} />
         </>
       )}
+
+      {/* Va solo en el listado y no en las notas: en la nota ya flota el
+          boton de volver, y dos botones flotantes se estorban en movil. */}
+      <Newsletter />
     </Container>
   );
 }

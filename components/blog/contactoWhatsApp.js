@@ -18,7 +18,12 @@
  * volver a desplegar; con solo reiniciar no toma efecto.
  */
 
-const NUMERO = process.env.NEXT_PUBLIC_WHATSAPP;
+// Se quitan espacios, guiones, paréntesis y el "+": wa.me solo acepta
+// dígitos. La variable la escribe una persona en el panel de Vercel, y ahí
+// lo natural es pegar el número como se lee ("+506 6055 6705"). Sin esta
+// limpieza ese formato genera un enlace roto que además falla en silencio:
+// el botón se dibuja igual y solo se descubre al tocarlo.
+const NUMERO = (process.env.NEXT_PUBLIC_WHATSAPP || "").replace(/\D/g, "");
 
 export default function ContactoWhatsApp({ titulo }) {
   if (!NUMERO) return null;
