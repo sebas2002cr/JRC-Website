@@ -1,4 +1,4 @@
-import DocumentoLegal, { Seccion, Pendiente } from "../_legal/documentoLegal";
+import DocumentoLegal, { Seccion } from "../_legal/documentoLegal";
 import { EMPRESA, DEVOLUCIONES, ACTUALIZADO } from "../_legal/datos";
 import { pageMetadata } from "@/lib/seo";
 
@@ -15,15 +15,14 @@ export const metadata = pageMetadata({
  * Cubre todo el sitio: contenido del blog y boletín, solicitudes de
  * servicios, cotizaciones y pagos en línea.
  *
- * Queda UN dato por definir, marcado con <Pendiente>: si las controversias
- * van a arbitraje o a los tribunales ordinarios. No es un dato que se pueda
- * suponer, porque un arbitraje mal pactado no vale y obliga a litigar de
- * todas formas, después de haber perdido tiempo discutiendo dónde.
- *
  * La sección 4 (contenido informativo, no asesoría) es la más importante
  * para una firma consultora: sin ella, alguien puede tomar una decisión
  * tributaria leyendo el blog y reclamar después. Es la misma lógica del
  * descargo que va al pie del boletín.
+ *
+ * La sección 16 (ley aplicable) es la segunda: acá arriba se explica lo
+ * general, pero el porqué de cómo está redactada está en el comentario que
+ * la acompaña, porque es un detalle que se puede "corregir" sin querer.
  */
 export default function TerminosPage() {
   return (
@@ -64,21 +63,24 @@ export default function TerminosPage() {
         </p>
       </Seccion>
 
-      <Seccion titulo="3. Qué ofrecemos en este sitio">
+      <Seccion titulo="3. Servicios ofrecidos en este sitio">
         <ul className="ml-5 list-disc space-y-1">
-          <li>Información sobre nuestros servicios de asesoría tributaria, fiscal, legal y financiera.</li>
+          <li>
+            Información sobre los servicios de asesoría tributaria, fiscal, legal y financiera
+            que presta JRC.
+          </li>
           <li>Un blog con novedades normativas y su análisis.</li>
           <li>Un boletín semanal gratuito, de suscripción voluntaria.</li>
-          <li>Formularios para solicitar cotizaciones y trámites.</li>
+          <li>Formularios para la solicitud de cotizaciones y trámites.</li>
           <li>Pago en línea de los servicios que lo permitan.</li>
         </ul>
       </Seccion>
 
       <Seccion titulo="4. El contenido es informativo, no es asesoría">
         <p>
-          <strong>Esta es la sección más importante de este documento.</strong> El contenido
-          del blog, del boletín y de las secciones informativas del sitio es de{" "}
-          <strong>carácter general</strong> y tiene fines exclusivamente informativos.
+          El contenido del blog, del boletín y de las secciones informativas de este sitio es
+          de <strong>carácter general</strong> y se difunde con fines exclusivamente
+          informativos.
         </p>
         <p>
           No constituye asesoría tributaria, fiscal, contable, legal ni financiera sobre un
@@ -156,118 +158,160 @@ export default function TerminosPage() {
 
       <Seccion titulo="8. Solicitudes, cotizaciones y contratación">
         <p>
-          Las cotizaciones que genera el sitio son <strong>estimaciones</strong> basadas en la
-          información que usted proporciona. No constituyen una oferta en firme y pueden
-          variar una vez analizado el caso.
+          Las cotizaciones generadas por el sitio constituyen <strong>estimaciones</strong>{" "}
+          elaboradas con base en la información suministrada por el usuario. No constituyen
+          oferta en firme y pueden variar una vez analizado el caso concreto.
         </p>
         <p>
           La prestación efectiva de cualquier servicio se rige por el contrato o la carta de
-          compromiso que se suscriba, que prevalece sobre lo indicado en el sitio.
+          compromiso que al efecto se suscriba, instrumento que prevalece sobre lo indicado en
+          este sitio.
         </p>
         <p>
-          Usted se compromete a entregar información veraz y completa. JRC no responde por
-          consecuencias derivadas de información inexacta suministrada por el cliente.
+          El usuario se obliga a suministrar información veraz y completa. JRC no responde por
+          las consecuencias derivadas de información inexacta o incompleta suministrada por el
+          cliente.
         </p>
       </Seccion>
 
       <Seccion titulo="9. Pagos">
         <p>
-          Los pagos en línea se procesan a través de <strong>ONVO Pay</strong>, una pasarela
-          de pagos externa. Los datos de su tarjeta viajan directamente a ella; JRC no los
-          recibe ni los almacena.
+          Los pagos en línea se procesan a través de <strong>ONVO Pay</strong>, pasarela de
+          pagos externa. Los datos de la tarjeta se transmiten directamente a dicha pasarela;
+          JRC no los recibe ni los almacena.
         </p>
         <p>
-          Los precios se expresan en <strong>colones costarricenses (₡)</strong> y{" "}
-          <strong>ya incluyen el impuesto al valor agregado (IVA)</strong>. El monto que
-          usted ve en pantalla antes de pagar es el monto total que se le cobra: no se le
-          suma ningún impuesto ni cargo adicional al confirmar.
+          Los precios se expresan en <strong>colones costarricenses (₡)</strong> e{" "}
+          <strong>incluyen el impuesto al valor agregado (IVA)</strong>. El monto consignado
+          en pantalla con anterioridad al pago constituye el monto total a cobrar; no se
+          adiciona impuesto ni cargo alguno al momento de confirmar la transacción.
         </p>
       </Seccion>
 
       <Seccion titulo="10. Cancelaciones y devoluciones">
         <p>
-          Una vez recibido el pago, usted dispone de <strong>{DEVOLUCIONES.plazoDias} días
-          naturales</strong> para dar de baja el servicio y solicitar la devolución del
-          dinero. La solicitud debe hacerse por escrito a{" "}
+          Recibido el pago, el usuario dispone de un plazo de{" "}
+          <strong>{DEVOLUCIONES.plazoDias} días naturales</strong> para cancelar el servicio y
+          solicitar la devolución del monto pagado. La solicitud deberá formularse por escrito
+          a{" "}
           <a href={`mailto:${EMPRESA.correo}`} className="underline">
             {EMPRESA.correo}
-          </a>
-          , desde la misma dirección con la que se contrató.
+          </a>{" "}
+          desde la misma dirección de correo con la que se efectuó la contratación.
         </p>
-        <p>El monto que se devuelve depende de si el servicio ya arrancó:</p>
+        <p>El monto a reembolsar se determina según el estado de avance del servicio:</p>
         <ul className="ml-5 list-disc space-y-2">
           <li>
-            <strong>Si el servicio aún no ha iniciado:</strong> JRC reembolsa el{" "}
-            {DEVOLUCIONES.porcentajeSinIniciar}% de lo pagado. El{" "}
-            {100 - DEVOLUCIONES.porcentajeSinIniciar}% restante se retiene para cubrir los
-            costos administrativos, operativos y de gestión en que ya se incurrió.
+            <strong>Si el servicio no ha iniciado:</strong> JRC reembolsará el{" "}
+            {DEVOLUCIONES.porcentajeSinIniciar}% del monto pagado. El{" "}
+            {100 - DEVOLUCIONES.porcentajeSinIniciar}% restante se retendrá para cubrir los
+            costos administrativos, operativos y de gestión ya incurridos.
           </li>
           <li>
-            <strong>Si el servicio ya inició:</strong> el monto se determina según el avance
-            efectivo a la fecha de la solicitud. JRC le detallará por escrito el avance
-            considerado y el cálculo del reembolso antes de procesarlo.
+            <strong>Si el servicio ya inició:</strong> el monto a reembolsar se determinará
+            conforme al avance efectivo a la fecha de la solicitud. JRC detallará por escrito
+            el avance considerado y el cálculo correspondiente con anterioridad a procesar la
+            devolución.
           </li>
         </ul>
         <p>
-          Pasados los {DEVOLUCIONES.plazoDias} días no procede devolución, salvo que JRC no
-          haya podido prestar el servicio por causas que le sean atribuibles. La devolución se
-          hace por el mismo medio de pago con que se contrató.
+          Transcurrido el plazo de {DEVOLUCIONES.plazoDias} días no procederá la devolución,
+          salvo que JRC se encuentre imposibilitado de prestar el servicio por causas que le
+          sean atribuibles. El reembolso se efectuará por el mismo medio de pago utilizado en
+          la contratación.
         </p>
         <p>
-          Los trámites que dependen de terceros (Registro Nacional, Hacienda, Caja
-          Costarricense de Seguro Social y similares) llevan tasas y timbres que se pagan a
-          esas entidades y no a JRC. Esos montos no son reembolsables una vez enterados, con
-          independencia de lo anterior.
+          Los trámites que dependen de terceros (Registro Nacional, Ministerio de Hacienda,
+          Caja Costarricense de Seguro Social y similares) conllevan tasas, timbres y derechos
+          que se enteran a dichas entidades y no a JRC. Tales montos no son reembolsables una
+          vez enterados, con independencia de lo dispuesto en los párrafos anteriores.
         </p>
       </Seccion>
 
       <Seccion titulo="11. Uso permitido del sitio">
-        <p>Al usar este sitio, usted se compromete a no:</p>
+        <p>El usuario se obliga a abstenerse de:</p>
         <ul className="ml-5 list-disc space-y-1">
-          <li>Intentar acceder sin autorización a sistemas, cuentas o datos.</li>
-          <li>Enviar datos falsos, suscribir correos ajenos o suplantar identidades.</li>
-          <li>Usar medios automatizados para extraer contenido de forma masiva.</li>
+          <li>Acceder sin autorización a sistemas, cuentas o datos.</li>
+          <li>
+            Suministrar datos falsos, suscribir direcciones de correo ajenas o suplantar la
+            identidad de terceros.
+          </li>
+          <li>Emplear medios automatizados para la extracción masiva de contenido.</li>
           <li>Interferir con el funcionamiento normal del sitio.</li>
         </ul>
       </Seccion>
 
       <Seccion titulo="12. Enlaces a sitios de terceros">
         <p>
-          Nuestras publicaciones pueden enlazar a sitios externos, como fuentes oficiales o
-          medios de comunicación. Esos sitios tienen sus propios términos y políticas, y JRC no
-          responde por su contenido ni por su disponibilidad.
+          Las publicaciones de este sitio pueden remitir a sitios externos, tales como fuentes
+          oficiales o medios de comunicación. Dichos sitios se rigen por sus propios términos y
+          políticas; JRC no responde por su contenido ni por su disponibilidad.
         </p>
       </Seccion>
 
       <Seccion titulo="13. Disponibilidad del sitio">
         <p>
-          Procuramos que el sitio esté disponible de forma continua, pero puede haber
-          interrupciones por mantenimiento, fallas técnicas o causas ajenas a nosotros. No
-          garantizamos disponibilidad ininterrumpida.
+          JRC procura mantener el sitio disponible de forma continua. No obstante, pueden
+          presentarse interrupciones por labores de mantenimiento, fallas técnicas o causas
+          ajenas a su control, por lo que no se garantiza una disponibilidad ininterrumpida.
         </p>
       </Seccion>
 
       <Seccion titulo="14. Protección de datos personales">
         <p>
-          El tratamiento de sus datos personales se rige por nuestra{" "}
+          El tratamiento de los datos personales del usuario se rige por la{" "}
           <a href="/privacidad" className="font-medium underline">Política de Privacidad</a>,
-          elaborada conforme a la Ley N.° 8968 de Costa Rica.
+          elaborada conforme a la Ley N.° 8968, Ley de Protección de la Persona frente al
+          Tratamiento de sus Datos Personales.
         </p>
       </Seccion>
 
-      <Seccion titulo="15. Cambios en estos términos">
+      <Seccion titulo="15. Modificación de estos términos">
         <p>
-          Podemos modificar estos términos cuando cambien nuestros servicios o la normativa
-          aplicable. Si el cambio es relevante, lo comunicaremos antes de que entre en
-          vigencia. La fecha del encabezado indica la última actualización.
+          JRC se reserva la facultad de modificar los presentes términos cuando varíen los
+          servicios ofrecidos o la normativa aplicable. Las modificaciones sustanciales serán
+          comunicadas con anterioridad a su entrada en vigencia. La fecha consignada en el
+          encabezado indica la última actualización.
         </p>
       </Seccion>
 
-      <Seccion titulo="16. Ley aplicable y jurisdicción">
+      {/* Esta cláusula NO lleva renuncia de fuero ni sede fija, y no es un
+          olvido. El artículo 1023 inciso 2 del Código Civil declara
+          absolutamente nulas, en los contratos de adhesión, las cláusulas
+          que excluyen o restringen el derecho del adherente a recurrir a los
+          tribunales comunes. Unos términos y condiciones de un sitio web son
+          un contrato de adhesión de manual: nadie los negocia.
+
+          El acuerdo directo previo se redacta como una vía preferente y no
+          como un requisito, por lo mismo. Un plazo obligatorio antes de
+          poder demandar es una restricción de acceso a la justicia, y una
+          cláusula que se cae arrastra la credibilidad de las que quedan. */}
+      <Seccion titulo="16. Ley aplicable y resolución de controversias">
         <p>
-          Estos términos se rigen por las leyes de la República de Costa Rica. Cualquier
-          controversia se someterá a los tribunales costarricenses{" "}
-          <Pendiente>confirmar si se prefiere arbitraje o jurisdicción ordinaria, y la sede</Pendiente>.
+          Los presentes términos se rigen e interpretan conforme a las leyes de la República de
+          Costa Rica.
+        </p>
+        <p>
+          Ante cualquier desacuerdo derivado de estos términos o de los servicios contratados a
+          través del sitio, JRC invita al usuario a plantear su reclamo por escrito a{" "}
+          <a href={`mailto:${EMPRESA.correo}`} className="underline">
+            {EMPRESA.correo}
+          </a>
+          . JRC se compromete a emitir respuesta dentro de los diez días hábiles siguientes a
+          su recepción, con el propósito de procurar una solución directa.
+        </p>
+        <p>
+          Este paso previo es voluntario y no constituye requisito para acudir a las
+          instancias judiciales o administrativas correspondientes. De no alcanzarse un
+          acuerdo, la controversia podrá someterse al conocimiento de los tribunales de la
+          República de Costa Rica, conforme a las reglas de competencia que resulten
+          aplicables.
+        </p>
+        <p>
+          Lo dispuesto en esta cláusula no limita ni menoscaba los derechos que la Ley N.°
+          7472, Ley de Promoción de la Competencia y Defensa Efectiva del Consumidor, reconoce
+          al usuario, ni su facultad de presentar denuncia ante la Comisión Nacional del
+          Consumidor del Ministerio de Economía, Industria y Comercio.
         </p>
       </Seccion>
     </DocumentoLegal>

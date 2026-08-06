@@ -32,12 +32,16 @@ export const PAGINAS_LEGALES = [
 /**
  * La fecha que aparece en el encabezado de los dos documentos.
  *
- * Mientras no estén publicadas dice que están pendientes, y es honesto: un
- * documento legal fechado es un documento que ya rige, y estos todavía no.
- * El día que se publiquen se cambia por la fecha real, acá y en un solo
- * lugar.
+ * No es un adorno. Si mañana se discute qué decía la política cuando alguien
+ * se suscribió o contrató, la fecha es el dato que lo resuelve: sin ella, un
+ * documento que cambió en el camino no prueba gran cosa. Por eso se escribe a
+ * mano y NO se calcula con new Date(): tiene que decir cuándo se modificó el
+ * texto por última vez, no qué día lo está leyendo la persona.
+ *
+ * Se cambia acá, en un solo lugar, cada vez que se toque algo de fondo de
+ * cualquiera de los dos documentos.
  */
-export const ACTUALIZADO = "pendiente de publicación";
+export const ACTUALIZADO = "6 de agosto de 2026";
 
 export const EMPRESA = {
   // OJO: la razón social y el nombre comercial NO son lo mismo. La sociedad

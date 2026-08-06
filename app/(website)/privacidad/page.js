@@ -55,6 +55,12 @@ export default function PrivacidadPage() {
           </li>
         </ul>
         <p>
+          Los datos suministrados a través de este sitio se incorporan a una{" "}
+          <strong>base de datos automatizada</strong> administrada por JRC, destinada
+          exclusivamente a las finalidades descritas en el apartado 3. Dicha base es de uso
+          interno: sus datos no se distribuyen, difunden ni comercializan.
+        </p>
+        <p>
           El tratamiento se rige por la <strong>Ley N.° 8968, Ley de Protección de la Persona
           frente al Tratamiento de sus Datos Personales</strong>, su reglamento (Decreto
           Ejecutivo N.° 37554-JP) y demás normativa costarricense aplicable.
@@ -107,42 +113,61 @@ export default function PrivacidadPage() {
           No recolectamos datos sensibles (origen étnico, opiniones políticas, convicciones
           religiosas, salud o vida sexual) ni le pedimos que nos los proporcione.
         </p>
+        <p>
+          <strong>Qué datos son obligatorios y qué pasa si no los suministra.</strong> El
+          suministro de datos es voluntario en todos los casos. Ahora bien, cada trámite
+          requiere un mínimo de información para poder ejecutarse: sin una dirección de correo
+          no es posible remitir el boletín ni responder una consulta, y sin los datos de
+          identificación que exige cada gestión no es posible tramitarla ante la entidad
+          correspondiente. La negativa a suministrar esos datos mínimos impide únicamente la
+          prestación del servicio de que se trate, sin ninguna otra consecuencia.
+        </p>
+        <p>
+          <strong>Exactitud de la información.</strong> Los datos suministrados deben ser
+          veraces y encontrarse actualizados. JRC no responde por las consecuencias derivadas
+          de información inexacta o desactualizada suministrada por el titular, quien puede
+          solicitar su corrección en cualquier momento conforme al apartado 7.
+        </p>
       </Seccion>
 
       <Seccion titulo="3. Para qué usamos sus datos">
-        <p>Cada dato se usa para el fin por el que lo entregó, y no para otro:</p>
+        <p>
+          Cada dato se destina exclusivamente a la finalidad para la cual fue suministrado:
+        </p>
         <ul className="ml-5 list-disc space-y-1">
-          <li>Responder sus consultas y darle seguimiento.</li>
-          <li>Elaborar y enviarle cotizaciones.</li>
-          <li>Prestarle los servicios que contrate y cumplir el contrato.</li>
-          <li>Enviarle el boletín semanal, si se suscribió.</li>
-          <li>Cumplir obligaciones legales, contables y tributarias que nos apliquen.</li>
+          <li>Atender sus consultas y darles el seguimiento correspondiente.</li>
+          <li>Elaborar y remitir cotizaciones.</li>
+          <li>Prestar los servicios contratados y ejecutar el contrato respectivo.</li>
+          <li>Remitir el boletín semanal, en caso de haberse suscrito.</li>
+          <li>Cumplir las obligaciones legales, contables y tributarias aplicables.</li>
           <li>Mantener la seguridad del sitio y prevenir usos abusivos.</li>
         </ul>
         <p>
-          <strong>No vendemos, alquilamos ni cedemos sus datos personales</strong> a terceros
-          con fines comerciales o publicitarios.
+          <strong>Los datos personales no se venden, alquilan ni ceden</strong> a terceros con
+          fines comerciales o publicitarios.
         </p>
       </Seccion>
 
       <Seccion titulo="4. Con qué fundamento los tratamos">
         <p>
-          Con su <strong>consentimiento informado y expreso</strong>, que usted otorga al
-          marcar la casilla correspondiente antes de enviar cualquier formulario. Esa casilla
-          nunca viene marcada de antemano.
+          El fundamento principal es su <strong>consentimiento informado y expreso</strong>,
+          otorgado mediante la marcación de la casilla correspondiente con anterioridad al
+          envío de cualquier formulario. Dicha casilla no se encuentra marcada por defecto en
+          ningún caso.
         </p>
         <p>
-          En el caso del boletín, además le enviamos un correo de confirmación: su suscripción
-          solo queda activa si usted confirma desde ese correo. Así nadie puede suscribir a
-          otra persona.
+          Tratándose del boletín, se remite además un correo de confirmación: la suscripción
+          queda activa únicamente si el titular confirma desde ese enlace, de modo que ninguna
+          persona pueda suscribir a otra.
         </p>
         <p>
-          También tratamos datos cuando resulta necesario para ejecutar un contrato que usted
-          celebró con nosotros, o para cumplir una obligación legal.
+          Asimismo se tratan datos cuando resulta necesario para la ejecución de un contrato
+          celebrado con el titular o para el cumplimiento de una obligación legal.
         </p>
         <p>
-          <strong>Puede retirar su consentimiento en cualquier momento</strong>, sin expresar
-          motivo. Retirarlo no afecta la validez del tratamiento realizado antes.
+          <strong>El consentimiento puede revocarse en cualquier momento</strong>, sin
+          necesidad de expresar motivo. La revocatoria no afecta la validez del tratamiento
+          efectuado con anterioridad.
         </p>
       </Seccion>
 
@@ -163,13 +188,18 @@ export default function PrivacidadPage() {
             comercial no se justifica frente a esa persona.
           </li>
           <li>
-            <strong>Clientes:</strong> durante toda la relación y {PLAZOS.clientes} después
-            de terminada, por las obligaciones legales, contables y tributarias que nos
-            alcanzan. El plazo de prescripción tributaria en Costa Rica es de cuatro años;
-            conservamos un año más como margen.
+            <strong>Clientes:</strong> {PLAZOS.clientes} contados desde la última gestión
+            realizada o el último documento emitido, por las obligaciones legales, contables
+            y tributarias que nos alcanzan. El plazo de prescripción tributaria en Costa Rica
+            es de cuatro años; conservamos un año más como margen.
           </li>
         </ul>
-        <p>Cumplido el plazo, los datos se eliminan o se anonimizan.</p>
+        <p>
+          Revisamos estos plazos de forma periódica, al menos una vez cada seis meses, y los
+          datos que ya los cumplieron se eliminan o se anonimizan. Si prefiere no esperar a
+          esa revisión, puede pedirnos la eliminación en cualquier momento por los medios de
+          la sección 7 y la atenderemos en el plazo que ahí se indica.
+        </p>
       </Seccion>
 
       <Seccion titulo="6. Con quién los compartimos">
@@ -214,40 +244,53 @@ export default function PrivacidadPage() {
 
       <Seccion titulo="7. Sus derechos">
         <p>
-          La Ley 8968 le reconoce cuatro derechos sobre sus datos, y puede ejercerlos en
-          cualquier momento y sin costo:
+          La Ley N.° 8968 reconoce al titular cuatro derechos sobre sus datos, ejercitables en
+          cualquier momento y de forma gratuita:
         </p>
         <ul className="ml-5 list-disc space-y-1">
-          <li><strong>Acceso:</strong> saber qué datos suyos tenemos, de dónde salieron y para qué los usamos.</li>
-          <li><strong>Rectificación:</strong> corregirlos si están incompletos, inexactos o desactualizados.</li>
-          <li><strong>Cancelación:</strong> pedir que los eliminemos cuando ya no sean necesarios.</li>
-          <li><strong>Oposición:</strong> pedir que dejemos de usarlos para una finalidad concreta.</li>
+          <li>
+            <strong>Acceso:</strong> conocer qué datos suyos se tratan, su procedencia y la
+            finalidad con que se utilizan.
+          </li>
+          <li>
+            <strong>Rectificación:</strong> obtener su corrección cuando resulten incompletos,
+            inexactos o desactualizados.
+          </li>
+          <li>
+            <strong>Cancelación:</strong> solicitar su eliminación cuando hayan dejado de ser
+            necesarios para la finalidad que los originó.
+          </li>
+          <li>
+            <strong>Oposición:</strong> solicitar el cese de su tratamiento para una finalidad
+            determinada.
+          </li>
         </ul>
         <p>
           Para ejercerlos, escríbanos a{" "}
           <a href={`mailto:${EMPRESA.correo}`} className="underline">
             {EMPRESA.correo}
           </a>{" "}
-          indicando su nombre, el derecho que quiere ejercer y un medio para responderle. Le
-          contestaremos dentro de los {PLAZOS.respuestaDerechos} que fija el reglamento a la
-          Ley 8968.
+          indicando su nombre, el derecho que desea ejercer y un medio para remitirle
+          respuesta. Esta se emitirá dentro del plazo de {PLAZOS.respuestaDerechos} que fija el
+          reglamento a la Ley N.° 8968.
         </p>
         <p>
-          <strong>Para el boletín no hace falta escribirnos:</strong> todos los correos que le
-          enviamos llevan al pie un enlace de <strong>Darme de baja</strong>. Con un clic deja
-          de recibirlo, sin explicar nada y sin esperar respuesta de nadie. Si su programa de
-          correo muestra un botón propio de cancelar suscripción, ese también funciona.
+          <strong>Tratándose del boletín no es necesario mediar solicitud:</strong> todos los
+          envíos incorporan al pie un enlace de <strong>Darme de baja</strong>. Con un clic el
+          titular deja de recibirlo, sin expresar motivo ni esperar respuesta. Si su programa
+          de correo muestra un botón propio de cancelación de suscripción, este también surte
+          el mismo efecto.
         </p>
         <p>
-          Si considera que no atendimos su solicitud correctamente, puede acudir a la{" "}
-          <strong>Agencia de Protección de Datos de los Habitantes (PRODHAB)</strong>, órgano
-          encargado de velar por el cumplimiento de la Ley 8968.
+          En caso de considerar que su solicitud no fue atendida debidamente, el titular puede
+          acudir a la <strong>Agencia de Protección de Datos de los Habitantes
+          (PRODHAB)</strong>, órgano encargado de velar por el cumplimiento de la Ley N.° 8968.
         </p>
       </Seccion>
 
       <Seccion titulo="8. Cómo protegemos sus datos">
         <p>
-          Aplicamos medidas de seguridad razonables para evitar la pérdida, el acceso no
+          JRC aplica medidas de seguridad razonables para evitar la pérdida, el acceso no
           autorizado y el uso indebido de la información:
         </p>
         <ul className="ml-5 list-disc space-y-1">
@@ -293,18 +336,19 @@ export default function PrivacidadPage() {
 
       <Seccion titulo="10. Menores de edad">
         <p>
-          Nuestros servicios están dirigidos a personas mayores de edad. No recolectamos
-          intencionalmente datos de menores. Si detectamos que recibimos datos de una persona
-          menor sin autorización de quien ejerce su representación, los eliminaremos.
+          Los servicios de JRC están dirigidos a personas mayores de edad. No se recolectan
+          intencionalmente datos de personas menores de edad. De detectarse la recepción de
+          datos de una persona menor sin la autorización de quien ejerce su representación,
+          estos serán eliminados.
         </p>
       </Seccion>
 
-      <Seccion titulo="11. Cambios a esta política">
+      <Seccion titulo="11. Modificación de esta política">
         <p>
-          Podemos actualizar esta política cuando cambien nuestros servicios o la normativa. Si
-          el cambio es relevante, se lo comunicaremos por los medios de contacto que nos haya
-          proporcionado antes de que entre en vigencia. La fecha que aparece al inicio indica
-          la última actualización.
+          JRC podrá actualizar la presente política cuando varíen los servicios ofrecidos o la
+          normativa aplicable. Las modificaciones sustanciales serán comunicadas, con
+          anterioridad a su entrada en vigencia, por los medios de contacto que el titular haya
+          suministrado. La fecha consignada al inicio indica la última actualización.
         </p>
       </Seccion>
     </DocumentoLegal>
