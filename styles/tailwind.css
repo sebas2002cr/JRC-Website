@@ -7,3 +7,85 @@
 /*! purgecss end ignore */
 
 /*Custom Styles Here*/
+
+/* ── Íconos de las páginas del boletín ────────────────────────────────
+   El círculo entra con un rebote corto y el trazo se dibuja solo, como si
+   alguien lo estuviera haciendo a mano.
+
+   El dibujo se logra con stroke-dasharray: se le dice al trazo que sea una
+   línea punteada con un solo guion tan largo como el trazo entero, y se
+   empieza con ese guion corrido hacia afuera (dashoffset). Al llevar el
+   offset a cero, el trazo aparece de punta a punta. Cada ícono declara su
+   propio largo en el style, por eso el keyframe solo dice "a cero" y sirve
+   igual para el visto y para la equis.
+
+   Va en CSS y no con framer-motion, que el proyecto sí tiene: son cuatro
+   líneas, no necesitan JavaScript, y así se animan apenas se pinta la
+   página en vez de esperar a que hidrate. */
+@keyframes boletin-entra {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes boletin-traza {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.boletin-icono {
+  animation: boletin-entra 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Lo que ESCONDE el trazo vive acá, en la misma regla que lo anima, y no en
+   un style dentro del componente. La diferencia importa: puesto en el
+   componente, el trazo arranca escondido siempre, y si esta hoja de estilos
+   no llega a cargar, nada lo vuelve a mostrar y el ícono queda como un
+   círculo vacío. Juntos, si la hoja falta no se esconde nada: se ve el visto
+   quieto, sin animación, que es exactamente como debe fallar esto. */
+.boletin-traza {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: boletin-traza 0.4s ease-out 0.25s forwards;
+}
+
+/* ── Con los efectos de animación apagados en el sistema ──────────────
+   Ese ajuste pide reducir el MOVIMIENTO, no prohibir toda transición: un
+   cambio de opacidad no marea a nadie. Así que el rebote y el dibujado se
+   reemplazan por un fundido corto, y el ícono aparece igual de vivo sin que
+   nada se desplace.
+
+   El stroke-dashoffset a cero es imprescindible: sin él, el trazo se queda
+   corrido fuera de su recorrido para siempre y el ícono sale como un
+   círculo vacío. Fue exactamente lo que pasó la primera vez, porque el
+   valor estaba escrito en línea dentro del componente y un estilo en línea
+   le gana a esta regla. Por eso ahora vive en la hoja, junto a su animación. */
+@media (prefers-reduced-motion: reduce) {
+  .boletin-icono {
+    animation: boletin-aparece 0.35s ease-out both;
+  }
+
+  .boletin-traza {
+    animation: boletin-aparece 0.35s ease-out 0.1s both;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes boletin-aparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
