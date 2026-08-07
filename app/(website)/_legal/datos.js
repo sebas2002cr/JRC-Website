@@ -41,7 +41,7 @@ export const PAGINAS_LEGALES = [
  * Se cambia acá, en un solo lugar, cada vez que se toque algo de fondo de
  * cualquiera de los dos documentos.
  */
-export const ACTUALIZADO = "6 de agosto de 2026";
+export const ACTUALIZADO = "7 de agosto de 2026";
 
 export const EMPRESA = {
   // OJO: la razón social y el nombre comercial NO son lo mismo. La sociedad

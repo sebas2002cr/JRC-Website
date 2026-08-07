@@ -78,15 +78,19 @@ export default function PrivacidadPage() {
             indispensable. También puede indicarnos su nombre completo y su ocupación
             (profesional independiente, empresario, asalariado o estudiante), que usamos
             únicamente para dirigirnos a usted por su nombre y para orientar mejor los
-            contenidos. Ambos campos son opcionales y su omisión no impide la suscripción. Se
-            registran asimismo la fecha y la dirección IP desde la que se efectuó la
-            solicitud, así como la fecha de confirmación, en calidad de prueba del
-            consentimiento otorgado. En caso de cancelación posterior, se conservan la fecha
-            de la baja y, si el usuario decidió indicarlo, su motivo.
+            contenidos. Ambos campos son opcionales y su omisión no impide la suscripción. En
+            caso de cancelación posterior, se conservan la fecha de la baja y, si el usuario
+            decidió indicarlo, su motivo. Los datos que respaldan su consentimiento se
+            detallan en el último punto de esta lista.
           </li>
           <li>
-            <strong>Formulario de contacto y solicitudes:</strong> los datos que usted mismo
-            escribe, normalmente nombre, correo, teléfono y el detalle de su consulta.
+            <strong>Formulario de contacto:</strong> nombre y apellido, correo electrónico,
+            teléfono, nombre de la empresa, puesto, si actúa como persona física o jurídica,
+            el tema de la consulta, el medio por el que prefiere que se le responda y el
+            detalle que usted redacte. El formulario permite además adjuntar archivos; si
+            estos contienen datos personales suyos o de terceros, reciben el mismo tratamiento
+            descrito en esta política, y le pedimos adjuntar únicamente lo necesario para
+            atender su gestión.
           </li>
           <li>
             <strong>Cotizaciones, inscripción de pymes y constitución de sociedades:</strong>{" "}
@@ -103,10 +107,20 @@ export default function PrivacidadPage() {
             páginas visitadas, recolectados de forma automática con fines estadísticos y de
             seguridad.
           </li>
+          {/* Este punto es el ÚNICO lugar del documento donde se explica el
+              registro de fecha, hora e IP. Antes también aparecía dentro del
+              punto del boletín, y el área legal marcó la repetición: en un
+              documento que la gente lee de corrido, decir dos veces lo mismo
+              con palabras distintas hace dudar de si son dos registros o uno.
+              Si mañana hay que detallar algo del consentimiento de un
+              formulario en particular, va acá, no en el punto de ese
+              formulario. */}
           <li>
-            <strong>Prueba de consentimiento:</strong> cuando usted acepta esta política, se
-            registra la fecha, la hora y la dirección IP desde la que lo hizo. La ley nos
-            exige poder demostrar que el consentimiento existió.
+            <strong>Prueba de consentimiento:</strong> cuando usted acepta esta política o se
+            suscribe al boletín, se registra la fecha, la hora y la dirección IP desde la que
+            lo hizo, y en el caso del boletín también la fecha en que confirmó la suscripción
+            desde el enlace que le enviamos. La ley nos exige poder demostrar que el
+            consentimiento existió.
           </li>
         </ul>
         <p>

@@ -58,22 +58,44 @@ export default function TerminosPage() {
         <p>
           La navegación por este sitio, la suscripción al boletín, la solicitud de
           cotizaciones y la contratación de servicios en línea implican la aceptación plena y
-          sin reservas de los presentes términos. Quien no esté de acuerdo con ellos deberá
-          abstenerse de utilizar el sitio.
+          sin reservas de los presentes términos.
         </p>
       </Seccion>
 
+      {/* La lista dice "entre otros" y no es un descuido de redacción. JRC no
+          presta solo asesoría: hay contabilidad mensual, planillas, trámites
+          corporativos y capacitaciones, y la oferta cambia. Una lista cerrada
+          obliga a modificar los términos cada vez que se agrega una línea de
+          servicio, y mientras tanto el documento dice que el sitio ofrece algo
+          distinto de lo que efectivamente ofrece. */}
       <Seccion titulo="3. Servicios ofrecidos en este sitio">
+        <p>
+          JRC presta servicios profesionales en materia contable, tributaria, fiscal, legal,
+          financiera y corporativa, que comprenden tanto la asesoría como la ejecución de
+          gestiones y trámites por cuenta del cliente. A través de este sitio se ponen a
+          disposición, entre otros:
+        </p>
         <ul className="ml-5 list-disc space-y-1">
           <li>
-            Información sobre los servicios de asesoría tributaria, fiscal, legal y financiera
-            que presta JRC.
+            Información sobre las distintas líneas de servicio de JRC, entre ellas la
+            contabilidad mensual y el cumplimiento tributario, la elaboración y presentación
+            de declaraciones y planillas, la asesoría tributaria, fiscal, legal y financiera,
+            los trámites corporativos y las capacitaciones.
           </li>
           <li>Un blog con novedades normativas y su análisis.</li>
           <li>Un boletín semanal gratuito, de suscripción voluntaria.</li>
-          <li>Formularios para la solicitud de cotizaciones y trámites.</li>
+          <li>
+            Formularios para la solicitud de cotizaciones y para la gestión de trámites en
+            línea, tales como la inscripción de pymes y la constitución de sociedades.
+          </li>
+          <li>La solicitud de citas y consultas con el equipo de JRC.</li>
           <li>Pago en línea de los servicios que lo permitan.</li>
         </ul>
+        <p>
+          La enumeración anterior es meramente enunciativa. JRC puede incorporar, modificar o
+          descontinuar servicios y funcionalidades del sitio en cualquier momento; las
+          condiciones particulares de cada servicio se comunican al momento de contratarlo.
+        </p>
       </Seccion>
 
       <Seccion titulo="4. El contenido es informativo, no es asesoría">
