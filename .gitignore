@@ -28,13 +28,19 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env
-.env.local
-.env.development
-.env.development.local
-.env.test.local
-.env.production
-.env.production.local
+#
+# La lista de abajo nombra siete variantes una por una y aun asi deja pasar
+# cualquier otra: .env.backup, .env.viejo, .env.produccion. Este repo es
+# PUBLICO, asi que un archivo de estos commiteado no es un descuido interno,
+# queda a la vista de cualquiera y hay que rotar todo lo que tenia adentro.
+# El comodin cubre las siete y las que vengan.
+.env*
+!.env*.example
+
+# Credenciales de cuenta de servicio de Google, por si alguna vez se usan aca.
+# El segundo es el nombre con el que se descargan de la consola de Firebase.
+serviceAccount*.json
+*-firebase-adminsdk-*.json
 
 # vercel
 .vercel

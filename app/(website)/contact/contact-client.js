@@ -453,12 +453,31 @@ export default function Contact() {
                       strokeLinejoin="round"></path>
                   </g>
                 </svg>
-                <h3 className="text-xl font-semibold">Oficina</h3>
-                <p>
-                  Trejos Montealegre
-                  <br />
-                  Escazú, Costa Rica
-                </p>
+                {/* En plural desde que hay dos. Con el título en singular y
+                    dos direcciones debajo, la segunda se lee como si fuera la
+                    continuación de la primera.
+
+                    Van una al lado de la otra y no una debajo de la otra:
+                    apiladas eran cuatro renglones que estiraban la tarjeta
+                    entera, y además se leían como una sola dirección larga en
+                    vez de como dos oficinas. Lado a lado se entiende que son
+                    dos sin tener que decirlo.
+
+                    flex-wrap para que en un teléfono, donde no caben las dos,
+                    la segunda baje sola en vez de apretarse. */}
+                <h3 className="text-xl font-semibold">Oficinas</h3>
+                <div className="mt-1 flex flex-wrap items-start justify-center gap-x-8 gap-y-2">
+                  <p>
+                    Trejos Montealegre
+                    <br />
+                    Escazú, San José
+                  </p>
+                  <p>
+                    Tamarindo
+                    <br />
+                    Guanacaste
+                  </p>
+                </div>
               </div>
             </div>
           </Container>

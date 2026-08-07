@@ -13,10 +13,13 @@ export default function Footer(props) {
             alt="JRC Logo"
             className="mb-4 w-40" // Ajusta el tamaño del logo aquí
           />
+          {/* Las dos oficinas. El pie sale en todas las páginas, así que si
+              acá figura una sola y en /contact hay dos, el sitio se contradice
+              consigo mismo en cada visita. */}
           <div className="text-center md:text-left">
-            Trejos Montealegre
+            Trejos Montealegre, Escazú
             <br />
-            Escazú, Costa Rica
+            Tamarindo, Guanacaste
           </div>
           <div className="mt-4 flex space-x-4">
             <a

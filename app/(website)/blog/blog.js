@@ -29,7 +29,7 @@ export default function Blog({
           Noticias relevantes
         </h1>
         <p className="mb-8 mt-4 text-gray-600 dark:text-gray-400">
-          Mantente al día con las últimas noticias y actualizaciones del sector.
+          Mantenete al día con las últimas noticias y actualizaciones del sector.
         </p>
 
       </section>
