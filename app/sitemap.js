@@ -40,10 +40,18 @@ const PAGINAS_FIJAS = [
  * Google a dos direcciones rotas, que es peor que no anunciarlas: los 404 en
  * un sitemap cuentan como errores del sitio.
  *
- * Las paginas del boletin (/boletin/confirmar y /boletin/baja) NO van nunca:
- * son el final de un enlace personal, no paginas del sitio, y ademas llevan
- * un token en la direccion.
+ * /boletin es el mismo caso: existe solo con NEXT_PUBLIC_NEWSLETTER encendida.
+ *
+ * Lo que NO va nunca es /boletin/confirmar y /boletin/baja: son el final de un
+ * enlace personal, no paginas del sitio, y ademas llevan un token en la
+ * direccion.
  */
+const BOLETIN_PUBLICADO = process.env.NEXT_PUBLIC_NEWSLETTER === "true";
+
+const PAGINA_BOLETIN = [
+  { ruta: "/boletin", prioridad: 0.7, frecuencia: "monthly" }
+];
+
 // El interruptor y la lista salen de _legal/datos.js, que es el mismo lugar
 // de donde los lee el pie de pagina. Estaban escritos aca aparte, y con dos
 // copias de la misma condicion basta que una se quede atras para que el
@@ -59,6 +67,7 @@ export default async function sitemap() {
 
   const fijas = [
     ...PAGINAS_FIJAS,
+    ...(BOLETIN_PUBLICADO ? PAGINA_BOLETIN : []),
     ...(LEGALES_PUBLICADAS ? PAGINAS_LEGALES : [])
   ].map(pagina => ({
     url: `${siteUrl}${pagina.ruta}`,
