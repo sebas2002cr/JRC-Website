@@ -34,8 +34,12 @@ import { IconoSobre } from "@/components/blog/iconoSobre";
 
 const HABILITADO = process.env.NEXT_PUBLIC_NEWSLETTER === "true";
 
+// El titulo de la vista previa dice lo mismo que el encabezado de la tarjeta.
+// Si la tarjeta dice "Newsletter de JRC" y el enlace compartido se anuncia
+// como "Boletin JRC", quien lo abre cree por un segundo que llego a otra
+// pagina.
 export const metadata = pageMetadata({
-  title: "Boletín JRC",
+  title: "Newsletter de JRC",
   description:
     "Todos los lunes, un resumen de las novedades en materia tributaria, fiscal, legal y financiera en Costa Rica, y qué significan para su empresa.",
   path: "/boletin"
@@ -56,14 +60,46 @@ export default function BoletinPage() {
             igual a propósito, para que quien ya la vio en el blog reconozca
             que es lo mismo. */}
         <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900">
-          <div className="flex items-center gap-2 border-b border-gray-100 px-6 py-4 dark:border-gray-800">
-            <IconoSobre className="h-5 w-5" style={{ color: VERDE }} />
-            {/* h1 y no h2: acá esto es el título de la página, no el de una
-                ventana dentro de otra cosa. Es además lo que Google va a
-                leer como encabezado principal. */}
-            <h1 className="text-lg font-bold text-[#305832] dark:text-[#8cbe8f]">
-              Boletín JRC
-            </h1>
+          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 dark:border-gray-800">
+            <div className="flex items-center gap-2">
+              <IconoSobre className="h-5 w-5" style={{ color: VERDE }} />
+            {/* Dice lo mismo que el panel del blog, palabra por palabra. Es
+                la misma tarjeta y quien ya la vio ahi tiene que reconocerla;
+                dos nombres para la misma cosa hacen dudar de si son la
+                misma cosa.
+
+                h1 y no h2: aca esto es el titulo de la pagina, no el de una
+                ventana dentro de otra cosa. Es ademas lo que Google lee como
+                encabezado principal. */}
+              <h1 className="text-lg font-bold text-[#305832] dark:text-[#8cbe8f]">
+                Newsletter de JRC
+              </h1>
+            </div>
+
+            {/* La equis del panel, pero acá no cierra nada: lleva al blog.
+                Quien llega desde un enlace que le pasaron no tiene ninguna
+                otra salida, y el gesto de cerrar es el que espera hacer
+                cuando termina o cuando no le interesa. En vez de dejarlo en
+                una pantalla sin escape, lo deja en el listado de notas, que
+                es adonde de verdad queremos que vaya.
+
+                Va como <a> y no como botón porque es navegación: se puede
+                abrir en otra pestaña y se anuncia como enlace. */}
+            <a
+              href="/blog"
+              aria-label="Ir al blog"
+              className="-m-2 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                viewBox="0 0 24 24"
+                aria-hidden="true">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
+            </a>
           </div>
 
           <div className="px-6 py-6">
