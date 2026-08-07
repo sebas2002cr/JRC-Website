@@ -6,7 +6,14 @@ import FormularioBoletin from "@/components/blog/formularioBoletin";
 import { IconoSobre } from "@/components/blog/iconoSobre";
 
 /**
- * jrc.cr/boletin: la página de suscripción que se le manda a un cliente.
+ * jrc.cr/newsletter: la página de suscripción que se le manda a un cliente.
+ *
+ * OJO con la vecindad: /boletin/confirmar y /boletin/baja siguen donde
+ * estaban y NO se mueven. Esas dos direcciones viajan dentro de cada correo
+ * enviado, y hay correos en la calle desde el 6 de agosto de 2026; moverlas
+ * dejaría a esa gente sin poder confirmar ni darse de baja. Por eso esta
+ * página se fue a /newsletter en vez de renombrar toda la sección, y por eso
+ * la redirección de next.config.js es de coincidencia exacta.
  *
  * Existe por un motivo muy concreto y vale dejarlo escrito, porque desde el
  * código parece redundante con el botón flotante del blog: esta es la
@@ -42,7 +49,7 @@ export const metadata = pageMetadata({
   title: "Newsletter de JRC",
   description:
     "Todos los lunes, un resumen de las novedades en materia tributaria, fiscal, legal y financiera en Costa Rica, y qué significan para su empresa.",
-  path: "/boletin"
+  path: "/newsletter"
 });
 
 export default function BoletinPage() {

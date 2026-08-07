@@ -40,16 +40,18 @@ const PAGINAS_FIJAS = [
  * Google a dos direcciones rotas, que es peor que no anunciarlas: los 404 en
  * un sitemap cuentan como errores del sitio.
  *
- * /boletin es el mismo caso: existe solo con NEXT_PUBLIC_NEWSLETTER encendida.
+ * /newsletter es el mismo caso: existe solo con NEXT_PUBLIC_NEWSLETTER
+ * encendida.
  *
  * Lo que NO va nunca es /boletin/confirmar y /boletin/baja: son el final de un
  * enlace personal, no paginas del sitio, y ademas llevan un token en la
- * direccion.
+ * direccion. Tampoco va /boletin, que es la direccion vieja de /newsletter y
+ * hoy solo redirige: un sitemap anuncia destinos, no escalas.
  */
 const BOLETIN_PUBLICADO = process.env.NEXT_PUBLIC_NEWSLETTER === "true";
 
 const PAGINA_BOLETIN = [
-  { ruta: "/boletin", prioridad: 0.7, frecuencia: "monthly" }
+  { ruta: "/newsletter", prioridad: 0.7, frecuencia: "monthly" }
 ];
 
 // El interruptor y la lista salen de _legal/datos.js, que es el mismo lugar
