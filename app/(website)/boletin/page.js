@@ -53,13 +53,28 @@ export default function BoletinPage() {
   if (!HABILITADO) notFound();
 
   return (
-    <Container>
-      <div className="mx-auto max-w-lg py-10">
-        {/* La tarjeta es la misma del panel del blog, sin la equis de
-            cerrar: acá no hay nada detrás a lo que volver. Se mantiene
-            igual a propósito, para que quien ya la vio en el blog reconozca
-            que es lo mismo. */}
-        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900">
+    /* El fondo va acá afuera, envolviendo al Container y no dentro de él,
+       porque el Container tiene ancho máximo: puesto adentro, el color
+       cortaría en una franja angosta con blanco a los lados.
+
+       Y va con color porque sin él la tarjeta es blanca sobre blanco y lo
+       único que la separa del resto es un borde de gris clarísimo: se leía
+       como texto suelto en la página en vez de como una tarjeta. En el panel
+       del blog el problema no existe porque atrás hay una capa oscura sobre
+       el listado; acá había que reemplazar esa capa por algo.
+
+       El tinte es verde de marca al 4% y no un gris neutro: a esta página se
+       llega desde un enlace que mandó JRC, y conviene que se vea de JRC. Al
+       4% aporta separación sin competir con el verde del título ni con el
+       del botón. */
+    <div className="bg-[#305832]/[0.04] dark:bg-white/[0.02]">
+      <Container>
+        <div className="mx-auto max-w-lg py-10">
+          {/* La tarjeta es la misma del panel del blog. Se mantiene igual a
+              propósito, para que quien ya la vio ahí reconozca que es lo
+              mismo. El borde y la sombra suben un escalón respecto del panel
+              porque acá cargan solos con separarla del fondo. */}
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900">
           <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 dark:border-gray-800">
             <div className="flex items-center gap-2">
               <IconoSobre className="h-5 w-5" style={{ color: VERDE }} />
@@ -107,19 +122,20 @@ export default function BoletinPage() {
           </div>
         </div>
 
-        {/* Quien llega acá desde un enlace que le pasaron no conoce el blog.
-            Vale ofrecerle ver de qué se trata antes de dejar su correo, en
-            vez de que la única salida sea cerrar la pestaña. */}
-        <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-500">
-          ¿Querés ver antes de qué se trata?{" "}
-          <a
-            href="/blog"
-            className="font-medium text-[#305832] underline dark:text-[#8cbe8f]">
-            Mirá las notas publicadas
-          </a>
-          .
-        </p>
-      </div>
-    </Container>
+          {/* Quien llega acá desde un enlace que le pasaron no conoce el
+              blog. Vale ofrecerle ver de qué se trata antes de dejar su
+              correo, en vez de que la única salida sea cerrar la pestaña. */}
+          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-500">
+            ¿Querés ver antes de qué se trata?{" "}
+            <a
+              href="/blog"
+              className="font-medium text-[#305832] underline dark:text-[#8cbe8f]">
+              Mirá las notas publicadas
+            </a>
+            .
+          </p>
+        </div>
+      </Container>
+    </div>
   );
 }
