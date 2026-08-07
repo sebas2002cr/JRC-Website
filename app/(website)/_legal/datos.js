@@ -53,8 +53,17 @@ export const EMPRESA = {
   razonSocial: "Grupo Consultor JSRC",
   nombreComercial: "JRC Consulting Group",
   cedula: "3-101-815282",
-  domicilio:
-    "San José, Escazú, San Rafael, 575 metros al oeste de Escazú Village, Edificio Monterrico, piso 2",
+  // Pedido del area legal: el domicilio va sin las senas exactas del edificio.
+  //
+  // Ademas alinea las legales con el resto del sitio, que ya decia solo
+  // "Trejos Montealegre, Escazu" en el pie, en la pagina de contacto y en los
+  // datos estructurados de lib/schema.js. Las legales eran las unicas que
+  // publicaban el piso y el numero de edificio, y dos direcciones distintas
+  // para la misma empresa en el mismo sitio es peor que una menos precisa.
+  //
+  // La Ley 8968 pide identificar y poder contactar al responsable, y eso lo
+  // cubren el correo y el telefono que estan en la misma seccion.
+  domicilio: "San José, Escazú, Trejos Montealegre",
   correo: "info@jrc.cr",
   telefono: "6055-6705",
   // Con el prefijo de país y sin separadores, que es como lo pide un enlace
