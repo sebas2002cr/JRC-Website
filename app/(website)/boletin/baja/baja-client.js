@@ -59,7 +59,7 @@ export default function BajaClient({ correo, token }) {
       <MarcoBoletin icono={<IconoAviso />} titulo="Este enlace no sirve">
         <p className="mb-8">
           Puede que se haya cortado al copiarlo. Abrí el enlace &quot;Darme de baja&quot;
-          directamente desde el pie de cualquier correo del boletín, o escribinos y lo
+          directamente desde el pie de cualquier correo del newsletter, o escribinos y lo
           resolvemos nosotros.
         </p>
         <Link
@@ -79,7 +79,7 @@ export default function BajaClient({ correo, token }) {
   if (estado === "listo") {
     return (
       <MarcoBoletin icono={<IconoCheck />} titulo="Listo, no te escribimos más">
-        <p className="mb-2">Tu dirección quedó fuera de la lista del boletín.</p>
+        <p className="mb-2">Tu dirección quedó fuera de la lista del newsletter.</p>
         <p className="mb-8 text-sm text-gray-500 dark:text-gray-500">
           Si algún día cambiás de idea, podés volver a suscribirte desde el blog.
         </p>
@@ -94,7 +94,7 @@ export default function BajaClient({ correo, token }) {
   }
 
   return (
-    <MarcoBoletin icono={<IconoSobre />} titulo="¿Querés dejar de recibir el boletín?">
+    <MarcoBoletin icono={<IconoSobre />} titulo="¿Querés dejar de recibir el newsletter?">
       <p className="mb-8">
         Al confirmar dejamos de escribirte. No hace falta que hagas nada más.
       </p>

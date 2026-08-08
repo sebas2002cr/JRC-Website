@@ -1,7 +1,9 @@
 import PostPage from "./default";
+import JsonLd from "@/components/jsonLd";
 
 import { getAllPostsSlugs, getPostBySlug } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
+import { articleSchema } from "@/lib/schema";
 import { siteName, siteUrl } from "@/lib/seo";
 
 export async function generateStaticParams() {
@@ -57,7 +59,22 @@ export async function generateMetadata({ params }) {
 
 export default async function PostDefault({ params }) {
   const post = await getPostBySlug(params.slug);
-  return <PostPage post={post} />;
+
+  // La ficha del articulo. Iba faltando: las paginas de nota solo llevaban la
+  // ficha de la empresa, asi que Google tenia que deducir de que fecha era
+  // cada nota leyendo el HTML. Ver articleSchema en lib/schema.js.
+  const ficha = articleSchema(
+    post,
+    `/post/${params.slug}`,
+    post?.mainImage ? urlForImage(post.mainImage)?.src : undefined
+  );
+
+  return (
+    <>
+      {ficha && <JsonLd data={ficha} />}
+      <PostPage post={post} />
+    </>
+  );
 }
 
 export const revalidate = 60;

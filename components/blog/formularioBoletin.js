@@ -308,7 +308,7 @@ function Resultado({ correo, caso }) {
       {yaEstaba ? (
         <p className="text-gray-600 dark:text-gray-400">
           <strong className="text-gray-800 dark:text-gray-200">{correo}</strong> ya
-          está suscrito al boletín. Nos vemos el lunes.
+          está suscrito al newsletter. Nos vemos el lunes.
         </p>
       ) : (
         <p className="text-gray-600 dark:text-gray-400">
