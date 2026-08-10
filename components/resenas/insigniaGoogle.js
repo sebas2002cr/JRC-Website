@@ -39,8 +39,14 @@ export default function InsigniaGoogle({ resumen, resenas = [] }) {
 
   if (!resumen) return null;
 
-  const { calificacion, totalOpiniones, enlacePerfil } = resumen;
+  const { nombre, calificacion, totalOpiniones } = resumen;
   const cerrar = () => setAbierto(false);
+
+  // El botón lleva a la lista de reseñas, no a la ubicación en el mapa: si
+  // alguien viene de leer opiniones, mandarlo a un mapa es hacerle buscar
+  // otra vez lo que ya estaba mirando. El enlace del mapa queda de
+  // respaldo por si un día la sincronización no arma el otro.
+  const enlace = resumen.enlaceResenas || resumen.enlacePerfil;
 
   return (
     <>
@@ -94,21 +100,27 @@ export default function InsigniaGoogle({ resumen, resenas = [] }) {
               <div className="flex items-center gap-3">
                 <LogoGoogle className="h-8 w-8 flex-none" />
                 <div>
+                  {/* El nombre del negocio es el título, y no "Opiniones
+                      en Google": el panel se abre encima del sitio y sin
+                      el nombre no queda dicho de quién son las opiniones
+                      que se están leyendo. Que son de Google lo dicen el
+                      logo de al lado y la línea de abajo.
+
+                      Si la sincronización todavía no trajo el nombre, cae
+                      al título de antes en vez de dejar el encabezado
+                      vacío. */}
                   <h2
                     id="titulo-resenas"
                     className="text-lg font-bold text-[#305832] dark:text-[#8cbe8f]">
-                    Opiniones en Google
+                    {nombre || "Opiniones en Google"}
                   </h2>
-                  <div className="mt-0.5 flex items-center gap-2">
+                  <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5">
                     <span className="text-sm font-bold text-gray-900 dark:text-white">
                       {conComa(calificacion)}
                     </span>
-                    <Estrellas
-                      valor={calificacion}
-                      className="h-4 w-4"
-                    />
+                    <Estrellas valor={calificacion} className="h-4 w-4" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      {totalOpiniones} opiniones
+                      {totalOpiniones} opiniones en Google
                     </span>
                   </div>
                 </div>
@@ -150,13 +162,13 @@ export default function InsigniaGoogle({ resumen, resenas = [] }) {
               )}
             </div>
 
-            {enlacePerfil && (
+            {enlace && (
               <div className="border-t border-gray-100 px-6 py-4 dark:border-gray-800">
                 {/* rel="noopener" es obligatorio con target="_blank":
                     sin el, la pestana que se abre puede reescribir la
                     nuestra desde window.opener. */}
                 <a
-                  href={enlacePerfil}
+                  href={enlace}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block rounded-lg bg-[#305832] px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#24421f]">
