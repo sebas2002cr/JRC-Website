@@ -48,10 +48,14 @@ function PanelBoletin() {
   /**
    * Cuándo aparece la burbuja que invita a suscribirse.
    *
-   * Dos disparadores, el que llegue primero: a los 8 segundos, o al pasar
-   * el primer tercio de la página. Uno solo no alcanza. Con solo el tiempo,
-   * a quien baja rápido leyendo le salta encima al toque; con solo el
-   * scroll, a quien se queda quieto arriba no le sale nunca.
+   * Dos disparadores, el que llegue primero: a los 3 segundos, o al pasar
+   * el primer tercio de la página. El scroll sigue estando aunque 3
+   * segundos sea poco, porque quien baja rápido leyendo puede pasarse ese
+   * tercio antes de que el reloj llegue, y ahí conviene que la burbuja ya
+   * esté puesta y no aparezca sola a mitad de la página.
+   *
+   * Los 3 segundos son a partir de que este componente monta, o sea con la
+   * página ya pintada: no se le suma el tiempo de carga.
    *
    * No aparece si ya la cerró o si ya se suscribió. Insistirle a alguien
    * que ya se anotó es la forma más rápida de que la próxima vez cierre
@@ -77,7 +81,7 @@ function PanelBoletin() {
       if (window.scrollY > document.body.scrollHeight / 3) mostrar();
     };
 
-    const reloj = setTimeout(mostrar, 8000);
+    const reloj = setTimeout(mostrar, 3000);
     window.addEventListener("scroll", alScrollear, { passive: true });
 
     return () => {
