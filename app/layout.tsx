@@ -22,8 +22,21 @@ const lora = Lora({
 
 const siteUrl = process.env.SITE_URL || "https://jrc.cr";
 
+/**
+ * La descripcion que se ve bajo el enlace en Google y dentro de la tarjeta
+ * cuando alguien comparte jrc.cr por WhatsApp o LinkedIn.
+ *
+ * Es corta a proposito. Cada lugar la corta en un largo distinto: Google
+ * cerca de los 155 caracteres, WhatsApp cerca de los 100 y menos todavia en
+ * una pantalla angosta. La anterior tenia 169 y en los dos lados terminaba
+ * en puntos suspensivos. Con 87 entra completa en todos.
+ *
+ * Por eso las cuatro areas van adelante y no al final: aunque algun dia se
+ * le agregue texto atras, lo que define a la empresa ya quedo dicho antes
+ * del corte mas corto.
+ */
 const siteDescription =
-  "Consultoría contable, tributaria y de cumplimiento para empresas en Costa Rica. Contabilidad mensual, constitución de sociedades, inscripción de PYMEs y asesoría fiscal.";
+  "Consultoría tributaria, fiscal, legal y financiera para empresas y PYMEs en Costa Rica.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

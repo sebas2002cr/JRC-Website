@@ -5,8 +5,13 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Contabilidad y asesoría tributaria en Costa Rica",
+  // Misma frase que el siteDescription de app/layout.tsx, y tiene que
+  // seguir siendolo: esta es la que gana en el home —la metadata de la
+  // pagina pisa la del layout— y aquella es la que se hereda al resto. Si
+  // se cambia una sola, el home y el sitio dicen cosas distintas. Alla esta
+  // el comentario que explica por que es corta.
   description:
-    "Consultoría contable, tributaria y de cumplimiento para empresas en Costa Rica. Contabilidad mensual, constitución de sociedades, inscripción de PYMEs y asesoría fiscal.",
+    "Consultoría tributaria, fiscal, legal y financiera para empresas y PYMEs en Costa Rica.",
   path: "/"
 });
 
