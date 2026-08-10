@@ -301,10 +301,11 @@ export default function Post({ posts }) {
                 </h2>
                 <p class="text-sm text-gray-600">
                   En JRC Consulting Group, ofrecemos soluciones
-                  integrales y personalizadas para todos tus retos en
-                  contabilidad y finanzas. Nuestro equipo experto y
-                  enfoque innovador garantizan que tu negocio esté
-                  siempre en las mejores manos.
+                  integrales y personalizadas para todos tus retos
+                  tributarios, fiscales, legales y financieros.
+                  Nuestro equipo experto y enfoque innovador
+                  garantizan que tu negocio esté siempre en las
+                  mejores manos.
                 </p>
                 <a href="/blog">
                   <button className="mx-auto mt-6 w-3/4 rounded-lg border border-[#305832] px-6 py-2 text-[#305832] shadow-md  duration-700 ease-in-out hover:bg-[#305832] hover:text-white sm:mx-0 sm:w-auto sm:px-8 sm:py-3">
@@ -346,8 +347,8 @@ export default function Post({ posts }) {
                       la atención personalizada que merecés. Contás
                       con un representante exclusivo que conoce a
                       fondo tu negocio y está siempre disponible para
-                      resolver tus necesidades de forma rápida y
-                      eficiente.
+                      resolver tus necesidades de forma eficiente y
+                      eficaz.
                     </p>
                   </div>
                   <div>

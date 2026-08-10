@@ -138,10 +138,9 @@ export default function Footer(props) {
             </a>
           </div>
           <p className="mt-4 max-w-xs text-center text-sm md:text-left">
-            Somos una empresa líder en soluciones de consultoría
-            contable, legal y tributaria, comprometidos en brindar
-            soluciones profesionales y personalizadas a nuestros
-            clientes.
+            Somos una empresa líder en consultoría tributaria, fiscal,
+            legal y financiera, comprometidos en brindar soluciones
+            profesionales y personalizadas a nuestros clientes.
           </p>
         </div>
 
