@@ -89,3 +89,61 @@
     opacity: 1;
   }
 }
+
+/* ── Llamada de atención del botón del newsletter ─────────────────────
+   Un aro que sale del botón y se desvanece. Late TRES veces y se queda
+   quieto: un latido infinito deja de leerse como "mirá esto" y pasa a
+   leerse como un anuncio, que es justo lo que la gente aprendió a
+   ignorar. Tres alcanzan para que el ojo lo agarre.
+
+   Arranca a los 1,5s y no de una: si late mientras la página todavía se
+   está pintando, el movimiento se pierde entre todo lo demás.
+
+   El aro es un elemento aparte y no un box-shadow del botón porque tiene
+   que poder crecer más grande que él sin empujar el diseño. */
+@keyframes boletin-latido {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.boletin-latido {
+  animation: boletin-latido 2.2s ease-out 1.5s 3;
+}
+
+@keyframes boletin-burbuja {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.boletin-burbuja {
+  animation: boletin-burbuja 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* El aro es puro movimiento y no dice nada por sí solo: con los efectos
+   apagados no se reemplaza por un fundido, simplemente no va. La burbuja
+   sí, porque ella es la que trae el mensaje. */
+@media (prefers-reduced-motion: reduce) {
+  .boletin-latido {
+    animation: none;
+  }
+
+  .boletin-burbuja {
+    animation: boletin-aparece 0.35s ease-out both;
+  }
+}

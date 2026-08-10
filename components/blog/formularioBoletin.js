@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cx } from "@/utils/all";
 import { pedirAlBoletin, VERDE } from "@/lib/boletin";
+import { MEMORIA, recordar } from "@/lib/memoria";
 
 /**
  * El formulario de alta al boletín, sin marco.
@@ -114,6 +115,12 @@ export default function FormularioBoletin() {
     // suscrita, o con una confirmación sin abrir. Son tres mensajes
     // distintos porque son tres cosas distintas, y en una de ellas la
     // persona todavía tiene algo que hacer.
+    // Se marca en el navegador para que la burbuja del botón flotante deje
+    // de invitar a suscribirse a quien acaba de hacerlo. Vale también para
+    // "yaSuscrito": en los dos casos la persona ya está en la lista o a un
+    // clic de estarlo, y seguir insistiéndole solo molesta.
+    recordar(MEMORIA.suscrito);
+
     setResultado(datos.codigo || "enviado");
     setEstado("listo");
   };

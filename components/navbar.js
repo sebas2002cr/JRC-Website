@@ -6,6 +6,7 @@ import Container from "@/components/container";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import { motion } from "framer-motion";
+import { MEMORIA, recordado, recordar } from "@/lib/memoria";
 
 /**
  * Ojo: los enlaces de navegacion usan <a> y NO <Link> a proposito.
@@ -20,6 +21,28 @@ import { motion } from "framer-motion";
  * transicion instantanea, que es el precio acordado por tener el traductor
  * funcionando de forma estable.
  */
+
+/**
+ * El puntito verde al lado de "Blog".
+ *
+ * Lleva texto para quien navega con lector de pantalla: un punto de color
+ * no dice nada si no se ve. El sr-only lo lee y no ocupa lugar.
+ */
+function PuntoNuevo() {
+  return (
+    <>
+      {/* group-hover solo hace algo en el menú móvil, que es el único que
+          marca su enlace como "group": ahí el fondo se vuelve verde al
+          tocarlo y un punto verde desaparecería sobre él. En el de
+          escritorio no hay group, así que la clase nunca se activa. */}
+      <span
+        aria-hidden="true"
+        className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#305832] group-hover:bg-white"
+      />
+      <span className="sr-only">(nuevo)</span>
+    </>
+  );
+}
 
 export default function Navbar(props) {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -53,6 +76,38 @@ export default function Navbar(props) {
       };
     }
   }, [handleScroll]);
+
+  /**
+   * El punto que señala que el blog es nuevo.
+   *
+   * Arranca en true —o sea, SIN punto— y recién después de montar se
+   * consulta lo que recuerda el navegador. Al revés no se puede: el
+   * servidor no tiene localStorage, así que si el primer render dependiera
+   * de él, el HTML del servidor y el del navegador no coincidirían y React
+   * se quejaría de la hidratación. De paso evita el parpadeo de un punto
+   * que aparece y se borra medio segundo después.
+   *
+   * Se apaga solo: una vez que la persona entró al blog, no vuelve. Un
+   * distintivo que no se apaga deja de significar "nuevo" y pasa a ser
+   * parte del decorado.
+   */
+  const [blogVisto, setBlogVisto] = useState(true);
+
+  useEffect(() => {
+    // Estar parado en el blog cuenta como haberlo visto, aunque se haya
+    // llegado desde Google y no por este enlace.
+    if (window.location.pathname.startsWith("/blog")) {
+      recordar(MEMORIA.blogVisto);
+      setBlogVisto(true);
+      return;
+    }
+    setBlogVisto(recordado(MEMORIA.blogVisto));
+  }, []);
+
+  const marcarBlogVisto = () => {
+    recordar(MEMORIA.blogVisto);
+    setBlogVisto(true);
+  };
 
   const leftmenu = [
     { label: "Blog", href: "/blog" },
@@ -104,9 +159,15 @@ export default function Navbar(props) {
                             <a
                               href={item.href}
                               key={`${item.label}${index}`}
-                              className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
-                              onClick={() => close()}>
+                              className="relative px-5 py-2 text-sm font-medium text-gray-600 hover:text-[#305832] dark:text-gray-400"
+                              onClick={() => {
+                                if (item.label === "Blog") marcarBlogVisto();
+                                close();
+                              }}>
                               {item.label}
+                              {item.label === "Blog" && !blogVisto && (
+                                <PuntoNuevo />
+                              )}
                             </a>
                           </Fragment>
                         ))}
@@ -193,10 +254,15 @@ export default function Navbar(props) {
                           <a
                             href={item.href}
                             key={`${item.label}${index}`}
-                            className="block w-full rounded-lg border border-[#305832] px-4 py-2 text-sm font-medium text-[#305832] hover:bg-[#305832] hover:text-white"
-                            onClick={() => close()} // Aquí cerramos el menú al hacer clic en un enlace
-                          >
+                            className="group relative block w-full rounded-lg border border-[#305832] px-4 py-2 text-sm font-medium text-[#305832] hover:bg-[#305832] hover:text-white"
+                            onClick={() => {
+                              if (item.label === "Blog") marcarBlogVisto();
+                              close(); // Aquí cerramos el menú al hacer clic en un enlace
+                            }}>
                             {item.label}
+                            {item.label === "Blog" && !blogVisto && (
+                              <PuntoNuevo />
+                            )}
                           </a>
                         ))}
                       </motion.div>
