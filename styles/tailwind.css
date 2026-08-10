@@ -91,10 +91,10 @@
 }
 
 /* ── Llamada de atención del botón del newsletter ─────────────────────
-   Un aro que sale del botón y se desvanece. Late TRES veces y se queda
+   Un aro que sale del botón y se desvanece. Late DOS veces y se queda
    quieto: un latido infinito deja de leerse como "mirá esto" y pasa a
    leerse como un anuncio, que es justo lo que la gente aprendió a
-   ignorar. Tres alcanzan para que el ojo lo agarre.
+   ignorar. Con dos el ojo ya lo agarró.
 
    Arranca a los 1,5s y no de una: si late mientras la página todavía se
    está pintando, el movimiento se pierde entre todo lo demás.
@@ -104,20 +104,24 @@
 @keyframes boletin-latido {
   0% {
     transform: scale(1);
-    opacity: 0.5;
+    opacity: 0.28;
   }
   70% {
-    transform: scale(1.9);
+    transform: scale(1.45);
     opacity: 0;
   }
   100% {
-    transform: scale(1.9);
+    transform: scale(1.45);
     opacity: 0;
   }
 }
 
+/* Dos pulsos y no tres, más lentos, más chicos y más tenues que la primera
+   versión: aquella crecía casi al doble del botón y arrancaba a media
+   opacidad, y de lejos parecía una alarma. El aro tiene que insinuar, no
+   avisar. */
 .boletin-latido {
-  animation: boletin-latido 2.2s ease-out 1.5s 3;
+  animation: boletin-latido 2.6s ease-out 1.5s 2;
 }
 
 @keyframes boletin-burbuja {
