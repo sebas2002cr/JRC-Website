@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { VERDE } from "@/lib/boletin";
-import { MEMORIA, recordado, recordar } from "@/lib/memoria";
+import {
+  MEMORIA,
+  recordado,
+  recordadoEnLaVisita,
+  recordarEnLaVisita
+} from "@/lib/memoria";
 import FormularioBoletin from "./formularioBoletin";
 import { IconoSobre } from "./iconoSobre";
 
@@ -57,9 +62,15 @@ function PanelBoletin() {
    * Los 3 segundos son a partir de que este componente monta, o sea con la
    * página ya pintada: no se le suma el tiempo de carga.
    *
-   * No aparece si ya la cerró o si ya se suscribió. Insistirle a alguien
-   * que ya se anotó es la forma más rápida de que la próxima vez cierre
-   * también el panel.
+   * No aparece si ya la cerró EN ESTA VISITA, o si ya se suscribió. Las
+   * dos condiciones se parecen pero duran cosas distintas a propósito:
+   *
+   *   - Haberla cerrado se olvida al cerrar la pestaña. Quien hoy no se
+   *     anotó puede querer anotarse la semana que viene, y el aviso es lo
+   *     bastante discreto como para volver a ofrecerlo.
+   *   - Haberse suscrito no se olvida nunca. Insistirle a alguien que ya
+   *     se anotó es la forma más rápida de que la próxima vez cierre
+   *     también el panel.
    *
    * Arranca en false SIEMPRE, y no leyendo localStorage en el useState:
    * el servidor no tiene localStorage, así que el HTML del servidor y el
@@ -67,7 +78,12 @@ function PanelBoletin() {
    * la hidratación. Por eso la decisión se toma acá, después de montar.
    */
   useEffect(() => {
-    if (recordado(MEMORIA.burbujaCerrada) || recordado(MEMORIA.suscrito)) return;
+    if (
+      recordadoEnLaVisita(MEMORIA.burbujaCerrada) ||
+      recordado(MEMORIA.suscrito)
+    ) {
+      return;
+    }
 
     let listo = false;
     const mostrar = () => {
@@ -92,7 +108,7 @@ function PanelBoletin() {
 
   const cerrarBurbuja = () => {
     setBurbuja(false);
-    recordar(MEMORIA.burbujaCerrada);
+    recordarEnLaVisita(MEMORIA.burbujaCerrada);
   };
 
   // Escape cierra, y con el panel abierto se bloquea el scroll de atrás.
