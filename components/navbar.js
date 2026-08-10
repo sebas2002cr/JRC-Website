@@ -6,7 +6,11 @@ import Container from "@/components/container";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import { motion } from "framer-motion";
-import { MEMORIA, recordado, recordar } from "@/lib/memoria";
+import {
+  MEMORIA,
+  recordadoEnLaVisita,
+  recordarEnLaVisita
+} from "@/lib/memoria";
 
 /**
  * Ojo: los enlaces de navegacion usan <a> y NO <Link> a proposito.
@@ -87,9 +91,14 @@ export default function Navbar(props) {
    * se quejaría de la hidratación. De paso evita el parpadeo de un punto
    * que aparece y se borra medio segundo después.
    *
-   * Se apaga solo: una vez que la persona entró al blog, no vuelve. Un
-   * distintivo que no se apaga deja de significar "nuevo" y pasa a ser
-   * parte del decorado.
+   * Se apaga dentro de la visita: quien ya entró al blog no necesita que
+   * se lo sigan señalando mientras recorre el resto del sitio. Pero la
+   * marca dura solo la visita, así que la próxima vez que vuelva el punto
+   * está de nuevo — y tiene sentido, porque el blog publica cada semana y
+   * para entonces hay algo que de verdad no vio.
+   *
+   * Lo que se evita con esto es lo contrario: un distintivo permanente que
+   * nunca se apaga deja de significar "nuevo" y pasa a ser decorado.
    */
   const [blogVisto, setBlogVisto] = useState(true);
 
@@ -97,15 +106,15 @@ export default function Navbar(props) {
     // Estar parado en el blog cuenta como haberlo visto, aunque se haya
     // llegado desde Google y no por este enlace.
     if (window.location.pathname.startsWith("/blog")) {
-      recordar(MEMORIA.blogVisto);
+      recordarEnLaVisita(MEMORIA.blogVisto);
       setBlogVisto(true);
       return;
     }
-    setBlogVisto(recordado(MEMORIA.blogVisto));
+    setBlogVisto(recordadoEnLaVisita(MEMORIA.blogVisto));
   }, []);
 
   const marcarBlogVisto = () => {
-    recordar(MEMORIA.blogVisto);
+    recordarEnLaVisita(MEMORIA.blogVisto);
     setBlogVisto(true);
   };
 
