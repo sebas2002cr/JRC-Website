@@ -1,6 +1,11 @@
 import HomePage from "./home";
 import Newsletter from "@/components/blog/newsletter";
-import { getAllPosts } from "@/lib/sanity/client";
+import InsigniaGoogle from "@/components/resenas/insigniaGoogle";
+import {
+  getAllPosts,
+  getResenasGoogle,
+  getResumenGoogle
+} from "@/lib/sanity/client";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -16,15 +21,30 @@ export const metadata = pageMetadata({
 });
 
 export default async function IndexPage() {
-  const posts = await getAllPosts();
+  // Las tres en paralelo y no una atrás de otra: son consultas
+  // independientes a Sanity, y encadenadas con await sueltos la página
+  // esperaría la suma de las tres en vez de la más lenta.
+  const [posts, resumenGoogle, resenasGoogle] = await Promise.all([
+    getAllPosts(),
+    getResumenGoogle(),
+    getResenasGoogle()
+  ]);
+
   return (
     <>
       <HomePage posts={posts} />
-      {/* Va acá afuera y no dentro de home.js porque home.js entero se
-          renderiza solo si hay posts. El botón del newsletter no depende
-          de que Sanity conteste: si un día no devuelve nada, la home se
-          queda vacía pero el newsletter sigue en pie. */}
+      {/* Los dos flotantes van acá afuera y no dentro de home.js porque
+          home.js entero se renderiza solo si hay posts. No dependen de que
+          Sanity conteste con notas: si un día no devuelve ninguna, la home
+          se queda vacía pero estos siguen en pie.
+
+          El newsletter vive abajo a la izquierda y la insignia abajo a la
+          derecha, así que no compiten por el mismo lugar. */}
       <Newsletter />
+      <InsigniaGoogle
+        resumen={resumenGoogle}
+        resenas={resenasGoogle}
+      />
     </>
   );
 }

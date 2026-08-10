@@ -6,5 +6,7 @@ import settings from './settings'
 import reviews from './reviews'
 import faqs from './faqs'
 import courses from './courses'
+import resenaGoogle from './resenaGoogle'
+import resumenGoogle from './resumenGoogle'
 
-export const schemaTypes = [post, reviews,faqs,author, category, settings, blockContent, courses]
+export const schemaTypes = [post, reviews,faqs,author, category, settings, blockContent, courses, resenaGoogle, resumenGoogle]

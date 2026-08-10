@@ -18,6 +18,8 @@ import {
   catquery,
   getAll,
   reviewsQuery,
+  resenasGoogleQuery,
+  resumenGoogleQuery,
   faqsQuery,
   searchquery,
   coursesQuery,
@@ -240,6 +242,25 @@ export async function getReviews() {
     return (await client.fetch(reviewsQuery, {}, CACHE)) || [];
   }
   return [];
+}
+
+export async function getResenasGoogle() {
+  if (client) {
+    return (await client.fetch(resenasGoogleQuery, {}, CACHE)) || [];
+  }
+  return [];
+}
+
+/**
+ * Devuelve null —y no un objeto vacio— cuando el documento no existe
+ * todavia. La insignia usa ese null para no dibujarse: mas vale que no
+ * aparezca a que aparezca anunciando "0 opiniones".
+ */
+export async function getResumenGoogle() {
+  if (client) {
+    return (await client.fetch(resumenGoogleQuery, {}, CACHE)) || null;
+  }
+  return null;
 }
 
 export async function getFAQs() {
