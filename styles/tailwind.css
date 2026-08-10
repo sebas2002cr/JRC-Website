@@ -89,3 +89,118 @@
     opacity: 1;
   }
 }
+
+/* ── Llamada de atención del botón del newsletter ─────────────────────
+   Un aro que sale del botón y se desvanece. Late DOS veces y se queda
+   quieto: un latido infinito deja de leerse como "mirá esto" y pasa a
+   leerse como un anuncio, que es justo lo que la gente aprendió a
+   ignorar. Con dos el ojo ya lo agarró.
+
+   Arranca a los 1,5s y no de una: si late mientras la página todavía se
+   está pintando, el movimiento se pierde entre todo lo demás.
+
+   El aro es un elemento aparte y no un box-shadow del botón porque tiene
+   que poder crecer más grande que él sin empujar el diseño. */
+@keyframes boletin-latido {
+  0% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* Dos pulsos y no tres, más lentos, más chicos y más tenues que la primera
+   versión: aquella crecía casi al doble del botón y arrancaba a media
+   opacidad, y de lejos parecía una alarma. El aro tiene que insinuar, no
+   avisar. */
+.boletin-latido {
+  animation: boletin-latido 2.6s ease-out 1.5s 2;
+}
+
+@keyframes boletin-burbuja {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.boletin-burbuja {
+  animation: boletin-burbuja 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* El aro es puro movimiento y no dice nada por sí solo: con los efectos
+   apagados no se reemplaza por un fundido, simplemente no va. La burbuja
+   sí, porque ella es la que trae el mensaje. */
+@media (prefers-reduced-motion: reduce) {
+  .boletin-latido {
+    animation: none;
+  }
+
+  .boletin-burbuja {
+    animation: boletin-aparece 0.35s ease-out both;
+  }
+}
+
+/* La insignia de reseñas de Google. */
+
+@keyframes resena-entra {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* La demora de 1,5s es para que la insignia no forme parte de la primera
+   pintada: entrando después se nota, y entrando junto con todo lo demás
+   pasaría desapercibida.
+
+   El `both` es lo que la mantiene invisible durante esa espera, aplicando
+   el estado inicial antes de arrancar. Y si la hoja de estilos no llegara a
+   cargar, la clase no existe y la insignia se ve de una: sin animación
+   falla mostrándose, que es como debe fallar. */
+.resena-entra {
+  animation: resena-entra 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s both;
+}
+
+@keyframes resena-panel {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.resena-panel {
+  animation: resena-panel 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Con los efectos apagados la insignia aparece sin deslizarse, pero
+   conserva la demora: esa espera no es decoración, es lo que evita que
+   compita con el contenido mientras la página termina de armarse. */
+@media (prefers-reduced-motion: reduce) {
+  .resena-entra {
+    animation: boletin-aparece 0.35s ease-out 1.5s both;
+  }
+
+  .resena-panel {
+    animation: boletin-aparece 0.25s ease-out both;
+  }
+}

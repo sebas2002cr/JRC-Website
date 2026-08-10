@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { VERDE } from "@/lib/boletin";
+import { MEMORIA, recordado, recordar } from "@/lib/memoria";
 import FormularioBoletin from "./formularioBoletin";
 import { IconoSobre } from "./iconoSobre";
 
@@ -42,6 +43,57 @@ export default function Newsletter() {
 
 function PanelBoletin() {
   const [abierto, setAbierto] = useState(false);
+  const [burbuja, setBurbuja] = useState(false);
+
+  /**
+   * Cuándo aparece la burbuja que invita a suscribirse.
+   *
+   * Dos disparadores, el que llegue primero: a los 3 segundos, o al pasar
+   * el primer tercio de la página. El scroll sigue estando aunque 3
+   * segundos sea poco, porque quien baja rápido leyendo puede pasarse ese
+   * tercio antes de que el reloj llegue, y ahí conviene que la burbuja ya
+   * esté puesta y no aparezca sola a mitad de la página.
+   *
+   * Los 3 segundos son a partir de que este componente monta, o sea con la
+   * página ya pintada: no se le suma el tiempo de carga.
+   *
+   * No aparece si ya la cerró o si ya se suscribió. Insistirle a alguien
+   * que ya se anotó es la forma más rápida de que la próxima vez cierre
+   * también el panel.
+   *
+   * Arranca en false SIEMPRE, y no leyendo localStorage en el useState:
+   * el servidor no tiene localStorage, así que el HTML del servidor y el
+   * primer render del navegador tienen que coincidir o React se queja de
+   * la hidratación. Por eso la decisión se toma acá, después de montar.
+   */
+  useEffect(() => {
+    if (recordado(MEMORIA.burbujaCerrada) || recordado(MEMORIA.suscrito)) return;
+
+    let listo = false;
+    const mostrar = () => {
+      if (listo) return;
+      listo = true;
+      setBurbuja(true);
+      window.removeEventListener("scroll", alScrollear);
+    };
+
+    const alScrollear = () => {
+      if (window.scrollY > document.body.scrollHeight / 3) mostrar();
+    };
+
+    const reloj = setTimeout(mostrar, 3000);
+    window.addEventListener("scroll", alScrollear, { passive: true });
+
+    return () => {
+      clearTimeout(reloj);
+      window.removeEventListener("scroll", alScrollear);
+    };
+  }, []);
+
+  const cerrarBurbuja = () => {
+    setBurbuja(false);
+    recordar(MEMORIA.burbujaCerrada);
+  };
 
   // Escape cierra, y con el panel abierto se bloquea el scroll de atrás.
   useEffect(() => {
@@ -67,17 +119,36 @@ function PanelBoletin() {
       {/* Botón flotante, abajo a la IZQUIERDA.
           La esquina derecha ya la ocupa el selector de idioma de globalseo
           (fixed bottom-2 right-4 en app/layout.tsx), y los dos juntos se
-          encimaban. La izquierda queda libre: el botón de "volver al blog"
-          que vive ahí solo aparece dentro de una nota, y este solo en el
-          listado, así que nunca coinciden. */}
-      <button
-        onClick={() => setAbierto(true)}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
-        style={{ backgroundColor: VERDE }}
-        aria-label="Suscribirme al newsletter">
-        <IconoSobre className="h-5 w-5" />
-        <span className="hidden sm:inline">Newsletter</span>
-      </button>
+          encimaban.
+
+          En la izquierda convive con el botón de "volver al blog", pero
+          nunca al mismo tiempo: aquel solo aparece dentro de una nota, y
+          este va en el listado del blog y en el home. */}
+      <div className="fixed bottom-6 left-6 z-40">
+        {!burbuja || abierto ? null : (
+          <Burbuja onCerrar={cerrarBurbuja} onAbrir={() => setAbierto(true)} />
+        )}
+
+        <button
+          onClick={() => setAbierto(true)}
+          className="relative flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+          style={{ backgroundColor: VERDE }}
+          aria-label="Suscribirme al newsletter">
+          {/* El aro que late. Va con opacity 0 en línea a propósito: si la
+              hoja de estilos no llegara a cargar, no hay clase que lo anime
+              y quedaría una pastilla verde sólida desbordando el botón. Con
+              el 0 en línea, sin hoja no se ve nada, que es como debe fallar
+              algo puramente decorativo. Mientras la animación corre, ella
+              manda sobre el estilo en línea. */}
+          <span
+            aria-hidden="true"
+            className="boletin-latido pointer-events-none absolute inset-0 rounded-full"
+            style={{ backgroundColor: VERDE, opacity: 0 }}
+          />
+          <IconoSobre className="relative h-5 w-5" />
+          <span className="relative hidden sm:inline">Newsletter</span>
+        </button>
+      </div>
 
       {!abierto ? null : (
         <div
@@ -154,5 +225,64 @@ function PanelBoletin() {
         </div>
       )}
     </>
+  );
+}
+
+/**
+ * La burbujita que sale del botón.
+ *
+ * Existe porque el botón solo, por más que late, no dice qué hay del otro
+ * lado: "Newsletter" es el nombre del producto, no una razón para dejar el
+ * correo. La burbuja es la razón, en una línea.
+ *
+ * El ancho se corta con max-w para que en un teléfono angosto no se salga
+ * de la pantalla: el botón está a 24px del borde izquierdo, así que la
+ * burbuja no puede medir más que el ancho de la ventana menos esos 24 de
+ * cada lado.
+ */
+function Burbuja({ onCerrar, onAbrir }) {
+  return (
+    <div className="boletin-burbuja absolute bottom-full left-0 mb-3 w-60 max-w-[calc(100vw-3rem)] rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-black/5 dark:bg-gray-900 dark:ring-white/10">
+      {/* -m-1 p-2: la equis se ve chica pero la zona que responde al toque
+          es de 32px, que es lo que se necesita para cerrarla en el celular
+          al primer intento. Mismo criterio que la equis del panel. */}
+      <button
+        onClick={onCerrar}
+        aria-label="Cerrar el aviso del newsletter"
+        className="absolute right-1 top-1 -m-1 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          viewBox="0 0 24 24"
+          aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <p className="pr-5 text-sm leading-snug text-gray-700 dark:text-gray-300">
+        Todos los lunes, las novedades que le importan a tu negocio.
+      </p>
+
+      {/* El color va en clases y no en style={{ color: VERDE }}, por lo
+          mismo que el título del panel: un estilo en línea le gana a
+          cualquier clase, y con el verde de marca en línea no habría forma
+          de aclararlo para el fondo oscuro. */}
+      <button
+        onClick={onAbrir}
+        className="mt-2 text-sm font-semibold text-[#305832] underline-offset-2 hover:underline dark:text-[#8cbe8f]">
+        Quiero recibirlas
+      </button>
+
+      {/* El piquito que la ata al botón. Es un cuadrado girado 45°, no un
+          triángulo con borders: así hereda el mismo fondo en claro y en
+          oscuro sin tener que declarar el color dos veces. */}
+      <span
+        aria-hidden="true"
+        className="absolute -bottom-1 left-7 h-3 w-3 rotate-45 bg-white dark:bg-gray-900"
+      />
+    </div>
   );
 }
