@@ -6,6 +6,56 @@ import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Squares2X2Icon,
+  PencilSquareIcon,
+  CreditCardIcon,
+  ShieldCheckIcon
+} from "@heroicons/react/24/outline";
+
+/**
+ * Los cuatro pasos de "Cómo trabajamos".
+ *
+ * El texto es el mismo de siempre; lo que cambió son los íconos. Antes los
+ * cuatro mostraban el mismo signo "+", así que la columna eran cuatro
+ * casillas visualmente idénticas y el ícono no aportaba nada: había que
+ * leer el título para saber de qué paso se trataba.
+ *
+ * Ahora cada uno dice lo suyo y se entiende de un vistazo: las opciones
+ * entre las que se elige, el formulario que se llena, el pago, y el escudo
+ * de "de acá en adelante nos ocupamos nosotros".
+ *
+ * Van en un arreglo y no en cuatro bloques de JSX repetidos, que es como
+ * estaban: el marcado era idéntico las cuatro veces, así que cualquier
+ * ajuste de espaciado había que hacerlo cuatro veces y bastaba olvidarse
+ * de uno para que quedara distinto.
+ */
+const PASOS = [
+  {
+    Icono: Squares2X2Icon,
+    titulo: "Elegí el plan que se ajuste a vos",
+    texto:
+      "Explorá nuestras opciones y seleccioná el plan que mejor se adapte a tus necesidades o a las de tu empresa."
+  },
+  {
+    Icono: PencilSquareIcon,
+    titulo: "Contanos más sobre tu negocio",
+    texto:
+      "Completá el formulario para que podamos entender mejor lo que necesitás y personalizar el plan según tus requerimientos."
+  },
+  {
+    Icono: CreditCardIcon,
+    titulo: "Recibí tu cotización y completá el pago",
+    texto:
+      "Con base en tus necesidades, recibirás una cotización clara. Una vez confirmado, podrás completar el pago de forma rápida y segura."
+  },
+  {
+    Icono: ShieldCheckIcon,
+    titulo: "Relajate, nosotros nos ocupamos del resto",
+    texto:
+      "Terminá el proceso y dejá todo en nuestras manos. Nos encargamos de implementar tu plan mientras vos te enfocás en hacer crecer tu negocio."
+  }
+];
 
 export default function Post({ posts }) {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -158,7 +208,7 @@ export default function Post({ posts }) {
             variants={fadeInLeft}>
             <div className="text-left md:w-1/4">
               <p className="mb-4 text-xl font-semibold text-[#305832]">
-                Cómo funciona
+                Cómo trabajamos
               </p>
               <h2 className="mb-6 text-3xl font-bold text-black">
                 Empezá en cuestión de minutos
@@ -177,110 +227,25 @@ export default function Post({ posts }) {
               </a>
             </div>
             <div className="flex flex-col gap-8 md:w-1/3">
-              <div className="my-3 flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6 text-[#305832]">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
+              {PASOS.map(({ Icono, titulo, texto }) => (
+                <div
+                  key={titulo}
+                  className="my-3 flex items-start gap-4">
+                  {/* flex-none: sin él, el círculo se achica cuando el
+                      título ocupa dos líneas y los cuatro dejan de
+                      quedar alineados entre sí. */}
+                  <div className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-green-100">
+                    <Icono
+                      className="h-6 w-6 text-[#305832]"
+                      aria-hidden="true"
                     />
-                  </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-black">{titulo}</h3>
+                    <p className="text-gray-600">{texto}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-black">
-                    Elegí el plan que se ajuste a vos
-                  </h3>
-                  <p className="text-gray-600">
-                    Explorá nuestras opciones y seleccioná el plan que
-                    mejor se adapte a tus necesidades o a las de tu
-                    empresa.
-                  </p>
-                </div>
-              </div>
-              <div className="my-3 flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6 text-[#305832]">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-black">
-                    Contanos más sobre tu negocio
-                  </h3>
-                  <p className="text-gray-600">
-                    Completá el formulario para que podamos entender
-                    mejor lo que necesitás y personalizar el plan
-                    según tus requerimientos.
-                  </p>
-                </div>
-              </div>
-              <div className="my-3 flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6 text-[#305832]">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className=" font-bold text-black">
-                    Recibí tu cotización y completá el pago
-                  </h3>
-                  <p className="text-gray-600">
-                    Con base en tus necesidades, recibirás una
-                    cotización clara. Una vez confirmado, podrás
-                    completar el pago de forma rápida y segura.
-                  </p>
-                </div>
-              </div>
-              <div className="my-3 flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-6 w-6 text-[#305832]">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-black">
-                    Relajate, nosotros nos ocupamos del resto
-                  </h3>
-                  <p className="text-gray-600">
-                    Terminá el proceso y dejá todo en nuestras manos.
-                    Nos encargamos de implementar tu plan mientras vos
-                    te enfocás en hacer crecer tu negocio.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </motion.section>
 
