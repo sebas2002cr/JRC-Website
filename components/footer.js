@@ -157,7 +157,7 @@ export default function Footer(props) {
             Cursos
           </a>
           <a href="/pricing" className="hover:underline">
-            Precios
+            Tarifas
           </a>
           <a href="/contact" className="hover:underline">
             Contacto
@@ -169,7 +169,7 @@ export default function Footer(props) {
       <div className="mt-4 border-t border-white pt-4 text-center text-xs">
         {/* Las legales van acá abajo, separadas de los enlaces de navegación
             de arriba. Es donde las busca todo el mundo, y mezclarlas con
-            "Blog" o "Precios" las pondría a competir con lo que sí se quiere
+            "Blog" o "Tarifas" las pondría a competir con lo que sí se quiere
             que la gente visite.
 
             Solo aparecen si están publicadas: apagadas, esas direcciones

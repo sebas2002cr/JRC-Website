@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
+import InsigniaGoogle from "@/components/resenas/insigniaGoogle";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -57,7 +58,7 @@ const PASOS = [
   }
 ];
 
-export default function Post({ posts }) {
+export default function Post({ posts, resumenGoogle, resenasGoogle }) {
   const [openFAQ, setOpenFAQ] = useState(null);
   const [faqs, setFaqs] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -156,6 +157,14 @@ export default function Post({ posts }) {
               </a>
             </div>
           </motion.section>
+
+          {/* En móvil la confianza acompaña al hero dentro del flujo y no
+              flota sobre las estadísticas. En escritorio la insignia
+              conserva su posición flotante. */}
+          <InsigniaGoogle
+            resumen={resumenGoogle}
+            resenas={resenasGoogle}
+          />
 
           {/* Espacio entre secciones */}
           <div className="my-8"></div>

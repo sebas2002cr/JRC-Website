@@ -1,6 +1,5 @@
 import HomePage from "./home";
 import Newsletter from "@/components/blog/newsletter";
-import InsigniaGoogle from "@/components/resenas/insigniaGoogle";
 import {
   getAllPosts,
   getResenasGoogle,
@@ -32,19 +31,15 @@ export default async function IndexPage() {
 
   return (
     <>
-      <HomePage posts={posts} />
-      {/* Los dos flotantes van acá afuera y no dentro de home.js porque
-          home.js entero se renderiza solo si hay posts. No dependen de que
-          Sanity conteste con notas: si un día no devuelve ninguna, la home
-          se queda vacía pero estos siguen en pie.
-
-          El newsletter vive abajo a la izquierda y la insignia abajo a la
-          derecha, así que no compiten por el mismo lugar. */}
-      <Newsletter />
-      <InsigniaGoogle
-        resumen={resumenGoogle}
-        resenas={resenasGoogle}
+      <HomePage
+        posts={posts}
+        resumenGoogle={resumenGoogle}
+        resenasGoogle={resenasGoogle}
       />
+      {/* El newsletter queda fuera del contenido para conservar su posición
+          flotante. La insignia de reseñas recibe sus datos en home.js para
+          poder estar en el flujo móvil y flotando en escritorio. */}
+      <Newsletter />
     </>
   );
 }

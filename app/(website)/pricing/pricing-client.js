@@ -47,7 +47,7 @@ export default function Pricing() {
         <div className="pt-20 text-center font-semibold">
           <h1 className="text-3xl md:text-5xl">
             <span className="tracking-wide text-[#305832]">
-              Precios claros{" "}
+              Tarifas claras{" "}
             </span>
             <span>para empezar</span>
           </h1>

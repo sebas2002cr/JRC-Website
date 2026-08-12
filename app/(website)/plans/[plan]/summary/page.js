@@ -273,7 +273,7 @@ const calculateTransactionCost = useCallback((answers) => {
 
         <div className="h-full w-full rounded-lg bg-gray-100 p-4 shadow-md lg:ml-4 lg:w-2/5">
           <h3 className="mb-4 text-center text-xl font-bold lg:text-left">
-            Resumen de Precios
+            Resumen de Tarifas
           </h3>
           <div className="rounded-lg bg-white p-4 shadow-md">
             <div className="mb-4 flex items-center justify-between">

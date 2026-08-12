@@ -120,7 +120,7 @@ export default function Navbar(props) {
 
   const leftmenu = [
     { label: "Blog", href: "/blog" },
-    { label: "Precios", href: "/pricing" },
+    { label: "Tarifas", href: "/pricing" },
     { label: "Contacto", href: "/contact" }
   ];
 

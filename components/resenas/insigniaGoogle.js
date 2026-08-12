@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Estrellas } from "./estrellas";
 
 /**
- * La insignia flotante con la calificacion de Google, y el panel con las
- * resenas que se abre al tocarla.
+ * La insignia de Google y el panel con las resenas que se abre al tocarla.
+ * En móvil la insignia vive en el flujo del home; en escritorio queda flotante.
  *
  * Sigue el mismo molde que components/blog/newsletter.js —boton flotante,
  * panel encima, cierre con Escape y con clic afuera, scroll de la pagina
@@ -50,6 +50,24 @@ export default function InsigniaGoogle({ resumen, resenas = [] }) {
 
   return (
     <>
+      <div className="mt-5 flex justify-center sm:hidden">
+        <button
+          onClick={() => setAbierto(true)}
+          className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+          aria-label={`Ver nuestras ${totalOpiniones} opiniones en Google`}>
+          <LogoGoogle className="h-5 w-5 flex-none" />
+          <span className="flex items-center gap-1.5 text-xs leading-tight">
+            <span className="font-bold text-gray-900 dark:text-white">
+              {conComa(calificacion)}
+            </span>
+            <Estrellas valor={calificacion} className="h-3 w-3" />
+            <span className="text-gray-500 dark:text-gray-400">
+              · {totalOpiniones} opiniones
+            </span>
+          </span>
+        </button>
+      </div>
+
       {/* Abajo a la DERECHA, y a 5rem del borde y no a 1,5rem como el
           newsletter. Es para no encimarse con el selector de idioma de
           globalseo, que vive en `fixed bottom-2 right-4` (app/layout.tsx) y
