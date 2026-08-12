@@ -140,7 +140,7 @@ function PanelBoletin() {
           En la izquierda convive con el botón de "volver al blog", pero
           nunca al mismo tiempo: aquel solo aparece dentro de una nota, y
           este va en el listado del blog y en el home. */}
-      <div className="fixed bottom-6 left-6 z-40">
+      <div className="boletin-flotante fixed bottom-6 left-6 z-40">
         {!burbuja || abierto ? null : (
           <Burbuja onCerrar={cerrarBurbuja} onAbrir={() => setAbierto(true)} />
         )}

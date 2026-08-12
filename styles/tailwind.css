@@ -192,6 +192,15 @@
   animation: resena-panel 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* En telefonos la insignia flotante se oculta: las reseñas siguen viviendo
+   en el contenido y el espacio inferior queda reservado para el newsletter. */
+@media (max-width: 639px) {
+  .boletin-flotante {
+    bottom: 1rem;
+    left: 1rem;
+  }
+}
+
 /* Con los efectos apagados la insignia aparece sin deslizarse, pero
    conserva la demora: esa espera no es decoración, es lo que evita que
    compita con el contenido mientras la página termina de armarse. */

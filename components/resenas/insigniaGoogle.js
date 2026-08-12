@@ -55,23 +55,23 @@ export default function InsigniaGoogle({ resumen, resenas = [] }) {
           globalseo, que vive en `fixed bottom-2 right-4` (app/layout.tsx) y
           mide unos 50px de alto: la insignia arranca justo encima de el.
           La esquina izquierda ya la ocupa el boton del newsletter. */}
-      <div className="fixed bottom-20 right-4 z-40">
+      <div className="resena-flotante fixed bottom-20 right-4 z-40 hidden sm:block">
         <button
           onClick={() => setAbierto(true)}
-          className="resena-entra flex items-center gap-2.5 rounded-full bg-white py-2 pl-3 pr-4 shadow-lg ring-1 ring-black/5 transition-transform hover:scale-105 dark:bg-gray-900 dark:ring-white/10"
+          className="resena-entra flex items-center gap-1.5 rounded-full bg-white py-1.5 pl-2 pr-2.5 shadow-lg ring-1 ring-black/5 transition-transform hover:scale-105 dark:bg-gray-900 dark:ring-white/10 sm:gap-2.5 sm:py-2 sm:pl-3 sm:pr-4"
           aria-label={`Ver nuestras ${totalOpiniones} opiniones en Google`}>
-          <LogoGoogle className="h-6 w-6 flex-none" />
+          <LogoGoogle className="h-5 w-5 flex-none sm:h-6 sm:w-6" />
           <span className="flex flex-col items-start leading-tight">
-            <span className="flex items-center gap-1.5">
-              <span className="text-sm font-bold text-gray-900 dark:text-white">
+            <span className="flex items-center gap-1 sm:gap-1.5">
+              <span className="text-xs font-bold text-gray-900 dark:text-white sm:text-sm">
                 {conComa(calificacion)}
               </span>
               <Estrellas
                 valor={calificacion}
-                className="h-3.5 w-3.5"
+                className="h-3 w-3 sm:h-3.5 sm:w-3.5"
               />
             </span>
-            <span className="text-[11px] text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 sm:text-[11px]">
               {totalOpiniones} opiniones
             </span>
           </span>
