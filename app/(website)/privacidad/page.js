@@ -118,9 +118,10 @@ export default function PrivacidadPage() {
           <li>
             <strong>Prueba de consentimiento:</strong> cuando usted acepta esta política o se
             suscribe al boletín, se registra la fecha, la hora y la dirección IP desde la que
-            lo hizo, y en el caso del boletín también la fecha en que confirmó la suscripción
-            desde el enlace que le enviamos. La ley nos exige poder demostrar que el
-            consentimiento existió.
+            lo hizo, y en el caso del boletín también la fecha en que se le remitió cada correo
+            de confirmación o recordatorio y la fecha en que confirmó la suscripción desde el
+            enlace que le enviamos. La ley nos exige poder demostrar que el consentimiento
+            existió.
           </li>
         </ul>
         <p>
@@ -173,6 +174,19 @@ export default function PrivacidadPage() {
           Tratándose del boletín, se remite además un correo de confirmación: la suscripción
           queda activa únicamente si el titular confirma desde ese enlace, de modo que ninguna
           persona pueda suscribir a otra.
+        </p>
+        {/* El enlace de confirmación vence a los siete días, así que a quien lo
+            abre tarde ya no le sirve. Por eso se puede remitir un recordatorio
+            con uno nuevo, y por eso se dice acá: es un segundo correo a una
+            dirección que todavía NO dio su consentimiento, y el único que
+            corresponde mandarle. No se promete un número máximo de
+            recordatorios porque nada en el sistema lo limita hoy; prometerlo
+            sería escribir en la política algo que el código no cumple. */}
+        <p>
+          Dado que ese enlace tiene una vigencia de siete días, si la suscripción queda sin
+          confirmar JRC puede remitirle un recordatorio con un enlace nuevo. Mientras no medie
+          la confirmación no se le remite el boletín ni ninguna otra comunicación, y si usted no
+          hace nada la suscripción sencillamente no llega a activarse.
         </p>
         <p>
           Asimismo se tratan datos cuando resulta necesario para la ejecución de un contrato
