@@ -5,13 +5,13 @@ import { LEGALES_PUBLICADAS, PAGINAS_LEGALES } from "@/app/(website)/_legal/dato
 export default function Footer(props) {
   return (
     <div className="w-full bg-[#305832] text-white">
-      <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between px-4 py-12 md:flex-row">
+      <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between px-4 py-8 md:flex-row md:py-12">
         {/* Sección de la izquierda con el logo */}
         <div className="flex flex-col items-center md:items-start">
           <img
             src="/img/JRCLogofull.png"
             alt="JRC Logo"
-            className="mb-4 w-40" // Ajusta el tamaño del logo aquí
+            className="mb-3 w-32 md:mb-4 md:w-40" // Ajusta el tamaño del logo aquí
           />
           {/* Las dos oficinas. El pie sale en todas las páginas, así que si
               acá figura una sola y en /contact hay dos, el sitio se contradice
@@ -21,7 +21,7 @@ export default function Footer(props) {
             <br />
             Tamarindo, Guanacaste
           </div>
-          <div className="mt-4 flex space-x-4">
+          <div className="mt-3 flex space-x-4 md:mt-4">
             <a
               href="https://www.instagram.com/jrc_consulting/"
               target="_blank"
@@ -75,7 +75,6 @@ export default function Footer(props) {
                     stroke-linecap="round"></rect>{" "}
                 </g>
               </svg>
-              <svg className="h-6 w-6 fill-current"></svg>
             </a>
             <a
               href="https://www.facebook.com/jrcconsultingcr/"
@@ -98,8 +97,6 @@ export default function Footer(props) {
                     fill="#878787"></path>
                 </g>
               </svg>
-
-              <svg className="h-6 w-6 fill-current"></svg>
             </a>
             <a
               href="https://www.linkedin.com/company/jrcconsultinggroup/mycompany/"
@@ -134,10 +131,9 @@ export default function Footer(props) {
                     fill="#878787"></path>{" "}
                 </g>
               </svg>
-              <svg className="h-6 w-6 fill-current"></svg>
             </a>
           </div>
-          <p className="mt-4 max-w-xs text-center text-sm md:text-left">
+          <p className="mt-3 max-w-xs text-center text-sm md:mt-4 md:text-left">
             Somos una empresa líder en consultoría tributaria, fiscal,
             legal y financiera, comprometidos en brindar soluciones
             profesionales y personalizadas a nuestros clientes.
@@ -145,7 +141,7 @@ export default function Footer(props) {
         </div>
 
         {/* Sección de enlaces */}
-        <div className="mt-8 flex flex-col justify-center space-y-4 text-center md:mt-0 md:flex-row md:justify-end md:space-x-8 md:space-y-0">
+        <div className="mt-6 flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center md:mt-0 md:w-auto md:flex-nowrap md:justify-end md:gap-x-8">
           {/* <a> y no <Link>: ver el comentario en components/navbar.js */}
           <a href="/blog" className="hover:underline">
             Blog
@@ -166,7 +162,7 @@ export default function Footer(props) {
       </div>
 
       {/* Sección de derechos reservados */}
-      <div className="mt-4 border-t border-white pt-4 text-center text-xs">
+      <div className="mt-6 border-t border-white px-4 pb-6 pt-4 text-center text-xs md:mt-4">
         {/* Las legales van acá abajo, separadas de los enlaces de navegación
             de arriba. Es donde las busca todo el mundo, y mezclarlas con
             "Blog" o "Tarifas" las pondría a competir con lo que sí se quiere
@@ -194,10 +190,6 @@ export default function Footer(props) {
 
         <div>
           © {new Date().getFullYear()} JRC. All rights reserved.
-        </div>
-        <div className="pb-4">
-          Sitio Web creado por: 
-          <a href="https://www.linkedin.com/in/sebasop/" target="_blank" rel="noopener noreferrer" className='text-blue-300 underline'> Sebastian Obando Paniagua</a>
         </div>
       </div>
     </div>
