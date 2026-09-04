@@ -139,7 +139,8 @@ export default function FormularioBoletin() {
           {AREAS}
         </strong>{" "}
         en Costa Rica, y qué significan para tu empresa o para vos como
-        independiente.
+        independiente. Y si publicamos algo antes del lunes, te lo mandamos sin
+        que tengas que esperar.
       </p>
 
       {/* ── Cómo está ordenado este formulario ──────────────

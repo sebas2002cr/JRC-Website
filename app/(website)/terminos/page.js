@@ -166,6 +166,12 @@ export default function TerminosPage() {
           semana determinada no implica la interrupción ni la cancelación de la suscripción.
         </p>
         <p>
+          Confirmada la suscripción, y con independencia del envío semanal, el usuario podrá
+          recibir un correo con la primera publicación que se difunda a partir de ese momento,
+          a fin de no aguardar hasta el lunes siguiente. Se trata de un envío puntual, sujeto
+          al mismo mecanismo de cancelación previsto en esta sección.
+        </p>
+        <p>
           Al suscribirse, el usuario declara que la dirección de correo electrónico
           suministrada le pertenece o que cuenta con autorización expresa para utilizarla.
         </p>
