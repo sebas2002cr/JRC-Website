@@ -5,6 +5,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { avisarAlErp } from "@/lib/crm";
+import { CasillaContacto, CampoTrampa, useTiempoEnPantalla } from "@/components/ui/consentimiento";
+
+// Lo que el formulario manda solo al ERP: el backend de siempre no lo conoce.
+const SOLO_ERP = ["acepta", "sitioWeb"];
+
 export default function Contact() {
   const {
     register,
@@ -17,13 +23,37 @@ export default function Contact() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const msEnPantalla = useTiempoEnPantalla();
 
   const onSubmit = async data => {
+    // El mensaje entra como lead en el ERP. Aparte de la llamada de abajo y sin
+    // esperarla: si el ERP no contesta, el formulario sigue igual.
+    avisarAlErp({
+      tipo: "contacto",
+      acepta: data.acepta === true,
+      sitioWeb: data.sitioWeb || "",
+      msEnPantalla: msEnPantalla(),
+      nombre: `${data.nombre || ""} ${data.apellido || ""}`.trim(),
+      correo: data.email,
+      telefono: data.telefono,
+      empresa: data.empresa,
+      puesto: data.puesto,
+      tipoPersona: data.tipoPersona,
+      tema: data.tema,
+      prefiere: [
+        data.contactoTelefono && "telefono",
+        data.contactoEmail && "correo",
+        data.contactoWhatsApp && "whatsapp"
+      ].filter(Boolean),
+      detalles: data.detalles
+    });
+
     try {
       const formData = new FormData();
 
       // Añadir todos los campos al FormData
       for (const key in data) {
+        if (SOLO_ERP.includes(key)) continue;
         if (key === "archivos") {
           if (data[key].length > 0) {
             formData.append("archivos", data[key][0]); // Asegúrate de enviar el archivo
@@ -336,6 +366,21 @@ export default function Contact() {
                       <textarea
                         className="w-full rounded-lg border border-gray-300 px-4 py-3"
                         {...register("detalles")}></textarea>
+                    </div>
+
+                    <CampoTrampa id="sitioWeb-contacto" registro={register("sitioWeb")} />
+                    <div>
+                      <CasillaContacto
+                        id="acepta-contacto"
+                        registro={register("acepta", {
+                          required: "Marcá la casilla para que podamos contactarte"
+                        })}
+                      />
+                      {errors.acepta && (
+                        <span className="text-sm text-red-500">
+                          {errors.acepta.message}
+                        </span>
+                      )}
                     </div>
 
                     <button

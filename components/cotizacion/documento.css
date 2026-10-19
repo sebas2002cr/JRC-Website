@@ -1,0 +1,478 @@
+/*
+ * La cotización como documento: COPIA de la hoja del ERP
+ * (CRM/JRC-CRM-Frontend/app/cotizaciones/_styles/documento.css).
+ *
+ * El sitio manda al cliente la misma cotización oficial que arma el ERP
+ * (Omar, 19 oct 2026). Si cambia el diseño allá, se copia acá: los dos
+ * documentos tienen que verse iguales. La explicación de cada regla está en
+ * el original.
+ *
+ * Lo que cambia respecto del original:
+ *   · Sin `.cot-doc-encogido`, que usa variables del ERP.
+ *   · La letra Archivo entra por `--font-archivo` desde el componente
+ *     (components/cotizacion/documentoCotizacion.js), no desde el layout.
+ */
+
+.cot-doc {
+  /* La paleta del documento. Literal a propósito: ver el encabezado. */
+  --doc-papel: #ffffff;
+  --doc-hundido: #f3f4f3;
+  --doc-linea: #dadedb;
+  --doc-linea-tenue: #e9ebe9;
+  --doc-tinta: #14201a;
+  --doc-tinta-suave: #3f4d47;
+  --doc-tinta-tenue: #64716c;
+  --doc-marca: #2f6a4f;
+  --doc-marca-fuerte: #24523d;
+  --doc-marca-linea: #bcd3c5;
+  /* Las dos franjas. Más oscuro que `--doc-marca-fuerte` porque acá el verde es
+     fondo y no texto: al 2f6a4f el blanco encima queda por debajo del contraste
+     que aguanta una impresión. */
+  --doc-banda: #1b3f2e;
+  --doc-banda-tinta: #ffffff;
+  /* Lo secundario de la franja de arriba: el rótulo «Cotización» y la fecha.
+     Se aclaró desde #a9c6b6 porque a ese verde, y en cuerpos de 10 y 11,5px,
+     los dos se leían como una marca de agua al lado del número. Contra el
+     fondo de la franja da 8,5:1 en vez de 6,4:1, y sigue estando por debajo
+     del blanco, que es lo que mantiene al número mandando. */
+  --doc-banda-tenue: #cfe0d6;
+
+  /* Los márgenes laterales del cuerpo. Vive acá y no repetido en cada bloque
+     porque las franjas son de ancho completo y todo lo demás se alinea con
+     ellas: si se cambia, se cambia una vez. */
+  --doc-margen: 56px;
+
+  width: 820px;
+  box-sizing: border-box;
+  background: var(--doc-papel);
+  color: var(--doc-tinta);
+  font-family: var(--font-archivo), "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* --------------------------------------------------------------------------
+ * La franja de arriba
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-banda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 32px var(--doc-margen);
+  background: var(--doc-banda);
+}
+
+.cot-doc-logo {
+  flex: none;
+  width: 190px;
+  height: auto;
+}
+
+.cot-doc-banda-doc {
+  flex: none;
+  text-align: right;
+}
+
+/* A 10px y peso 500 la palabra se perdía: es la que dice de qué documento se
+   trata y quedaba más apagada que la fecha que va dos renglones abajo. Sube un
+   escalón, no dos: el número tiene que seguir siendo lo primero que se ve de
+   este lado de la franja. */
+.cot-doc .cot-doc-banda-rotulo {
+  display: block;
+  color: var(--doc-banda-tenue);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cot-doc .cot-doc-numero {
+  display: block;
+  margin-top: 2px;
+  color: var(--doc-banda-tinta);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.cot-doc .cot-doc-fecha {
+  display: block;
+  margin-top: 4px;
+  color: var(--doc-banda-tenue);
+  font-size: 12.5px;
+}
+
+/* --------------------------------------------------------------------------
+ * El cuerpo
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-cuerpo {
+  padding: 34px var(--doc-margen) 0;
+}
+
+/* De qué es esta cotización, y para quién, en el mismo renglón. Pedido
+   explícito: el plan manda a la izquierda y el cliente le responde a la
+   derecha, sin que uno tenga que buscar el nombre más abajo. */
+.cot-doc-titulo-fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.cot-doc-titulo {
+  margin: 0;
+  color: var(--doc-tinta);
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.cot-doc-para {
+  flex: none;
+  text-align: right;
+}
+
+.cot-doc .cot-doc-para-rotulo {
+  display: block;
+  color: var(--doc-tinta-tenue);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cot-doc .cot-doc-para-nombre {
+  display: block;
+  margin-top: 2px;
+  color: var(--doc-tinta);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+ * La banda de datos
+ *
+ * Cuatro celdas entre dos filetes. Era una rejilla de rótulo y valor apilados
+ * en dos columnas que ocupaba media hoja para decir seis datos cortos.
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-datos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px 24px;
+  margin-top: 24px;
+  padding: 16px 0;
+  border-top: 1px solid var(--doc-linea);
+  border-bottom: 1px solid var(--doc-linea);
+}
+
+/* En negrita y en tinta. En gris y a peso normal se leían como una nota al pie
+   en vez de como el título de lo que tienen debajo. */
+.cot-doc .cot-doc-dato-rotulo {
+  display: block;
+  color: var(--doc-tinta);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cot-doc .cot-doc-dato-valor {
+  display: block;
+  margin-top: 4px;
+  color: var(--doc-tinta);
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+ * Títulos de sección
+ *
+ * Eran cuatro franjas verdes de ancho completo, y después cuatro rótulos en
+ * versalitas verdes con filete. Los dos competían con el logo y pesaban todos
+ * igual entre sí. Ahora son un título normal, y el orden lo pone el tamaño.
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-seccion {
+  margin: 30px 0 0;
+  color: var(--doc-tinta);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* --------------------------------------------------------------------------
+ * Alcances
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-alcances {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px 40px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Dos columnas de cuatro en adelante. Con tres, la segunda columna queda con
+   una sola viñeta al lado de un bloque vacío y se lee peor que una lista
+   corta; con cuatro ya reparte parejo. */
+.cot-doc-alcances.es-doble {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cot-doc-alcance {
+  display: flex;
+  gap: 10px;
+  color: var(--doc-tinta-suave);
+  font-size: 12.5px;
+  line-height: 1.45;
+  break-inside: avoid;
+}
+
+.cot-doc-alcance::before {
+  content: "";
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--doc-marca);
+}
+
+/* --------------------------------------------------------------------------
+ * El detalle
+ *
+ * Una sola tabla con dos columnas: qué y cuánto. Antes eran dos tablas —
+ * «Características Extras» con columnas Descripción y Valor, y el desglose con
+ * Descripción y Monto— que decían lo mismo con nombres distintos.
+ *
+ * Sin encabezado de columnas: son dos, una dice texto y la otra plata, y el
+ * título de la sección ya dice que esto es el detalle.
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-tabla {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.cot-doc-tabla td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--doc-linea-tenue);
+  color: var(--doc-tinta);
+  font-size: 12.5px;
+  vertical-align: top;
+}
+
+.cot-doc-tabla tr:first-child td {
+  padding-top: 0;
+}
+
+.cot-doc-tabla td:last-child {
+  width: 150px;
+  text-align: right;
+}
+
+.cot-doc-linea-nombre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+ * Subtotal, impuesto y descuento
+ *
+ * Van pegados a la columna de montos de la tabla, no en una caja aparte: son
+ * la continuación de esa misma columna. El total no está acá, está en su
+ * franja.
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-sumas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 9px;
+}
+
+.cot-doc-suma {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 320px;
+  padding: 3px 0;
+  font-size: 12px;
+}
+
+.cot-doc .cot-doc-suma-rotulo {
+  color: var(--doc-tinta-tenue);
+}
+
+.cot-doc .cot-doc-suma-monto {
+  color: var(--doc-tinta-suave);
+}
+
+/* Quién autorizó el descuento. Va pegado a su renglón y no en el pie: separado
+   de la cifra deja de ser una constancia y pasa a ser un dato suelto. */
+.cot-doc-autoriza {
+  width: 320px;
+  margin: 0;
+  padding-top: 2px;
+  color: var(--doc-tinta-tenue);
+  font-size: 11px;
+  text-align: right;
+}
+
+/* Cuando va exonerada hay que decirlo, con su motivo: el cliente tiene que
+   poder ver por qué no se le está cobrando el impuesto. */
+.cot-doc-exonerada {
+  margin: 14px 0 0;
+  padding: 8px 10px;
+  border: 1px solid var(--doc-linea);
+  background: var(--doc-hundido);
+  color: var(--doc-tinta-suave);
+  font-size: 11px;
+}
+
+/* Las observaciones de la cotización, arriba del total (28 set 2026). Texto
+   del cuerpo, no letra chica: es lo que se acordó con el cliente. Conserva los
+   saltos de línea que se escribieron. */
+.cot-doc-observaciones {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--doc-linea);
+  background: var(--doc-hundido);
+  color: var(--doc-tinta);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* --------------------------------------------------------------------------
+ * La franja del total
+ *
+ * Va después del cuerpo y ANTES del pie. Es lo último con peso que se ve.
+ * -------------------------------------------------------------------------- */
+
+/* La palabra y el monto van juntos a la derecha, a pedido de Omar (setiembre
+   de 2026). En los dos extremos de la franja el ojo tenía que cruzar 600px
+   para unir TOTAL con su cifra. */
+.cot-doc-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 30px;
+  padding: 18px var(--doc-margen);
+  background: var(--doc-banda);
+}
+
+/* Las dos mitades de la franja pesan igual, a pedido de Omar: mismo cuerpo,
+   mismo blanco, mismo peso y mismo interletrado. La palabra TOTAL en 12px y en
+   verde claro contra un monto de 30px en blanco se leía como el epígrafe del
+   monto y no como la otra mitad del renglón. Van juntos a propósito:
+   si se toca uno hay que tocar el otro. */
+.cot-doc .cot-doc-total-rotulo,
+.cot-doc .cot-doc-total-monto {
+  color: var(--doc-banda-tinta);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* Las mayúsculas se quedan acá: el texto que llega es «Total», y sin esto la
+   franja diría Total en vez de TOTAL. */
+.cot-doc-total-rotulo {
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+ * Pie
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-pie {
+  padding: 16px var(--doc-margen) 28px;
+}
+
+.cot-doc-nota {
+  margin: 0;
+  color: var(--doc-tinta-tenue);
+  font-size: 10.5px;
+  line-height: 1.55;
+}
+
+.cot-doc-nota + .cot-doc-nota {
+  margin-top: 9px;
+}
+
+/* La observación es la única del pie que la empresa quiere que se lea: es lo
+   que dice por qué cobran lo que cobran. Por eso va en negrita y en tinta y no
+   en el gris del resto de la letra fina. */
+.cot-doc-nota.es-fuerte {
+  color: var(--doc-tinta);
+  font-weight: 700;
+}
+
+.cot-doc-firma {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 18px;
+}
+
+.cot-doc-firma-legal {
+  color: var(--doc-tinta-tenue);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+.cot-doc .cot-doc-firma-razon {
+  display: block;
+  color: var(--doc-tinta-suave);
+  font-weight: 600;
+}
+
+.cot-doc-pyme {
+  flex: none;
+  width: auto;
+  height: 38px;
+}
+
+/* --------------------------------------------------------------------------
+ * El anfitrión fuera de pantalla
+ *
+ * html2canvas no dibuja lo que está en `display: none`, así que el documento
+ * tiene que estar montado y visible para el navegador mientras se fotografía.
+ * Se lo manda lejos con `left` en vez de esconderlo, y se le quita del alcance
+ * del teclado y de los lectores de pantalla con aria-hidden en el JSX.
+ * -------------------------------------------------------------------------- */
+
+.cot-doc-anfitrion {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 820px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* --------------------------------------------------------------------------
+ * El papel no cambia con el modo oscuro
+ * -------------------------------------------------------------------------- */
+
+/* globals.css tiene `[data-theme="dark"] span { color: white }` (peso 0,1,1),
+   que le gana a una clase sola: en oscuro el nombre del cliente, los datos y
+   las sumas salían blancos sobre el papel blanco, en pantalla y en el PDF
+   (Omar, 6 oct 2026). Acá los spans heredan su tinta (0,1,2) y las clases que
+   colorean un span van con `.cot-doc` delante (0,2,0) para ganarle a las dos. */
+html .cot-doc span {
+  color: inherit;
+}

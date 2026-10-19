@@ -93,9 +93,17 @@ export default function PrivacidadPage() {
             atender su gestión.
           </li>
           <li>
-            <strong>Cotizaciones, inscripción de pymes y constitución de sociedades:</strong>{" "}
-            los datos que el trámite requiere, que pueden incluir identificación, datos de la
-            empresa y documentación de respaldo.
+            <strong>Cotizaciones de planes:</strong> su nombre o el de su empresa, correo
+            electrónico, teléfono y dirección, y las respuestas que da en el cotizador (si
+            actúa como persona física o jurídica, si requiere planilla y de cuántos
+            colaboradores, cuántas facturas emite y recibe, y cuántas transacciones bancarias
+            tiene al mes), junto con el plan y el monto cotizados.
+          </li>
+          <li>
+            <strong>Inscripción de pymes y constitución de sociedades:</strong> nombre
+            completo, correo electrónico, teléfono, tipo y número de identificación, y los
+            datos que el trámite requiera, que pueden incluir datos de la empresa y
+            documentación de respaldo.
           </li>
           <li>
             <strong>Pagos:</strong> los datos de la transacción. Los datos completos de su
@@ -151,6 +159,10 @@ export default function PrivacidadPage() {
         </p>
         <ul className="ml-5 list-disc space-y-1">
           <li>Atender sus consultas y darles el seguimiento correspondiente.</li>
+          <li>
+            Registrar sus consultas, cotizaciones y compras en nuestro sistema interno de
+            gestión comercial, para contactarle sobre ellas.
+          </li>
           <li>Elaborar y remitir cotizaciones.</li>
           <li>Prestar los servicios contratados y ejecutar el contrato respectivo.</li>
           <li>Remitir el boletín semanal, en caso de haberse suscrito.</li>
@@ -346,7 +358,10 @@ export default function PrivacidadPage() {
           sepa: cuando usted empieza a llenar el formulario de inscripción de pymes o el de
           constitución de sociedades, los datos que va escribiendo (nombre, correo, teléfono
           y número de identificación) quedan guardados en su equipo para que no los pierda si
-          la página se recarga o si vuelve más tarde a terminar el trámite.
+          la página se recarga o si vuelve más tarde a terminar el trámite. Lo mismo ocurre
+          con el cotizador de planes: sus respuestas, el monto cotizado, sus datos de contacto
+          y si aceptó que le contactemos quedan en su equipo para poder pasar a la página de
+          pago.
         </p>
         <p>
           Esa información <strong>permanece en su dispositivo</strong>, no se envía a ningún

@@ -1,14 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
 import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
+import { avisarAlErp } from "@/lib/crm";
+import { CasillaContacto, CampoTrampa, useTiempoEnPantalla } from "@/components/ui/consentimiento";
+import DocumentoCotizacion, { armarCotizacion } from "@/components/cotizacion/documentoCotizacion";
+import { pdfDeCotizacion } from "@/lib/cotizacionPdf";
+
+// Los nombres de los planes, por su dirección (lib/plans.js).
+const NOMBRE_PLAN = { starter: "Starter", professional: "Professional", "full-compliance": "Full Compliance" };
 
 export default function CustomerInfoForm() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -33,6 +38,18 @@ export default function CustomerInfoForm() {
   const [reviewPositon, setReviewPositon] = useState("");
   const [reviewMessage, setReviewMessage] = useState("");
   const [showMobileDisclaimer, setShowMobileDisclaimer] = useState(false);
+  // La casilla de consentimiento, el campo trampa y el tiempo en pantalla:
+  // lo que pide el ERP para anotar la cotización como lead (lib/crm.js).
+  const [acepta, setAcepta] = useState(false);
+  const [sitioWeb, setSitioWeb] = useState("");
+  const msEnPantalla = useTiempoEnPantalla();
+  // El documento oficial (el mismo papel que el ERP), montado fuera de la
+  // pantalla y siempre al día con lo que se va escribiendo.
+  const documentoRef = useRef(null);
+  const [respuestas, setRespuestas] = useState({});
+  const [transacciones, setTransacciones] = useState(0);
+  const [alcances, setAlcances] = useState([]);
+  const [creadaEn] = useState(() => new Date().toISOString());
 
   useEffect(() => {
     setReviewName(localStorage.getItem("Review-name") || "");
@@ -83,12 +100,11 @@ export default function CustomerInfoForm() {
 
   // Validación de los campos del formulario
   useEffect(() => {
-    const { name, email, phone, address } = customerInfo;
+    const { name, email, phone } = customerInfo;
     setIsFormValid(
       name.trim() !== "" &&
         email.trim() !== "" &&
-        phone.trim() !== "" &&
-        address.trim() !== ""
+        phone.trim() !== ""
     );
   }, [customerInfo]);
 
@@ -106,7 +122,40 @@ export default function CustomerInfoForm() {
       storedFacturasCost ? parseFloat(storedFacturasCost) : 0
     );
     setTotalCost(storedTotalCost ? parseFloat(storedTotalCost) : 0);
+    setTransacciones(parseFloat(localStorage.getItem("transactions")) || 0);
+    try {
+      setRespuestas(JSON.parse(localStorage.getItem("answers") || "{}"));
+    } catch {
+      setRespuestas({});
+    }
   }, []);
+
+  // Lo que incluye el plan, de public/json-info/plans.json.
+  useEffect(() => {
+    fetch("/json-info/plans.json")
+      .then(r => r.json())
+      .then(d => setAlcances(d.plans.find(p => p.name === params.plan)?.features || []))
+      .catch(() => setAlcances([]));
+  }, [params.plan]);
+
+  const costosDoc = useMemo(
+    () => ({ plan: baseCost, planilla: planillaCost, facturas: facturasCost, transacciones }),
+    [baseCost, planillaCost, facturasCost, transacciones]
+  );
+  const cotizacionDoc = useMemo(
+    () =>
+      baseCost > 0
+        ? armarCotizacion({
+            planNombre: NOMBRE_PLAN[params.plan] || params.plan,
+            costos: costosDoc,
+            respuestas,
+            alcances,
+            creadaEn,
+            cliente: { nombreCompleto: customerInfo.name, correo: customerInfo.email, telefono: customerInfo.phone }
+          })
+        : null,
+    [baseCost, costosDoc, respuestas, alcances, creadaEn, customerInfo, params.plan]
+  );
 
   const isValidEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -114,15 +163,15 @@ export default function CustomerInfoForm() {
   };
 
   useEffect(() => {
-    const { name, email, phone, address } = customerInfo;
+    const { name, email, phone } = customerInfo;
 
-    // Validar que todos los campos estén llenos y que el email tenga un formato válido
+    // Validar los campos obligatorios y que el email tenga un formato válido.
+    // La dirección es opcional (Omar, 19 oct 2026), sin decirlo en el rótulo.
     setIsFormValid(
       name.trim() !== "" &&
         email.trim() !== "" &&
         isValidEmail(email) &&
-        phone.trim() !== "" &&
-        address.trim() !== ""
+        phone.trim() !== ""
     );
 
     // Mostrar un mensaje de advertencia si el email no es válido
@@ -148,7 +197,18 @@ export default function CustomerInfoForm() {
     }));
   };
 
+  // Sin la casilla no se sigue: es el consentimiento para que JRC le contacte.
+  const faltaLaCasilla = () => {
+    if (acepta) return false;
+    setValidationMessage("Marcá la casilla para que podamos contactarte.");
+    setTimeout(() => {
+      setValidationMessage("");
+    }, 3000);
+    return true;
+  };
+
   const handleContinueToPayments = async () => {
+    if (isFormValid && faltaLaCasilla()) return;
     if (isFormValid) {
       setIsLoading(true);
       localStorage.setItem(
@@ -200,6 +260,7 @@ export default function CustomerInfoForm() {
 
   const handleSubmitQuote = async e => {
     e.preventDefault();
+    if (isFormValid && faltaLaCasilla()) return;
     if (isFormValid) {
       await generatePDF(true); // Genera y abre el PDF en una nueva pestaña
       setValidationMessage("");
@@ -242,22 +303,10 @@ export default function CustomerInfoForm() {
     const storedCustomerInfo = localStorage.getItem("customerInfo");
     const storedAnswers = localStorage.getItem("answers");
     const storedPlan = localStorage.getItem("selectedPlan");
-    const storedBaseCost = localStorage.getItem("baseCost");
-    const storedPlanillaCost = localStorage.getItem("planillaCost");
-    const storedFacturasCost = localStorage.getItem("facturasCost");
     const storedTotalCost = localStorage.getItem("totalCost");
-    const transactionCost = localStorage.getItem("transactions");
 
     // Verificar si los datos están presentes en localStorage
-    if (
-      !storedCustomerInfo ||
-      !storedAnswers ||
-      !storedPlan ||
-      !storedBaseCost ||
-      !storedPlanillaCost ||
-      !storedFacturasCost ||
-      !storedTotalCost
-    ) {
+    if (!storedCustomerInfo || !storedAnswers || !storedPlan || !storedTotalCost) {
       console.error(
         "No se encontraron todos los datos necesarios en localStorage."
       );
@@ -267,169 +316,21 @@ export default function CustomerInfoForm() {
     const customerInfo = JSON.parse(storedCustomerInfo);
     const answers = JSON.parse(storedAnswers);
     const selectedPlan = storedPlan; // El plan ya es una cadena directamente
-
-    // Convertir los costos almacenados en números
-    const baseCost = parseFloat(storedBaseCost);
-    const planillaCost = parseFloat(storedPlanillaCost);
-    const facturasCost = parseFloat(storedFacturasCost);
-    const totalCost = parseFloat(storedTotalCost);
-    const transactions = parseFloat(transactionCost);
-
-    const doc = new jsPDF();
-    const cotizacionNumber = generateCotizacionNumber(
-      customerInfo.name
-    );
+    const cotizacionNumber = generateCotizacionNumber(customerInfo.name);
     setCotizacionNumber(cotizacionNumber);
-    const imgData = "/NEGRO-FONDO-BLANCO.jpg"; // Imagen del logo
 
-    doc.addImage(imgData, "JPEG", 5, 5, 30, 30);
-
-    doc.setFontSize(20);
-    doc.setFont("helvetica", "bold");
-    doc.text("Cotización de Cliente", 10, 40);
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 10, 50);
-    doc.text(`Hora: ${new Date().toLocaleTimeString()}`, 10, 55);
-    doc.text(`No. Cotización: ${cotizacionNumber}`, 120, 50);
-    doc.line(10, 60, 200, 60);
-
-    // Cargar los planes desde el archivo JSON
-    const response = await fetch("/json-info/plans.json");
-    const plansData = await response.json();
-    const plans = plansData.plans;
-
-    const plan = plans.find(p => p.name === selectedPlan);
-    const features = plan
-      ? plan.features
-      : ["No se encontró el plan seleccionado."];
-
-    doc.setFontSize(16);
-    doc.setFont("helvetica", "bold");
-    doc.text(`Plan Seleccionado: ${selectedPlan}`, 10, 70);
-
-    // Información del cliente
-    doc.autoTable({
-      startY: 80,
-      head: [["Información del Cliente", ""]],
-      body: [
-        ["Nombre:", customerInfo.name],
-        ["Correo Electrónico:", customerInfo.email],
-        ["Teléfono:", customerInfo.phone],
-        ["Dirección:", customerInfo.address]
-      ],
-      theme: "grid",
-      headStyles: { fillColor: "#305832", textColor: "#ffffff" },
-      bodyStyles: { fillColor: "#ffffff", textColor: "#000000" }
-    });
-
-    // Características del plan
-    doc.autoTable({
-      startY: doc.lastAutoTable.finalY + 15,
-      head: [["Características del Plan"]],
-      body: features.map(feature => [feature]),
-      theme: "grid",
-      headStyles: { fillColor: "#305832", textColor: "#ffffff" },
-      bodyStyles: { fillColor: "#ffffff", textColor: "#000000" }
-    });
-
-    // Obtener datos adicionales desde answers
-    const manejoPlanilla = answers.manejoPlanilla || "N/A";
-    const totalColaboradores = answers.colaboradores || "N/A";
-    const facturasEmitidas =
-      answers.cantidadFacturasEmitidas || "N/A";
-    const facturasRecibidas =
-      answers.cantidadFacturasRecibidas || "N/A";
-    const transaccionesMensuales = answers.transacciones || "N/A";
-    const facturas = answers.facturas || "N/A";
-
-    doc.autoTable({
-      startY: doc.previousAutoTable.finalY + 15,
-      head: [["Especificaciones adicionales", ""]],
-      body: [
-        ["Manejo de Planilla:", manejoPlanilla],
-        ["Cantidad de Colaboradores:", totalColaboradores],
-        ["Facturación Electrónica:", facturas],
-        ["Facturas Electrónicas Emitidas:", facturasEmitidas],
-        ["Facturas Electrónicas Recibidas:", facturasRecibidas],
-        ["Transacciones Mensuales:", transaccionesMensuales]
-      ],
-      theme: "grid",
-      headStyles: { fillColor: "#305832", textColor: "#ffffff" },
-      bodyStyles: { fillColor: "#ffffff", textColor: "#000000" }
-    });
-
-    // Cálculo de costos
-    const currencySymbol = "\u00A2";
-    doc.autoTable({
-      startY: doc.previousAutoTable.finalY + 25,
-      head: [["Descripción", "Monto"]],
-      body: [
-        [
-          "Costo del plan",
-          `${currencySymbol}${baseCost.toLocaleString()} IVAI`
-        ],
-        [
-          "Costo adicional - Planilla",
-          `${currencySymbol}${planillaCost.toLocaleString()} IVAI`
-        ],
-        [
-          "Costo adicional - Facturas",
-          `${currencySymbol}${facturasCost.toLocaleString()} IVAI`
-        ],
-        [
-          "Costo adicional - Transacciones Mensuales",
-          `${currencySymbol}${transactions.toLocaleString()} IVAI`
-        ],
-        [
-          "Costo total",
-          `${currencySymbol}${totalCost.toLocaleString()} IVA incluido mensualmente`
-        ]
-      ],
-      theme: "grid",
-      headStyles: { fillColor: "#305832", textColor: "#ffffff" },
-      bodyStyles: { fillColor: "#ffffff", textColor: "#000000" }
-    });
-
-    // Información adicional y observaciones
-    const additionalInfoStartY = doc.previousAutoTable.finalY + 15;
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "italic");
-    doc.text(
-      "La presente cotización tiene una validez de 15 días naturales.",
-      10,
-      additionalInfoStartY
-    );
-    doc.text(
-      "Para más información, contáctanos a info@jrc.cr.",
-      10,
-      additionalInfoStartY + 5
-    );
-
-    doc.setFont("Helvetica", "bold");
-    doc.text("Observación:", 10, additionalInfoStartY + 15);
-    const observacionText =
-      "Nosotros brindamos acompañamiento, es el factor de diferenciación entre muchos otros contadores o asesores.";
-    const lines = doc.splitTextToSize(observacionText, 180);
-    doc.text(lines, 10, additionalInfoStartY + 20);
-
-    doc.setFont("Helvetica", "normal");
-    const importanceText =
-      "Es importante destacar que el servicio ofrecido no incluye certificaciones de ingresos, flujos proyectados por CPA, certificaciones literales, personerías jurídicas, ni RTBF.";
-    const linesImportance = doc.splitTextToSize(importanceText, 180);
-    doc.text(linesImportance, 10, additionalInfoStartY + 35);
-
-    // --- Agregar logo y nombre en la última página ---
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    doc.text("JRC CONSULTING GROUP ©", 130, 290);
-    const imgDataFinal = "/pyme_costa_rica_image.png"; // Ruta de la imagen subida
-    doc.addImage(imgDataFinal, "PNG", 180, 255, 25, 40); // Ajusta la posición del logo
+    // El PDF es la foto del documento oficial que está montado abajo, fuera
+    // de la pantalla (components/cotizacion/documentoCotizacion.js).
+    const nodo = documentoRef.current?.querySelector(".cot-doc");
+    if (!nodo || !cotizacionDoc) {
+      console.error("El documento de la cotización no está listo.");
+      return;
+    }
+    const pdfBlob = await pdfDeCotizacion(nodo);
 
     setCotizacionGenerada(true);
     setCotizacionNumber(`${cotizacionNumber}`);
 
-    const pdfBlob = doc.output("blob"); // Convierte el PDF a un Blob
     const pdfUrl = URL.createObjectURL(pdfBlob); // Crear un URL del blob
 
     if (openInNewTab) {
@@ -439,6 +340,27 @@ export default function CustomerInfoForm() {
       link.setAttribute("target", "_blank");
       link.click(); // Simula el clic para abrir en una nueva pestaña
     }
+
+    // La cotización entra como lead en el ERP. Aparte de la llamada de abajo y
+    // sin esperarla: si el ERP no contesta, el visitante no se entera. Va con
+    // el desglose y los alcances para que el ERP dibuje el mismo documento.
+    // El pago, si lo hace, lo avisa la página de pago con este permiso.
+    localStorage.setItem("contactoAceptado", acepta ? "1" : "");
+    avisarAlErp({
+      tipo: "cotizacion",
+      acepta,
+      sitioWeb,
+      msEnPantalla: msEnPantalla(),
+      nombre: customerInfo.name,
+      correo: customerInfo.email,
+      telefono: customerInfo.phone,
+      plan: selectedPlan || params.plan,
+      total: cotizacionDoc.totales.total,
+      numero: cotizacionNumber,
+      respuestas: answers,
+      desglose: costosDoc,
+      alcances: cotizacionDoc.alcances
+    });
 
     // Configura la solicitud POST al backend
     const formData = new FormData();
@@ -613,10 +535,12 @@ export default function CustomerInfoForm() {
                   type="text"
                   value={customerInfo.address}
                   onChange={handleChange}
-                  required
                   className="w-full rounded-lg border px-3 py-2 focus:outline-none"
                 />
               </div>
+
+              <CampoTrampa id="sitioWeb-cotizacion" valor={sitioWeb} alCambiar={setSitioWeb} />
+              <CasillaContacto id="acepta-cotizacion" acepta={acepta} alCambiar={setAcepta} className="mb-4" />
 
               {/* Mensaje de advertencia */}
               {validationMessage && (
@@ -646,6 +570,10 @@ export default function CustomerInfoForm() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="cot-doc-anfitrion" aria-hidden="true" ref={documentoRef}>
+        <DocumentoCotizacion cotizacion={cotizacionDoc} />
       </div>
     </div>
   );

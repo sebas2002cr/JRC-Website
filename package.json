@@ -41,6 +41,7 @@
     "get-video-id": "^3.6.5",
     "glob": "^11.0.0",
     "globalseo-next": "^0.1.14",
+    "html2pdf.js": "^0.10.3",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",
     "next": "^14.2.14",

@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatColones } from "@/lib/format";
+import { avisarAlErp } from "@/lib/crm";
+import { CasillaContacto, CampoTrampa } from "@/components/ui/consentimiento";
 
 export default function CheckoutConstitucionSociedad() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -28,6 +30,15 @@ export default function CheckoutConstitucionSociedad() {
   const router = useRouter();
   // La instancia del widget de ONVO, para poder cerrarla al salir.
   const onvoWidget = useRef(null);
+  // La casilla de consentimiento y el campo trampa, para el lead del ERP
+  // (lib/crm.js). Van también en refs porque el onSuccess de ONVO se arma
+  // antes de que la persona marque la casilla y vería el valor viejo.
+  const [acepta, setAcepta] = useState(false);
+  const [sitioWeb, setSitioWeb] = useState("");
+  const aceptaRef = useRef(false);
+  const sitioWebRef = useRef("");
+  aceptaRef.current = acepta;
+  sitioWebRef.current = sitioWeb;
 
   const planPrice = parseInt(process.env.NEXT_PUBLIC_PLAN_PRICE_PYME, 10); // Precio fijo para el servicio de Constitución de una Sociedad
 
@@ -53,8 +64,9 @@ export default function CheckoutConstitucionSociedad() {
     const isComplete = Object.values(customerInfo).every(
       value => value.trim() !== ""
     );
-    setIsFormComplete(isComplete);
-  }, [customerInfo]);
+    // Sin la casilla tampoco se paga: es el permiso para contactarle.
+    setIsFormComplete(isComplete && acepta);
+  }, [customerInfo, acepta]);
 
   useEffect(() => {
     const loadOnvoSDK = () => {
@@ -127,6 +139,21 @@ export default function CheckoutConstitucionSociedad() {
 
                 // Enviar los datos al backend
                 const orderPayload = createOrderPayload();
+
+                // La compra entra como lead en el ERP. Aparte de la llamada de
+                // abajo y sin esperarla: si el ERP no contesta, nadie se entera.
+                avisarAlErp({
+                  tipo: "compra",
+                  producto: "pyme",
+                  acepta: aceptaRef.current,
+                  sitioWeb: sitioWebRef.current,
+                  nombre: savedInfo.name,
+                  correo: savedInfo.email,
+                  telefono: savedInfo.phone,
+                  cedula: savedInfo.idNumber,
+                  monto: planPrice,
+                  orden: orderPayload.orderNumber
+                });
 
                 try {
                   await axios.post(
@@ -426,6 +453,9 @@ export default function CheckoutConstitucionSociedad() {
                       placeholder="3-101-123456"
                     />
                   </div>
+
+                  <CampoTrampa id="sitioWeb-pyme" valor={sitioWeb} alCambiar={setSitioWeb} />
+                  <CasillaContacto id="acepta-pyme" acepta={acepta} alCambiar={setAcepta} className="md:col-span-2" />
                 </form>
               </div>
 

@@ -196,6 +196,15 @@ export default function TerminosPage() {
           este sitio.
         </p>
         <p>
+          Las cotizaciones, los mensajes del formulario de contacto y las contrataciones en
+          línea quedan registrados en el sistema interno de gestión comercial de JRC, a fin de
+          darles seguimiento. El tratamiento de esos datos se rige por la{" "}
+          <a href="/privacidad" className="underline">
+            Política de Privacidad
+          </a>
+          .
+        </p>
+        <p>
           El usuario se obliga a suministrar información veraz y completa. JRC no responde por
           las consecuencias derivadas de información inexacta o incompleta suministrada por el
           cliente.

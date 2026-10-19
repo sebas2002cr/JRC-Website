@@ -17,6 +17,7 @@ import {
   useSearchParams
 } from "next/navigation";
 import { formatColones } from "@/lib/format";
+import { avisarAlErp } from "@/lib/crm";
 
 export default function Checkout() {
   const [customerInfo, setCustomerInfo] = useState({
@@ -134,6 +135,26 @@ export default function Checkout() {
 
                 // Crear el payload para enviar al backend
                 const orderPayload = createOrderPayload();
+
+                // El lead de esta cotización queda marcado como pagado en el
+                // ERP. Aparte y sin esperarlo; solo con el permiso que dio la
+                // persona en el formulario anterior. Los datos se leen de
+                // localStorage porque esta función nació antes de que la
+                // página terminara de cargarlos.
+                const guardado = JSON.parse(localStorage.getItem("customerInfo") || "{}");
+                if (localStorage.getItem("contactoAceptado") === "1") {
+                  avisarAlErp({
+                    tipo: "pago",
+                    acepta: true,
+                    nombre: guardado.name,
+                    correo: guardado.email,
+                    telefono: guardado.phone,
+                    plan: localStorage.getItem("selectedPlan"),
+                    monto: parseFloat(localStorage.getItem("totalCost")) || orderPayload.costs.totalCost,
+                    orden: orderPayload.orderNumber,
+                    numero: orderPayload.cotizacion
+                  });
+                }
 
                 // Hacer la solicitud POST al backend
                 try {
