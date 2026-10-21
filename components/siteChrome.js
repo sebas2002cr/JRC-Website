@@ -6,7 +6,11 @@ import Navbar from "@/components/navbar";
 
 // Rutas de compra/checkout: se muestran sin navbar ni footer para no
 // distraer al usuario durante el flujo de pago.
+//
+// /r/<codigo> es la página del enlace personal de un afiliado (21 oct 2026):
+// tiene su propio marco, como en el lienzo de Omar.
 const noChromeRoutes = [
+  "/r",
   "/plans/starter",
   "/plans/professional",
   "/plans/full-compliance",

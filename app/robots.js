@@ -23,7 +23,11 @@ export default function robots() {
           // buscadores y no deberían indexarse sueltos.
           "/plans/*/checkout",
           "/plans/*/form",
-          "/plans/*/summary"
+          "/plans/*/summary",
+          // El panel de los afiliados y sus enlaces personales: son de una
+          // persona, no contenido para buscadores (programa de afiliados).
+          "/afiliados",
+          "/r/"
         ]
       }
     ],

@@ -22,6 +22,12 @@ export const metadata = pageMetadata({
  *
  * Los datos de la empresa y los plazos vienen de _legal/datos.js, que los
  * comparte con los términos. Ya no queda nada por completar en esta página.
+ *
+ * 21 oct 2026 (programa de afiliados): se suman la solicitud de /partners, los
+ * datos de los afiliados, los de las empresas que ellos recomiendan (datos de
+ * terceros), la página del enlace personal y lo que el sitio guarda en el
+ * navegador para el enlace y el panel (§9). Las reglas del programa están en
+ * las Condiciones del programa de afiliados.
  */
 export default function PrivacidadPage() {
   return (
@@ -32,8 +38,9 @@ export default function PrivacidadPage() {
           quienes visitan y utilizan este sitio web, así como los mecanismos previstos para el
           ejercicio de los derechos que la normativa reconoce sobre ellos. Resulta aplicable a
           la totalidad del sitio: el formulario de contacto, las solicitudes de cotización, la
-          inscripción de pymes, la constitución de sociedades, los pagos en línea y la
-          suscripción al boletín.
+          inscripción de pymes, la constitución de sociedades, los pagos en línea, la
+          suscripción al boletín y el programa de afiliados (la solicitud para formar parte de
+          él, el panel de afiliados y las páginas de los enlaces personales).
         </p>
         <p>El responsable del tratamiento de dichos datos es:</p>
         <ul className="ml-5 list-disc space-y-1">
@@ -106,6 +113,33 @@ export default function PrivacidadPage() {
             documentación de respaldo.
           </li>
           <li>
+            <strong>Solicitud para el programa de afiliados o de marca blanca:</strong> nombre,
+            correo electrónico, teléfono, el programa que le interesa y el mensaje que usted
+            redacte.
+          </li>
+          <li>
+            <strong>Afiliados:</strong> nombre, tipo y número de identificación (el nombre se
+            verifica con la información pública del Ministerio de Hacienda), correo electrónico,
+            teléfono, idioma de preferencia, la cuenta bancaria o SINPE Móvil donde se le pagan
+            las comisiones, las comisiones calculadas y los pagos realizados. Cada ingreso al
+            panel registra la fecha, la hora y el tipo de dispositivo y navegador.
+          </li>
+          <li>
+            <strong>Empresas y personas recomendadas por un afiliado (datos de terceros):</strong>{" "}
+            cuando un afiliado recomienda a alguien desde su panel, nos indica el nombre de la
+            empresa, la persona de contacto, un teléfono o correo y lo que necesita. El afiliado
+            declara que la persona recomendada sabe que la recomendó y que JRC la va a
+            contactar. Esos datos se usan únicamente para contactarla una vez sobre esa
+            recomendación; si la persona no desea continuar, puede indicárnoslo y dejamos de
+            contactarla. El afiliado solo ve el nombre, la etapa en que va y su propia
+            comisión: nunca los datos de contacto ni los montos que esa persona paga.
+          </li>
+          <li>
+            <strong>Página del enlace personal de un afiliado:</strong> su nombre, el de su
+            empresa si lo indica, un WhatsApp o un correo y el tema en que le interesa la
+            consulta, además del enlace por el que llegó.
+          </li>
+          <li>
             <strong>Pagos:</strong> los datos de la transacción. Los datos completos de su
             tarjeta los procesa directamente la pasarela de pago (ONVO Pay); nosotros no los
             recibimos ni los almacenamos.
@@ -166,6 +200,13 @@ export default function PrivacidadPage() {
           <li>Elaborar y remitir cotizaciones.</li>
           <li>Prestar los servicios contratados y ejecutar el contrato respectivo.</li>
           <li>Remitir el boletín semanal, en caso de haberse suscrito.</li>
+          <li>
+            Administrar el programa de afiliados: contactar a quien lo solicita, darle acceso a
+            su panel, ligar a cada recomendado con el afiliado que lo recomendó, calcular sus
+            comisiones, pagárselas y avisarle por correo de lo que corresponde a su
+            participación.
+          </li>
+          <li>Contactar a la empresa o persona recomendada por un afiliado.</li>
           <li>Cumplir las obligaciones legales, contables y tributarias aplicables.</li>
           <li>Mantener la seguridad del sitio y prevenir usos abusivos.</li>
         </ul>
@@ -228,6 +269,12 @@ export default function PrivacidadPage() {
             comercial no se justifica frente a esa persona.
           </li>
           <li>
+            <strong>Afiliados:</strong> mientras participen del programa y, después,{" "}
+            {PLAZOS.clientes} desde el último pago de comisiones, por las mismas obligaciones
+            contables y tributarias que aplican a los clientes. Las empresas recomendadas que no
+            llegan a contratar siguen el plazo de las consultas que no derivan en contratación.
+          </li>
+          <li>
             <strong>Clientes:</strong> {PLAZOS.clientes} contados desde la última gestión
             realizada o el último documento emitido, por las obligaciones legales, contables
             y tributarias que nos alcanzan. El plazo de prescripción tributaria en Costa Rica
@@ -268,6 +315,11 @@ export default function PrivacidadPage() {
           <li>
             <strong>Traducción del sitio:</strong> GlobalSEO, que permite mostrar el sitio en
             otros idiomas.
+          </li>
+          <li>
+            <strong>WhatsApp:</strong> si usted decide escribirnos por WhatsApp desde un botón
+            del sitio o del panel de afiliados, ese mensaje viaja por el servicio de WhatsApp, de
+            Meta Platforms (Estados Unidos), sujeto a sus políticas.
           </li>
         </ul>
         <p>
@@ -350,8 +402,8 @@ export default function PrivacidadPage() {
 
       <Seccion titulo="9. Cookies y datos guardados en su navegador">
         <p>
-          <strong>Este sitio no instala cookies propias</strong> para seguirlo ni para
-          perfilarlo con fines publicitarios.
+          <strong>Este sitio no usa cookies propias ni otras tecnologías</strong> para
+          seguirlo ni para perfilarlo con fines publicitarios.
         </p>
         <p>
           Sí guarda información <strong>en su propio navegador</strong>, y conviene que lo
@@ -364,8 +416,24 @@ export default function PrivacidadPage() {
           pago.
         </p>
         <p>
+          Además, guarda en su navegador tres datos del programa de afiliados:
+        </p>
+        <ul className="ml-5 list-disc space-y-1">
+          <li>
+            Si llegó por el <strong>enlace personal de un afiliado</strong>, el código de ese
+            enlace, durante 90 días. Si en ese plazo usted completa un formulario del sitio, el
+            código viaja con el formulario para que sepamos quién lo recomendó. Si abre el
+            enlace de otro afiliado mientras tanto, se conserva el primero.
+          </li>
+          <li>
+            Si es afiliado, la <strong>sesión del panel</strong>, que se borra al cerrar la
+            pestaña y vence a las ocho horas.
+          </li>
+          <li>El idioma que eligió para el panel de afiliados.</li>
+        </ul>
+        <p>
           Esa información <strong>permanece en su dispositivo</strong>, no se envía a ningún
-          lado mientras usted no complete el trámite, y desaparece al borrar los datos de
+          lado mientras usted no complete el trámite o entre al panel, y desaparece al borrar los datos de
           navegación del sitio desde la configuración de su navegador. Si comparte el equipo
           con otras personas, conviene hacerlo al terminar.
         </p>

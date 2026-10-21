@@ -1,5 +1,6 @@
 import { pageMetadata } from "@/lib/seo";
 import PartnersPage from "./partners-client";
+import { CONDICIONES_AFILIADOS_BORRADOR, CONDICIONES_AFILIADOS_PUBLICADAS } from "../_legal/datos";
 
 export const metadata = pageMetadata({
   title: "Programa de afiliados",
@@ -9,5 +10,5 @@ export const metadata = pageMetadata({
 });
 
 export default function Page() {
-  return <PartnersPage />;
+  return <PartnersPage condiciones={CONDICIONES_AFILIADOS_PUBLICADAS || CONDICIONES_AFILIADOS_BORRADOR} />;
 }

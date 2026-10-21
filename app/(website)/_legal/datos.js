@@ -23,10 +23,20 @@
  */
 export const LEGALES_PUBLICADAS = process.env.NEXT_PUBLIC_LEGALES === "true";
 
-/** Las dos páginas legales, para el pie y para el sitemap. */
+/**
+ * Las Condiciones del programa de afiliados (21 oct 2026) tienen su propio
+ * interruptor, apagado en producción hasta que legal las apruebe (Omar, 21 oct
+ * 2026): NEXT_PUBLIC_CONDICIONES_AFILIADOS=true, además de las otras legales.
+ * Mientras tanto se ven solo en desarrollo, marcadas como borrador.
+ */
+export const CONDICIONES_AFILIADOS_PUBLICADAS = LEGALES_PUBLICADAS && process.env.NEXT_PUBLIC_CONDICIONES_AFILIADOS === "true";
+export const CONDICIONES_AFILIADOS_BORRADOR = !CONDICIONES_AFILIADOS_PUBLICADAS && process.env.NODE_ENV !== "production";
+
+/** Las páginas legales, para el pie y para el sitemap. */
 export const PAGINAS_LEGALES = [
   { href: "/privacidad", titulo: "Política de Privacidad", corto: "Privacidad" },
   { href: "/terminos", titulo: "Términos y Condiciones", corto: "Términos" },
+  ...(CONDICIONES_AFILIADOS_PUBLICADAS ? [{ href: "/condiciones-afiliados", titulo: "Condiciones del programa de afiliados", corto: "Afiliados" }] : []),
 ];
 
 /**
@@ -41,7 +51,7 @@ export const PAGINAS_LEGALES = [
  * Se cambia acá, en un solo lugar, cada vez que se toque algo de fondo de
  * cualquiera de los dos documentos.
  */
-export const ACTUALIZADO = "19 de octubre de 2026";
+export const ACTUALIZADO = "21 de octubre de 2026";
 
 export const EMPRESA = {
   // OJO: la razón social y el nombre comercial NO son lo mismo. La sociedad

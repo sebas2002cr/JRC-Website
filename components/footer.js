@@ -149,6 +149,10 @@ export default function Footer(props) {
           <a href="/partners" className="hover:underline">
             Socios
           </a>
+          {/* El panel de los afiliados (decisión 13 del programa, 20 oct 2026). */}
+          <a href="/afiliados" className="hover:underline">
+            Ingreso de afiliados
+          </a>
           <a href="/courses" className="hover:underline">
             Cursos
           </a>

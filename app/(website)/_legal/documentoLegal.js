@@ -44,14 +44,24 @@ export function Seccion({ titulo, children }) {
   );
 }
 
-export default function DocumentoLegal({ titulo, actualizado, children }) {
+/**
+ * `publicado` existe por las Condiciones del programa de afiliados, que tienen
+ * su propio interruptor; las demás usan el de siempre. Con `borrador` se ve
+ * una franja arriba: el texto todavía no lo revisó legal.
+ */
+export default function DocumentoLegal({ titulo, actualizado, children, publicado = LEGALES_PUBLICADAS, borrador = false }) {
   // El corte va acá, en el armazón, y no en cada página: así ninguna futura
   // se puede olvidar de ponerlo.
-  if (!LEGALES_PUBLICADAS) notFound();
+  if (!publicado && !borrador) notFound();
 
   return (
     <Container>
       <div className="mx-auto max-w-screen-md">
+        {borrador && (
+          <p role="note" className="mb-8 rounded-lg bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-900 dark:bg-amber-900/40 dark:text-amber-200">
+            Borrador para revisión legal. Esta página no se publica hasta que el área legal la apruebe.
+          </p>
+        )}
         {/* Mismas clases que components/ui/label.js y que el encabezado del
             panel del boletin: un solo estilo de rotulo en todo el sitio. */}
         <p className="text-xs font-medium uppercase tracking-wider" style={{ color: VERDE }}>
