@@ -12,6 +12,8 @@ import { Cajon, Perfil, Recomendar } from "./Cajones";
 const CURVA = "cubic-bezier(.22,1,.36,1)";
 const SALE = [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-4px)" }];
 const ENTRA = [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }];
+// Lo lee alguien de JRC, no el afiliado: va siempre en español.
+const AVISO_VISTA = "Ese acceso ya se usó o venció. Abrilo de nuevo con «Ver su panel» en el ERP.";
 
 /**
  * Los textos visibles de la pantalla: los elementos que tienen texto propio.
@@ -52,18 +54,50 @@ export default function Panel({ legales }) {
   const [cajon, setCajon] = useState(null);
   const [cerrando, setCerrando] = useState(false);
   const [tab, setTab] = useState({ id: "rec", atras: false, vez: 0 });
-  const [filtro, setFiltro] = useState({ id: "todos", vez: 0 });
+  // De fábrica, «Tus clientes» (22 oct 2026, Omar).
+  const [filtro, setFiltro] = useState({ id: "clientes", vez: 0 });
   const [vueltaLogin, setVueltaLogin] = useState(0);
   const raiz = useRef(null);
   const relojes = useRef([]);
   const idiomaTocado = useRef(false);
   const cambiando = useRef(false);
+  const arranco = useRef(false);
   const despues = (ms, fn) => relojes.current.push(setTimeout(fn, ms));
   useEffect(() => () => relojes.current.forEach(clearTimeout), []);
 
   // Al abrir: el idioma de este navegador y, si quedó una sesión en la pestaña, el panel.
+  // «Ver su panel» (H10): el ERP abre jrc.cr/afiliados#vista=<pase>; el pase se
+  // canjea una sola vez por una sesión de solo lectura y sale de la dirección.
   useEffect(() => {
+    // Una sola vez: en desarrollo React lo corre dos veces y la segunda ya no
+    // vería el pase en la dirección.
+    if (arranco.current) return;
+    arranco.current = true;
     setIdioma(idiomaGuardado());
+    const pase = /^#vista=(.+)$/.exec(window.location.hash)?.[1];
+    if (pase) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      setVista("cargando");
+      pedir("POST", "/panel/vista", { cuerpo: { pase } }).then(async (v) => {
+        if (!v.ok) {
+          guardarToken("");
+          setAviso(v.status === 0 ? T.es.sinConexion : AVISO_VISTA);
+          setVista("entrar");
+          return;
+        }
+        guardarToken(v.datos.token);
+        setToken(v.datos.token);
+        const r = await cargarTodo(v.datos.token);
+        if (r.vencida || r.error) {
+          setFalla(r.error || "sinConexion");
+          return;
+        }
+        setIdioma(r.yo.afiliado.idioma || "es");
+        setDatos(r);
+        setVista("panel");
+      });
+      return;
+    }
     const guardado = tokenGuardado();
     if (!guardado) {
       setVista("entrar");
@@ -92,6 +126,8 @@ export default function Panel({ legales }) {
   }, [idioma]);
 
   const t = T[idioma];
+  // Una sesión de «Ver su panel»: se mira, no se cambia nada (el ERP lo frena igual).
+  const mirando = Boolean(datos?.yo?.vista);
 
   /** El idioma con la animación de la consulta tributaria: los textos salen, se cambian y entran. */
   const ponerIdioma = useCallback(
@@ -154,7 +190,7 @@ export default function Panel({ legales }) {
       guardarIdioma(l);
       setIdioma(l);
       setTab({ id: "rec", atras: false, vez: 0 });
-      setFiltro({ id: "todos", vez: 0 });
+      setFiltro({ id: "clientes", vez: 0 });
       setDatos(r);
       setVista("panel");
       setAviso("");
@@ -203,7 +239,8 @@ export default function Panel({ legales }) {
     if (r.ok) {
       setDatos((d) => ({ ...d, recomendados: r.datos }));
       setTab((x) => (x.id === "rec" ? x : { id: "rec", atras: false, vez: x.vez + 1 }));
-      setFiltro((f) => ({ id: "todos", vez: f.vez + 1 }));
+      // Lo que acaba de recomendar está en «En proceso».
+      setFiltro((f) => ({ id: "enProceso", vez: f.vez + 1 }));
     }
   }
 
@@ -249,7 +286,8 @@ export default function Panel({ legales }) {
           idioma={idioma}
           alSalir={salir}
           alPerfil={() => setCajon("perfil")}
-          alRecomendar={() => setCajon("recomendar")}
+          alRecomendar={mirando ? null : () => setCajon("recomendar")}
+          mirando={mirando}
           tab={tab}
           alTab={setTab}
           filtro={filtro}
@@ -269,7 +307,8 @@ export default function Panel({ legales }) {
               saludo={datos.yo.afiliado.saludo}
               alCerrar={cerrarCajon}
               alSalir={salir}
-              alIdioma={(l) => ponerIdioma(l, { guardar: true })}
+              alIdioma={(l) => ponerIdioma(l, { guardar: !mirando })}
+              mirando={mirando}
               alCambio={(c) => setDatos((d) => ({ ...d, perfil: { ...d.perfil, ...c } }))}
               alVencer={vencer}
             />

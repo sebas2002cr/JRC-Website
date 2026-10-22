@@ -132,12 +132,34 @@ export default function Partners({ condiciones = false }) {
           para ampliar tus ingresos y agilizar operaciones internas.
         </p>
         {/* La entrada al panel de los afiliados (decisión 13 del programa).
-            <a> y no <Link>: el panel vive fuera del traductor del sitio. */}
+            <a> y no <Link>: el panel vive fuera del traductor del sitio.
+            Desde el 22 oct 2026 es una franja oscura con la tarjeta del panel
+            en chico (opción A de cuatro maquetas, elegida por Omar): el borde
+            es un degradé de 1 px (el <a> lo pinta y la franja va adentro) y,
+            al pasar el mouse, la tarjeta gira un poco. */}
         <a
           href="/afiliados"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg border border-[#305832] px-4 py-2 text-sm font-semibold text-[#305832] transition hover:bg-[#305832] hover:text-white">
-          Ya soy afiliado: entrar a mi panel
-          <span aria-hidden="true">→</span>
+          className="group mx-2 mt-8 block max-w-[640px] sm:mx-auto rounded-[21px] p-px text-white no-underline shadow-[0_20px_50px_rgba(15,21,18,0.25)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#305832]/30"
+          style={{ background: "linear-gradient(120deg, rgba(111,224,166,0.7), rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.06) 60%, rgba(111,224,166,0.5))" }}>
+          <span
+            className="flex flex-col items-center gap-4 rounded-[20px] p-5 text-center sm:flex-row sm:gap-[22px] sm:py-4 sm:pl-[18px] sm:pr-4 sm:text-left"
+            style={{ background: "radial-gradient(400px 160px at 15% 50%, rgba(61,138,102,0.35), transparent 70%), #0f1512" }}>
+            <span aria-hidden="true" className="block w-[132px] flex-none [perspective:600px]">
+              <span
+                className="flex aspect-[1.6/1] flex-col justify-between rounded-xl px-3 py-2.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_0_1px_rgba(255,255,255,0.08),0_10px_24px_rgba(0,0,0,0.35)] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [transform:rotateY(-14deg)_rotateX(6deg)] group-hover:[transform:rotateY(8deg)_rotateX(-3deg)] motion-reduce:transition-none"
+                style={{ background: "linear-gradient(135deg, #3d8a66 0%, #24523d 38%, #12301f 100%)" }}>
+                <Image src="/Logo-blanco.svg" alt="" width={20} height={20} className="brightness-0 invert" />
+                <span className="text-[10px] font-semibold">Recomendá y ganá</span>
+              </span>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[17px] font-semibold tracking-[-0.01em]">¿Ya sos afiliado?</span>
+              <span className="mt-1 block text-sm text-[#a7b5ae]">Tus clientes, lo que ganás y tus pagos, en tu panel.</span>
+            </span>
+            <span className="inline-flex h-[46px] flex-none items-center rounded-xl bg-white px-5 text-[15px] font-semibold text-[#0f1512] transition-colors duration-200 group-hover:bg-[#e7f6ee]">
+              Entrar a mi panel
+            </span>
+          </span>
         </a>
       </section>
 

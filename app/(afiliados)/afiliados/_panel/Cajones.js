@@ -149,7 +149,7 @@ export function Recomendar({ idioma, token, alCerrar, alRecomendo, alVencer }) {
 }
 
 /** «Tu perfil»: sus datos, teléfono e idioma editables, y dónde se le paga. */
-export function Perfil({ idioma, token, perfil, saludo, alCerrar, alSalir, alIdioma, alCambio, alVencer }) {
+export function Perfil({ idioma, token, perfil, saludo, alCerrar, alSalir, alIdioma, alCambio, alVencer, mirando = false }) {
   const t = T[idioma];
   const [editando, setEditando] = useState(false);
   const [tel, setTel] = useState(perfil.telefono || "");
@@ -205,9 +205,11 @@ export function Perfil({ idioma, token, perfil, saludo, alCerrar, alSalir, alIdi
           {!editando ? (
             <span className="pn-tel">
               <span className="pn-num">{perfil.telefono ? perfil.telefono.replace(/^(\d{4})(\d{4})$/, "$1 $2") : t.sinTelefono}</span>
-              <button type="button" className="pn-tel-btn" onClick={() => (setTel(perfil.telefono || ""), setEditando(true))}>
-                {t.cambiar}
-              </button>
+              {!mirando && (
+                <button type="button" className="pn-tel-btn" onClick={() => (setTel(perfil.telefono || ""), setEditando(true))}>
+                  {t.cambiar}
+                </button>
+              )}
             </span>
           ) : null}
         </dd>
@@ -242,7 +244,21 @@ export function Perfil({ idioma, token, perfil, saludo, alCerrar, alSalir, alIdi
 
       <div className="pn-bloque">
         <div className="pn-bloque-t">{t.dondePagamos}</div>
-        {cuenta ? (
+        {perfil.descuento ? (
+          <>
+            <div className="pn-cuenta">
+              <span aria-hidden="true" className="pn-cuenta-ico">
+                <Icono d={ICONOS.banco} tam={19} grosor={2} />
+              </span>
+              <span style={{ flex: "1 1 auto", minWidth: 0 }}>
+                <span className="pn-cuenta-t">{t.descuentoEn(perfil.descuento.empresa)}</span>
+              </span>
+            </div>
+            <p className="pn-cajon-p" style={{ margin: "10px 0 0" }}>
+              {t.descuentoTexto}
+            </p>
+          </>
+        ) : cuenta ? (
           <div className="pn-cuenta">
             <span aria-hidden="true" className="pn-cuenta-ico">
               <Icono d={ICONOS.banco} tam={19} grosor={2} />
@@ -262,7 +278,7 @@ export function Perfil({ idioma, token, perfil, saludo, alCerrar, alSalir, alIdi
             {t.enRevision(cuentaEn(cuenta.descripcion, idioma))}
           </div>
         )}
-        {wa && (
+        {wa && !mirando && !perfil.descuento && (
           <a href={wa} target="_blank" rel="noopener noreferrer" className="pn-btn pn-borde pn-wa">
             <Icono d={ICONOS.whatsapp} grosor={2} />
             {cuenta ? t.pedirCambio : t.pedirCuenta}

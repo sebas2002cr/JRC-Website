@@ -51,29 +51,162 @@ const quieto = () => {
 };
 
 /**
- * La tarjeta verde que se inclina un poco con el mouse (lienzo, segunda vuelta
- * del 20 oct 2026). En el celular y con «reducir movimiento» se queda quieta.
+ * La tarjeta verde del login y del panel (lienzo, 20 oct 2026), que se puede
+ * voltear (Omar, 22 oct 2026, la «controlada»): se arrastra y gira en 3D, pero
+ * al soltarla siempre vuelve derecha, de frente o de espaldas, nunca se queda
+ * de lado. Un clic o un toque sin arrastrar le da media vuelta; con el
+ * teclado, Enter o las flechas. Sin arrastrar, se inclina un poco con el mouse.
+ *
+ *   · El giro va en `.pn-giro` y no en la cara: la cara tiene overflow:hidden,
+ *     que aplana el 3D. Las dos caras son `.pn-tarjeta` (la de atrás, girada
+ *     180°) con backface-visibility: hidden.
+ *   · El grosor: las caras se separan --pn-canto y en medio van capas finas
+ *     (`.pn-canto`), más claras al centro, que de lado se ven como el canto.
+ *   · Al soltar busca la cara más cercana, un poco adelantada si se soltó con
+ *     impulso: un tirón rápido la voltea aunque no haya pasado de 90°.
+ *   · En el celular el deslizamiento horizontal la gira y el vertical sigue
+ *     moviendo la página (touch-action: pan-y).
+ *   · Con «reducir movimiento» no hay arrastre: el clic la voltea de una vez.
+ *
+ * `reverso` es lo de atrás; sin él la tarjeta solo se inclina.
  */
-export function Tarjeta({ className = "", children, tarjetaRef }) {
+const LIMITE_X = 12;
+const VOLTEO_MS = 760;
+const ASIENTO_MS = 700;
+const CANTO = Array.from({ length: 21 }, (_, i) => {
+  // De -0,48 a 0,48: las de los extremos no tocan el plano de las caras.
+  const z = (i / 20 - 0.5) * 0.96;
+  return { z, color: Math.abs(z) > 0.42 ? "#1f5039" : Math.abs(z) > 0.24 ? "#3f8763" : "#6fb592" };
+});
+
+export function Tarjeta({ className = "", children, reverso = null, rotulo = "" }) {
+  const giro = useRef(null);
+  const s = useRef({ x: 0, y: 0, hx: 0, hy: 0, arrastre: null });
+
+  const pintar = (ms = 0, curva = "cubic-bezier(0.22,1,0.36,1)") => {
+    const el = giro.current;
+    if (!el) return;
+    const e = s.current;
+    el.style.transition = ms ? `transform ${ms}ms ${curva}` : "none";
+    el.style.transform = `rotateX(${(e.x + e.hx).toFixed(2)}deg) rotateY(${(e.y + e.hy).toFixed(2)}deg)`;
+    // El brillo sigue el ángulo, en la cara que se esté viendo.
+    const ry = ((((e.y + e.hy) % 360) + 360) % 360) * (Math.PI / 180);
+    el.style.setProperty("--mx", `${(50 + Math.sin(ry) * 45).toFixed(1)}%`);
+    el.style.setProperty("--my", `${(30 - Math.sin(((e.x + e.hx) * Math.PI) / 180) * 45).toFixed(1)}%`);
+  };
+
+  const voltear = (lado = 1) => {
+    const e = s.current;
+    e.y = Math.round(e.y / 180) * 180 + 180 * lado;
+    e.x = 0;
+    pintar(quieto() ? 0 : VOLTEO_MS);
+  };
+
+  // v: grados por cuadro al soltar; diez cuadros de adelanto.
+  const asentar = (v = 0) => {
+    const e = s.current;
+    e.y = Math.round((e.y + v * 10) / 180) * 180;
+    e.x = 0;
+    pintar(quieto() ? 0 : ASIENTO_MS);
+  };
+
+  const bajar = (e) => {
+    if (!reverso || (e.pointerType === "mouse" && e.button !== 0)) return;
+    const st = s.current;
+    st.hx = 0;
+    st.hy = 0;
+    st.arrastre = { id: e.pointerId, x0: e.clientX, y0: e.clientY, rx: st.x, ry: st.y, mov: 0, tipo: e.pointerType, ux: e.clientX, ut: performance.now(), v: 0 };
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* sin captura sigue funcionando mientras el puntero esté encima */
+    }
+    giro.current?.classList.add("es-arrastre");
+  };
+
   const mover = (e) => {
+    const st = s.current;
+    const a = st.arrastre;
+    if (a && a.id === e.pointerId) {
+      const dx = e.clientX - a.x0;
+      const dy = e.clientY - a.y0;
+      a.mov = Math.max(a.mov, Math.abs(dx) + Math.abs(dy));
+      if (quieto()) return;
+      st.y = a.ry + dx * 0.5;
+      if (a.tipo !== "touch") st.x = Math.max(-LIMITE_X, Math.min(LIMITE_X, a.rx - dy * 0.15));
+      const ahora = performance.now();
+      // La velocidad en grados por cuadro (16 ms), para el adelanto al soltar.
+      a.v = ((e.clientX - a.ux) * 0.5 * 16) / Math.max(1, ahora - a.ut);
+      a.ux = e.clientX;
+      a.ut = ahora;
+      pintar();
+      return;
+    }
     if (e.pointerType !== "mouse" || quieto()) return;
-    const el = e.currentTarget;
-    const r = el.getBoundingClientRect();
+    const r = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transition = "transform 160ms ease-out";
-    el.style.transform = `perspective(1100px) rotateX(${(-y * 7).toFixed(2)}deg) rotateY(${(x * 9).toFixed(2)}deg) translateY(-4px)`;
-    el.style.setProperty("--mx", `${((x + 0.5) * 100).toFixed(1)}%`);
-    el.style.setProperty("--my", `${((y + 0.5) * 100).toFixed(1)}%`);
+    st.hx = -y * 5;
+    st.hy = x * 7;
+    pintar(160, "ease-out");
   };
+
   const soltar = (e) => {
-    const el = e.currentTarget;
-    el.style.transition = "transform 700ms cubic-bezier(0.22,1,0.36,1)";
-    el.style.transform = "";
+    const st = s.current;
+    const a = st.arrastre;
+    if (!a || a.id !== e.pointerId) return;
+    st.arrastre = null;
+    giro.current?.classList.remove("es-arrastre");
+    if (e.type !== "pointercancel" && a.mov < 6) return voltear();
+    // Si se soltó quieta (más de 80 ms sin moverse) no lleva adelanto.
+    asentar(performance.now() - a.ut < 80 ? a.v : 0);
   };
+
+  const salir = () => {
+    const st = s.current;
+    if (st.arrastre) return;
+    st.hx = 0;
+    st.hy = 0;
+    pintar(700);
+  };
+
+  const tecla = (e) => {
+    if (!reverso) return;
+    const lado = { Enter: 1, " ": 1, ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!lado) return;
+    e.preventDefault();
+    voltear(lado);
+  };
+
   return (
-    <div ref={tarjetaRef} className={`pn-tarjeta ${className}`} onPointerMove={mover} onPointerLeave={soltar}>
-      {children}
+    <div className={`pn-escena ${className}`}>
+      <div
+        ref={giro}
+        className={`pn-giro${reverso ? " se-gira" : ""}`}
+        onPointerDown={bajar}
+        onPointerMove={mover}
+        onPointerUp={soltar}
+        onPointerCancel={soltar}
+        onPointerLeave={salir}
+        onKeyDown={tecla}
+        tabIndex={reverso ? 0 : undefined}
+        role={reverso ? "button" : undefined}
+        aria-label={reverso ? rotulo : undefined}
+      >
+        {reverso && (
+          <span className="pn-canto" aria-hidden="true">
+            {CANTO.map((c, i) => (
+              <i key={i} style={{ "--z": c.z, background: c.color }} />
+            ))}
+          </span>
+        )}
+        <div className="pn-tarjeta">{children}</div>
+        {reverso && (
+          <div className="pn-tarjeta es-reverso" aria-hidden="true">
+            {reverso}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

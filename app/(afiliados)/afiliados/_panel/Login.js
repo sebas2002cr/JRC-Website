@@ -147,7 +147,25 @@ export default function Login({ idioma, alIdioma, alEntrar, legales, mensaje }) 
         <div className="pn-login">
           <div className="pn-login-izq pn-sube">
             <div className="pn-login-tarjeta pn-flota">
-              <Tarjeta>
+              <Tarjeta
+                rotulo={t.tarjetaGirar}
+                reverso={
+                  <>
+                    <span aria-hidden="true" className="pn-banda" />
+                    <div className="pn-rev-medio">
+                      <span className="pn-firma">JRC Consulting Group</span>
+                      <span aria-hidden="true" className="pn-holo" />
+                    </div>
+                    <div className="pn-rev-pie">
+                      <span className="pn-rev-marca">
+                        <Logo tam={30} />
+                        {t.programa}
+                      </span>
+                      <span>jrc.cr/afiliados</span>
+                    </div>
+                  </>
+                }
+              >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <Logo tam={44} />
                   <svg width="46" height="34" viewBox="0 0 46 34" aria-hidden="true">

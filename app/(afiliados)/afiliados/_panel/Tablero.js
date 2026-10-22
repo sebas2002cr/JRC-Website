@@ -4,9 +4,16 @@ import { useMemo, useRef, useState } from "react";
 import { T, nombreMes, diaCorto, diaConNombre, diaDe, monto, pct, iniciales, cuentaEn } from "./textos";
 import { Icono, ICONOS, Logo, Tarjeta, useCuenta } from "./comun";
 
-const ESTADOS = ["recomendado", "enConversacion", "yaEsCliente", "teGeneroComision"];
 const TINTA = { recomendado: "#c3ccc8", enConversacion: "#a9c4ff", yaEsCliente: "#bfeccd", teGeneroComision: "#6fe0a6", noSeDio: "#eba79e" };
 const DE_A = 5;
+// Tres filtros por lo que el afiliado quiere saber (22 oct 2026, Omar): quién le
+// genera plata (Clientes, de fábrica), qué está avanzando (En proceso) y qué no
+// salió. No se pisan y entre los tres cubren todo; cada fila dice su estado exacto.
+const FILTROS = [
+  ["clientes", new Set(["yaEsCliente", "teGeneroComision"]), "teGeneroComision"],
+  ["enProceso", new Set(["recomendado", "enConversacion"]), "enConversacion"],
+  ["noSeDio", new Set(["noSeDio"]), "noSeDio"],
+];
 
 /** «Primeros días de Noviembre» o «El último día de Octubre», de la fecha del cierre. */
 function cuandoSePaga(cierre, t, l) {
@@ -20,13 +27,14 @@ function cuandoSePaga(cierre, t, l) {
 function notaDe(r, t, l) {
   if (r.estado === "recomendado") return r.nota === "revisando" ? t.notas.revisando : r.porTuEnlace ? t.notas.porTuEnlace : t.notas.porContactar;
   if (r.estado === "enConversacion") return r.reunion ? t.notas.reunion(diaConNombre(r.reunion, l)) : t.notas.conversando;
-  if (r.estado === "yaEsCliente") return t.notas.faltaPago;
+  // Ligado a mano: ya era cliente antes del programa, no «falta su primer pago».
+  if (r.estado === "yaEsCliente") return r.nota === "clienteDesde" && r.clienteDesde ? t.notas.clienteDesde(nombreMes(r.clienteDesde.slice(0, 7), l)) : t.notas.faltaPago;
   if (r.estado === "teGeneroComision") return r.clienteDesde ? t.notas.clienteDesde(nombreMes(r.clienteDesde.slice(0, 7), l)) : "";
   if (r.nota === "yaEnContacto") return t.notas.yaEnContacto;
   return r.nota === "yaEraCliente" ? t.notas.yaEraCliente : t.notas.noSiguio;
 }
 
-export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar, tab, alTab, filtro, alFiltro }) {
+export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar, mirando = false, tab, alTab, filtro, alFiltro }) {
   const t = T[idioma];
   const { yo, recomendados, pagos, perfil } = datos;
   const a = yo.afiliado;
@@ -85,12 +93,36 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
             {iniciales(a.saludo || a.nombre)}
           </button>
         </div>
+        {/* «Ver su panel» (H10): lo ve solo quien entró desde el ERP, siempre en español. */}
+        {mirando && (
+          <div className="pn-vista" role="status">
+            <span className="pn-vista-in">
+              <strong>Vista de JRC · solo lectura.</strong> {a.saludo} no se entera de que entraste.
+            </span>
+          </div>
+        )}
       </header>
 
       <main className="pn-main">
         <div className="pn-cuerpo">
           <div className="pn-izq">
-            <Tarjeta className="pn-sube">
+            <Tarjeta
+              className="pn-sube"
+              rotulo={t.tarjetaGirar}
+              reverso={
+                <>
+                  <span aria-hidden="true" className="pn-banda" />
+                  <div className="pn-rev-medio">
+                    <span className="pn-firma">{a.saludo}</span>
+                    <span aria-hidden="true" className="pn-holo" />
+                  </div>
+                  <div className="pn-rev-pie">
+                    {a.categoria ? <span className="pn-chip-cat">{a.categoria}</span> : <span />}
+                    {a.desde && <span>{`${t.afiliadoDesde} ${nombreMes(a.desde, idioma)} ${a.desde.slice(0, 4)}`}</span>}
+                  </div>
+                </>
+              }
+            >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <Logo tam={38} />
                 {a.categoria && <span className="pn-chip-cat">{a.categoria}</span>}
@@ -105,7 +137,7 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
               </div>
             </Tarjeta>
 
-            <div className="pn-dos pn-sube">
+            <div className={`pn-dos pn-sube${alRecomendar ? "" : " es-uno"}`}>
               <button type="button" onClick={copiar} className="pn-btn pn-copiar" aria-live="polite">
                 {copiado ? (
                   <>
@@ -119,10 +151,12 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
                   </>
                 )}
               </button>
-              <button type="button" onClick={alRecomendar} className="pn-btn pn-claro">
-                <Icono d={ICONOS.mas} grosor={2.4} />
-                {t.recomendar}
-              </button>
+              {alRecomendar && (
+                <button type="button" onClick={alRecomendar} className="pn-btn pn-claro">
+                  <Icono d={ICONOS.mas} grosor={2.4} />
+                  {t.recomendar}
+                </button>
+              )}
             </div>
 
             <div className="pn-info pn-sube">
@@ -156,8 +190,8 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
                     <span>{cuandoSePaga(yo.esteMes.cierre, t, idioma)}</span>
                   </div>
                   <div className="pn-info-fila">
-                    <span>{t.seDeposita}</span>
-                    <span>{perfil.cuenta ? cuentaEn(perfil.cuenta.descripcion, idioma) : t.sinCuenta}</span>
+                    <span>{perfil.descuento ? t.tePagamosCon : t.seDeposita}</span>
+                    <span>{perfil.descuento ? t.descuentoFactura : perfil.cuenta ? cuentaEn(perfil.cuenta.descripcion, idioma) : t.sinCuenta}</span>
                   </div>
                   <div className="pn-info-fila">
                     <span>{t.recibidoEn(pagos.anio)}</span>
@@ -269,28 +303,31 @@ function EsteMes({ yo, idioma }) {
 function Recomendados({ lista, idioma, moneda, filtro, alFiltro }) {
   const t = T[idioma];
   const [cuantos, setCuantos] = useState(DE_A);
-  const conteo = useMemo(() => Object.fromEntries([...ESTADOS, "noSeDio"].map((e) => [e, lista.filter((r) => r.estado === e).length])), [lista]);
-  const filtrados = lista.filter((r) => (filtro.id === "todos" ? r.estado !== "noSeDio" : r.estado === filtro.id));
+  const conteo = useMemo(() => Object.fromEntries(FILTROS.map(([id, estados]) => [id, lista.filter((r) => estados.has(r.estado)).length])), [lista]);
+  // Sin clientes todavía, arranca en «En proceso» para no mostrar una lista vacía.
+  const elegido = filtro.id === "clientes" && !conteo.clientes && conteo.enProceso ? "enProceso" : FILTROS.some(([id]) => id === filtro.id) ? filtro.id : "clientes";
+  const estados = FILTROS.find(([id]) => id === elegido)[1];
+  const filtrados = lista.filter((r) => estados.has(r.estado));
+  // Los clientes, de los que más comisión dan a los que menos.
+  if (elegido === "clientes") filtrados.sort((x, y) => (y.comision || 0) - (x.comision || 0));
   const visibles = filtrados.slice(0, cuantos);
   const elegir = (id) => {
+    if (id === elegido) return;
     setCuantos(DE_A);
-    alFiltro({ id: filtro.id === id ? "todos" : id, vez: filtro.vez + 1 });
+    alFiltro({ id, vez: filtro.vez + 1 });
   };
 
   return (
     <>
       <div className="pn-chips">
-        {ESTADOS.map((id) => (
-          <button key={id} type="button" aria-pressed={filtro.id === id ? "true" : "false"} onClick={() => elegir(id)} className="pn-chip">
-            {t.estados[id]}
-            <span className="pn-chip-n" style={{ color: TINTA[id] }}>
+        {FILTROS.map(([id, , tinta]) => (
+          <button key={id} type="button" aria-pressed={elegido === id ? "true" : "false"} onClick={() => elegir(id)} className="pn-chip">
+            {t.filtros[id]}
+            <span className="pn-chip-n" style={{ color: TINTA[tinta] }}>
               {conteo[id]}
             </span>
           </button>
         ))}
-        <button type="button" aria-pressed={filtro.id === "noSeDio" ? "true" : "false"} onClick={() => elegir("noSeDio")} className="pn-nodio pn-link">
-          {t.noSeDieron(conteo.noSeDio)}
-        </button>
       </div>
       <div key={`f${filtro.vez}`} className="pn-caja-lista" style={{ animation: `${filtro.vez % 2 ? "pnPasoA" : "pnPasoB"} 340ms cubic-bezier(0.22,1,0.36,1) backwards` }}>
         {visibles.map((r, i) => {
@@ -309,6 +346,7 @@ function Recomendados({ lista, idioma, moneda, filtro, alFiltro }) {
                     {t.estados[r.estado]}
                   </span>
                   <span className="pn-rec-nota">· {notaDe(r, t, idioma)}</span>
+                  {r.compartidoCon && <span className="pn-rec-comp">{t.compartidoCon(r.compartidoCon)}</span>}
                 </span>
               </span>
               {r.comision > 0 && <span className="pn-rec-m">{monto(r.comision, moneda, idioma)}</span>}
@@ -338,7 +376,7 @@ function Pagos({ yo, pagos, idioma }) {
   const lista = pagos.pagos || [];
 
   const detalle = (p) => {
-    if (p.estado === "pagado") return { txt: t.transferido(diaCorto(diaDe(p.pagadoEn), idioma), cuentaEn(p.cuenta, idioma)), clase: "" };
+    if (p.estado === "pagado") return { txt: p.descuento != null ? t.descontado(diaCorto(diaDe(p.pagadoEn), idioma)) : t.transferido(diaCorto(diaDe(p.pagadoEn), idioma), cuentaEn(p.cuenta, idioma)), clase: "" };
     if (p.estado === "reversado") return { txt: t.reversado, clase: " es-reversa" };
     return { txt: t.enProceso, clase: " es-curso" };
   };
