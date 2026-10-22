@@ -169,7 +169,14 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
                       <span>{pct(reglas.mensualidad.pct, idioma)}</span>
                     </div>
                   )}
-                  {reglas?.adicionales && (
+                  {/* Con los dos porcentajes iguales el límite no cambia nada: un solo renglón. */}
+                  {reglas?.adicionales && Number(reglas.adicionales.pctHasta) === Number(reglas.adicionales.pctArriba) && (
+                    <div className="pn-regla">
+                      <span>{t.serviciosTodos}</span>
+                      <span>{pct(reglas.adicionales.pctHasta, idioma)}</span>
+                    </div>
+                  )}
+                  {reglas?.adicionales && Number(reglas.adicionales.pctHasta) !== Number(reglas.adicionales.pctArriba) && (
                     <>
                       <div className="pn-regla">
                         <span>{t.serviciosHasta(monto(reglas.adicionales.limiteUsd, "USD", idioma).replace(/[.,]00$/, ""))}</span>
