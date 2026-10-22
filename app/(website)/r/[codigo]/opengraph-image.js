@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { afiliadoDelEnlace } from "./afiliado";
 
@@ -6,9 +8,12 @@ import { afiliadoDelEnlace } from "./afiliado";
  * 2026: imagen propia con la marca y «Carolina te recomendó a JRC»). Sin
  * nombre si el código no existe o el afiliado está pausado.
  */
-// Edge y no Node: la librería de la imagen falla en Windows con Node (rutas
-// file://), y en Vercel corre igual en los dos.
-export const runtime = "edge";
+// Node y no Edge (22 oct 2026): en Edge las dos fuentes iban empaquetadas en la
+// función y pasaba de 1 MB, el tope del plan de Vercel, y el deploy fallaba.
+// En Node se leen de public/ (Vercel las incluye por la ruta fija). Ojo: en
+// Windows, con `next dev`, la librería de la imagen falla en Node (rutas
+// file://); en Vercel (Linux) no.
+export const runtime = "nodejs";
 export const alt = "JRC Consulting Group";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -17,12 +22,12 @@ export const revalidate = 60;
 export default async function Imagen({ params }) {
   const [a, negrita, normal, logo] = await Promise.all([
     afiliadoDelEnlace(params.codigo),
-    fetch(new URL("../../../../public/fonts/Inter-Bold.otf", import.meta.url)).then((r) => r.arrayBuffer()),
-    fetch(new URL("../../../../public/fonts/Inter-Regular.otf", import.meta.url)).then((r) => r.arrayBuffer()),
-    fetch(new URL("../../../../public/Logo-blanco.svg", import.meta.url)).then((r) => r.text()),
+    readFile(join(process.cwd(), "public", "fonts", "Inter-Bold.otf")),
+    readFile(join(process.cwd(), "public", "fonts", "Inter-Regular.otf")),
+    readFile(join(process.cwd(), "public", "Logo-blanco.svg"), "utf8"),
   ]);
   // El logo del sitio es negro: se pinta de blanco para el fondo verde.
-  const logoBlanco = `data:image/svg+xml;base64,${btoa(logo.replace(/#000000/gi, "#ffffff"))}`;
+  const logoBlanco = `data:image/svg+xml;base64,${Buffer.from(logo.replace(/#000000/gi, "#ffffff")).toString("base64")}`;
   const titulo = a.nombre ? `${a.nombre} te recomendó a JRC` : "Te recomendaron a JRC";
 
   return new ImageResponse(

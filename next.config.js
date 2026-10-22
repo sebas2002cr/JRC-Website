@@ -16,6 +16,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false
   },
+  experimental: {
+    // La imagen para WhatsApp de jrc.cr/r/<codigo> lee las fuentes y el logo
+    // de public/ en Node (en Edge pasaba de 1 MB y el deploy fallaba). Next no
+    // las sigue solo: sin esto, en Vercel la funcion no las tiene.
+    outputFileTracingIncludes: {
+      "/r/**/*": ["./public/fonts/Inter-Bold.otf", "./public/fonts/Inter-Regular.otf", "./public/Logo-blanco.svg"]
+    }
+  },
 
   async redirects() {
     return [
