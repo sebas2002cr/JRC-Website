@@ -65,7 +65,9 @@
 @keyframes pnPanelSale { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(40px); } }
 @keyframes pnVelo { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pnBrillo { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
-@keyframes pnFlota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+/* El vaivén va de 4 px abajo a 4 px arriba de su lugar, no de 0 a 8 hacia arriba: así, en promedio, la
+   tarjeta queda en el centro y el cuadro de al lado sobresale lo mismo arriba que abajo (22 oct 2026). */
+@keyframes pnFlota { 0%, 100% { transform: translateY(4px); } 50% { transform: translateY(-4px); } }
 @keyframes pnTextoSale { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-4px); } }
 
 .pn-sube { animation: pnSube 640ms var(--pn-curva) backwards; }
@@ -162,7 +164,8 @@
 .pn-giro:hover .pn-tarjeta::before,
 .pn-giro.es-arrastre .pn-tarjeta::before { opacity: 1; }
 .pn-tarjeta > * { position: relative; z-index: 1; }
-.pn-flota { animation: pnFlota 6s ease-in-out infinite; }
+/* Arranca a un cuarto del ciclo, en su lugar y subiendo: sin el salto de 4 px al cargar. */
+.pn-flota { animation: pnFlota 6s ease-in-out -1.5s infinite; }
 .pn-logo { display: block; filter: brightness(0) invert(1); }
 
 /* ── El login ───────────────────────────────────────────────────────── */
