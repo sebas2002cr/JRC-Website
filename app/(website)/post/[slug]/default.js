@@ -8,6 +8,7 @@ import { es } from "date-fns/locale";
 
 import CategoryLabel from "@/components/blog/category";
 import ContactoWhatsApp from "@/components/blog/contactoWhatsApp";
+import RecuadroConsulta from "@/components/consultaTributaria/recuadroBlog";
 import AvatarAutor from "@/components/blog/avatarAutor";
 import { EnlaceVolver, BotonVolverFlotante } from "@/components/blog/volverAlBlog";
 
@@ -158,6 +159,8 @@ export default function Post(props) {
           <div className="prose mx-auto dark:prose-invert prose-a:text-blue-600">
             {cuerpoDespues.length > 0 && <PortableText value={cuerpoDespues} />}
           </div>
+
+          <RecuadroConsulta categories={post.categories} />
 
           <ContactoWhatsApp titulo={post.title} />
 

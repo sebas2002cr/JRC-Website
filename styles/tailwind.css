@@ -213,3 +213,166 @@
     animation: boletin-aparece 0.25s ease-out both;
   }
 }
+
+/* Tiquete de la consulta tributaria, en el hero del home
+   (components/consultaTributaria/tiqueteConsulta.js). Es el papel de
+   consultasituaciontributaria.cr: borde de abajo dentado, se imprime de
+   arriba abajo al cargar y, al pasar el mouse, se alza 6 px con una sombra
+   más honda. La oscilación del papel la hace el componente. Sin 3D, sin
+   deformar y, con los efectos apagados, quieto. */
+
+.tq-consulta {
+  filter: drop-shadow(0 1px 1px rgba(15, 29, 21, 0.08)) drop-shadow(0 20px 28px rgba(15, 29, 21, 0.14));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.tq-consulta:hover {
+  transform: translateY(-6px);
+  filter: drop-shadow(0 1px 1px rgba(15, 29, 21, 0.08)) drop-shadow(0 28px 32px rgba(15, 29, 21, 0.19));
+}
+
+.tq-consulta-papel {
+  box-shadow: inset 0 0 0 1.5px rgba(48, 88, 50, 0.22);
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 7px repeat-x, linear-gradient(#000 0 0) top / 100% calc(100% - 7px) no-repeat;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 7px repeat-x, linear-gradient(#000 0 0) top / 100% calc(100% - 7px) no-repeat;
+  animation: tq-imprime 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+}
+
+@keyframes tq-imprime {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* El campo y sus errores, como en la consulta (src/estilos.css de ese sitio):
+   borde rojo con su halo, el aviso entra desde arriba con un «!» que brota y,
+   al tocar Consultar con un error, un pulso en el borde. Sin rebote. */
+
+.tq-campo {
+  position: relative;
+  border: 1.5px solid #c6d2c9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* La capa que dibuja la cédula con animación (components/consultaTributaria/espejo.js):
+   mismo relleno y letra que el input, encima y sin recibir clics; el input queda
+   con el texto transparente y el cursor a la vista. */
+.tq-espejo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0 14px;
+  pointer-events: none;
+  white-space: pre;
+  font-size: 16px;
+  color: #0f1d15;
+}
+
+.tq-espejo-fila,
+.tq-espejo .e-n,
+.tq-espejo .e-s {
+  display: inline-block;
+}
+
+.tq-campo.con-espejo input {
+  color: transparent;
+  caret-color: #0f1d15;
+}
+
+.tq-campo:focus-within {
+  border-color: #305832;
+  box-shadow: 0 0 0 4px #e7f0e7;
+}
+
+.tq-campo.es-error,
+.tq-campo.es-error:focus-within {
+  border-color: #b42318;
+  box-shadow: 0 0 0 4px #fcebe9;
+}
+
+.tq-insiste {
+  animation: tq-insiste 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes tq-insiste {
+  from {
+    box-shadow: 0 0 0 10px rgba(180, 35, 24, 0.22);
+  }
+  to {
+    box-shadow: 0 0 0 4px #fcebe9;
+  }
+}
+
+.tq-aviso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-left: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #b42318;
+  animation: tq-avisa 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.tq-aviso::before {
+  content: "!";
+  content: "!" / "";
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #b42318;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  animation: tq-brota 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) 0.06s both;
+}
+
+@keyframes tq-avisa {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tq-brota {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tq-consulta:hover {
+    transform: none;
+  }
+
+  .tq-consulta-papel,
+  .tq-insiste,
+  .tq-aviso,
+  .tq-aviso::before {
+    animation: none;
+  }
+}

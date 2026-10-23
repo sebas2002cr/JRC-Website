@@ -139,6 +139,16 @@ export default function PrivacidadPage() {
             empresa si lo indica, un WhatsApp o un correo y el tema en que le interesa la
             consulta, además del enlace por el que llegó.
           </li>
+          {/* El tiquete del home (components/consultaTributaria/tiqueteConsulta.js):
+              la cédula va después del # de la dirección de la consulta, que no
+              sale del navegador. Si eso cambia, este punto cambia. */}
+          <li>
+            <strong>Consulta de situación tributaria desde la página de inicio:</strong> el
+            número de cédula que usted escriba en ese recuadro no se guarda en este sitio ni se
+            envía a nuestros servidores. Se revisa en su navegador y se abre en
+            consultasituaciontributaria.cr, que es la que hace la consulta y tiene su propia
+            Política de Privacidad.
+          </li>
           <li>
             <strong>Pagos:</strong> los datos de la transacción. Los datos completos de su
             tarjeta los procesa directamente la pasarela de pago (ONVO Pay); nosotros no los

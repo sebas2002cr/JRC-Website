@@ -162,6 +162,16 @@ export default function Footer(props) {
           <a href="/contact" className="hover:underline">
             Contacto
           </a>
+          {/* La consulta gratis de JRC, en su propio dominio (plan de SEO, 22 oct
+              2026). Sin noreferrer, para que su analítica vea que la visita vino
+              de jrc.cr. */}
+          <a
+            href="https://consultasituaciontributaria.cr"
+            target="_blank"
+            rel="noopener"
+            className="hover:underline">
+            Consulta tributaria gratis
+          </a>
         </div>
       </div>
 

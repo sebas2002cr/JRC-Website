@@ -5,6 +5,7 @@ import { getReviews, getFAQs } from "@/lib/sanity/client";
 import { motion, useAnimation } from "framer-motion";
 import FAQ from "@/components/faqs";
 import InsigniaGoogle from "@/components/resenas/insigniaGoogle";
+import TiqueteConsulta from "@/components/consultaTributaria/tiqueteConsulta";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -155,6 +156,10 @@ export default function Post({ posts, resumenGoogle, resenasGoogle }) {
                   Empezá a trabajar con nosotros
                 </button>
               </a>
+            </div>
+            {/* La consulta tributaria gratis (plan de SEO, 22 oct 2026). */}
+            <div className="px-4">
+              <TiqueteConsulta />
             </div>
           </motion.section>
 

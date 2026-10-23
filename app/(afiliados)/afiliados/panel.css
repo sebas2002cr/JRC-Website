@@ -185,28 +185,39 @@
 .pn-ancho-otro { visibility: hidden; }
 .pn-cab-der { display: inline-flex; align-items: center; gap: 16px; }
 .pn-entrar-medio { flex: 1 1 auto; display: flex; align-items: center; padding: 36px 0; }
-.pn-login { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; max-width: 1040px; width: 100%; margin: 0 auto; }
-.pn-login-izq { display: flex; flex-direction: column; align-items: center; }
+/* El cuadro «Entrá a tu panel», versión 3 «Vidrio» (docs/mockups-afiliados/login-cuadro.html, 22 oct 2026):
+   un poco más alto que la tarjeta y sobresale lo mismo arriba que abajo, porque comparten el centro.
+   No del mismo tamaño que la tarjeta: eso se probó y Omar lo rechazó. La sombra de la tarjeta sale del
+   flujo; si no, le corre el centro hacia arriba y el cuadro queda más bajo. */
+.pn-login { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 410px); gap: 60px; align-items: center; max-width: 960px; width: 100%; margin: 0 auto; }
+.pn-login-izq { position: relative; display: flex; flex-direction: column; align-items: center; }
 .pn-login-tarjeta { width: 100%; max-width: 420px; }
 .pn-login-tarjeta .pn-tarjeta { padding: 26px 28px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 50px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08); }
-.pn-sombra { width: 70%; height: 26px; margin-top: 18px; border-radius: 999px; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent); }
+.pn-sombra { position: absolute; top: 100%; left: 15%; width: 70%; height: 26px; margin-top: 18px; border-radius: 999px; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent); }
+/* Translúcido, con un brillo verde de 1 px arriba que lo une a la tarjeta. */
 .pn-forma {
-  min-height: 500px;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 40px;
-  border-radius: 26px;
-  background: #141917;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  padding: 30px 30px 26px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 24px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
   animation-delay: 140ms;
 }
+.pn-forma::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(111, 224, 166, 0.7), transparent); }
 .pn-h1 { margin: 0 0 10px; font-size: 32px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; color: var(--pn-tinta); }
 .pn-p { margin: 0 0 28px; font-size: 15.5px; line-height: 1.55; color: var(--pn-suave); }
+.pn-forma .pn-h1 { font-size: 28px; }
+.pn-forma .pn-p { margin-bottom: 22px; font-size: 15px; }
 .pn-rot { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 8px; color: var(--pn-claro); }
-.pn-correo { height: 52px; padding: 0 16px; border-radius: 14px; font-size: 16px; }
-.pn-grande { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 52px; margin-top: 12px; border-radius: 14px; font-size: 15.5px; box-shadow: 0 10px 30px rgba(111, 224, 166, 0.12); }
+.pn-correo { height: 48px; padding: 0 16px; border-radius: 12px; font-size: 16px; }
+.pn-grande { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 48px; margin-top: 12px; border-radius: 12px; font-size: 15.5px; box-shadow: 0 10px 30px rgba(111, 224, 166, 0.12); }
 .pn-puntos { display: inline-flex; gap: 6px; }
 .pn-otro { display: inline-flex; align-items: center; gap: 6px; padding: 0; margin-bottom: 22px; border: 0; background: transparent; color: var(--pn-suave); font-size: 14px; font-weight: 600; cursor: pointer; }
 .pn-cajas-envoltura { position: relative; }
@@ -476,7 +487,8 @@
   .pn-izq { position: static; }
   .pn-txt { display: none; }
   .pn-avatar { margin-left: auto; }
-  .pn-forma { padding: 28px 22px; min-height: 0; }
+  .pn-forma { padding: 26px 22px; }
+  .pn-sombra { position: static; }
   /* Tres filtros: en el celular van en tres columnas iguales, sin desplazarse. */
   .pn-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
   .pn-chip { justify-content: center; gap: 6px; padding: 0 8px; font-size: 13px; }
