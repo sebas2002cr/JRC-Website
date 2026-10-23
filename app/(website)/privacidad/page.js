@@ -39,8 +39,8 @@ export default function PrivacidadPage() {
           ejercicio de los derechos que la normativa reconoce sobre ellos. Resulta aplicable a
           la totalidad del sitio: el formulario de contacto, las solicitudes de cotización, la
           inscripción de pymes, la constitución de sociedades, los pagos en línea, la
-          suscripción al boletín y el programa de afiliados (la solicitud para formar parte de
-          él, el panel de afiliados y las páginas de los enlaces personales).
+          suscripción al boletín y el programa de afiliados, el cual comprende la solicitud de
+          ingreso, el panel de afiliados y las páginas de enlace personal de cada afiliado.
         </p>
         <p>El responsable del tratamiento de dichos datos es:</p>
         <ul className="ml-5 list-disc space-y-1">
