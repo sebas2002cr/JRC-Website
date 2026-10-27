@@ -54,12 +54,13 @@ function Cabeza({ titulo, alCerrar, idioma }) {
 /** «Recomendar una empresa»: entra como lead en Comercial, ligado al afiliado. */
 export function Recomendar({ idioma, token, alCerrar, alRecomendo, alVencer }) {
   const t = T[idioma];
-  const [f, setF] = useState({ empresa: "", persona: "", contacto: "", necesidad: "", acepta: false });
+  const VACIO = { empresa: "", persona: "", contacto: "", necesidad: "", acepta: false, tarifas: false, detalle: "" };
+  const [f, setF] = useState(VACIO);
   const [error, setError] = useState({ campo: "", texto: "" });
   const [enviando, setEnviando] = useState(false);
   const [listo, setListo] = useState(false);
   const cambiar = (k) => (e) => {
-    setF((x) => ({ ...x, [k]: k === "acepta" ? e.target.checked : e.target.value }));
+    setF((x) => ({ ...x, [k]: k === "acepta" || k === "tarifas" ? e.target.checked : e.target.value }));
     if (error.campo === k || !error.campo) setError({ campo: "", texto: "" });
   };
 
@@ -70,9 +71,13 @@ export function Recomendar({ idioma, token, alCerrar, alRecomendo, alVencer }) {
     const c = f.contacto.trim();
     const sirve = /\S+@\S+\.\S+/.test(c) || [8, 11].includes(c.replace(/\D/g, "").length);
     if (!sirve) return setError({ campo: "contacto", texto: t.errContacto });
+    // Lo que le mencionó de las tarifas, en sus palabras (27 oct 2026): un dato
+    // para Comercial, no toca comisiones.
+    if (f.tarifas && !f.detalle.trim()) return setError({ campo: "detalle", texto: t.errDetalle });
     if (!f.acepta) return setError({ campo: "acepta", texto: t.errSabe });
     setEnviando(true);
-    const r = await pedir("POST", "/panel/recomendar", { token, cuerpo: { empresa: f.empresa, persona: f.persona, contacto: c, necesidad: f.necesidad, acepta: true } });
+    const tarifas = f.tarifas ? { hablo: true, detalle: f.detalle.trim() } : { hablo: false };
+    const r = await pedir("POST", "/panel/recomendar", { token, cuerpo: { empresa: f.empresa, persona: f.persona, contacto: c, necesidad: f.necesidad, acepta: true, tarifas } });
     setEnviando(false);
     if (r.status === 401) return alVencer();
     if (!r.ok) {
@@ -106,9 +111,32 @@ export function Recomendar({ idioma, token, alCerrar, alRecomendo, alVencer }) {
               <span>{t.necesita}</span>
               <textarea className="pn-campo" rows={3} value={f.necesidad} onChange={cambiar("necesidad")} placeholder={t.necesitaPista} maxLength={600} />
             </label>
+            <div className={`pn-tarifas${f.tarifas ? " es-abierta" : ""}${error.campo === "detalle" ? " es-error" : ""}`}>
+              <label className="pn-casilla pn-casilla-tarifas">
+                <input type="checkbox" checked={f.tarifas} onChange={cambiar("tarifas")} aria-expanded={f.tarifas ? "true" : "false"} aria-controls="pn-tarifas-campos" />
+                <span className="pn-casilla-txt">{t.tarifas}</span>
+              </label>
+              {/* Primero se hace el lugar y después aparece el campo. */}
+              <div id="pn-tarifas-campos" className="pn-tarifas-pliegue" aria-hidden={f.tarifas ? "false" : "true"} inert={f.tarifas ? undefined : ""}>
+                <div className="pn-tarifas-dentro">
+                  <label>
+                    <span>{t.tarifasQue}</span>
+                    <textarea
+                      className="pn-campo"
+                      rows={2}
+                      value={f.detalle}
+                      onChange={cambiar("detalle")}
+                      placeholder={t.tarifasPista}
+                      aria-invalid={error.campo === "detalle" ? "true" : "false"}
+                      maxLength={200}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
             <label className={`pn-casilla${error.campo === "acepta" ? " es-error" : ""}`}>
               <input type="checkbox" checked={f.acepta} onChange={cambiar("acepta")} />
-              {t.sabe}
+              <span className="pn-casilla-txt">{t.sabe}</span>
             </label>
           </div>
           {error.texto && (
@@ -132,7 +160,7 @@ export function Recomendar({ idioma, token, alCerrar, alRecomendo, alVencer }) {
               type="button"
               className="pn-btn pn-borde"
               onClick={() => {
-                setF({ empresa: "", persona: "", contacto: "", necesidad: "", acepta: false });
+                setF(VACIO);
                 setListo(false);
               }}
             >

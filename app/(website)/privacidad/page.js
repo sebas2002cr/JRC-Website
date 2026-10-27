@@ -127,7 +127,8 @@ export default function PrivacidadPage() {
           <li>
             <strong>Empresas y personas recomendadas por un afiliado (datos de terceros):</strong>{" "}
             cuando un afiliado recomienda a alguien desde su panel, nos indica el nombre de la
-            empresa, la persona de contacto, un teléfono o correo y lo que necesita. El afiliado
+            empresa, la persona de contacto, un teléfono o correo, lo que necesita y, si ya le
+            habló de las tarifas de JRC, lo que le mencionó de ellas. El afiliado
             declara que la persona recomendada sabe que la recomendó y que JRC la va a
             contactar. Esos datos se usan únicamente para contactarla una vez sobre esa
             recomendación; si la persona no desea continuar, puede indicárnoslo y dejamos de

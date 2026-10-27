@@ -112,12 +112,22 @@ export default function Login({ idioma, alIdioma, alEntrar, legales, mensaje }) 
     despues(1750, () => alEntrar({ token: r.datos.token, afiliado: r.datos.afiliado, desde: forma.current }));
   }
 
-  const escribir = (e) => {
+  // Primero se quita lo que no es dígito y después se corta a seis: pegar
+  // «189 837», «189-837» o con espacios alrededor entra completo (27 oct
+  // 2026: los correos de antes traían el código con un espacio en medio).
+  const tomar = (texto) => {
     if (verificando || ok) return;
-    const limpio = String(e.target.value || "").replace(/\D/g, "").slice(0, 6);
+    const limpio = String(texto || "").replace(/\D/g, "").slice(0, 6);
     setCodigo(limpio);
     setError("");
     if (limpio.length === 6) despues(180, () => verificar(limpio));
+  };
+  const escribir = (e) => tomar(e.target.value);
+  const pegar = (e) => {
+    const texto = e.clipboardData?.getData("text");
+    if (!texto) return;
+    e.preventDefault();
+    tomar(texto);
   };
 
   const anim = `${atras ? "pnVuelve" : "pnPaso"}${vuelta % 2 ? "A" : "B"} 460ms cubic-bezier(0.22,1,0.36,1) backwards`;
@@ -270,9 +280,10 @@ export default function Login({ idioma, alIdioma, alEntrar, legales, mensaje }) 
                     type="text"
                     inputMode="numeric"
                     autoComplete="one-time-code"
-                    maxLength={6}
+                    maxLength={16}
                     value={codigo}
                     onChange={escribir}
+                    onPaste={pegar}
                     className="pn-codigo-input"
                     disabled={verificando || ok}
                   />

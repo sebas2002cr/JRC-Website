@@ -422,8 +422,39 @@
 .pn-form .pn-campo { height: 48px; padding: 0 14px; border-radius: 12px; font-size: 15.5px; }
 .pn-form textarea.pn-campo { height: auto; padding: 12px 14px; resize: vertical; }
 .pn-casilla { display: flex !important; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer; font-size: 14px; line-height: 1.45; color: var(--pn-claro); }
-.pn-casilla input { margin-top: 2px; width: 18px; height: 18px; accent-color: #3d8a66; flex: 0 0 auto; }
+/* La casilla propia (27 oct 2026): la del navegador se veía genérica. */
+.pn-casilla { transition: border-color 200ms ease, background-color 200ms ease; }
+.pn-casilla:hover { border-color: rgba(255, 255, 255, 0.16); }
+.pn-casilla input {
+  appearance: none; -webkit-appearance: none; margin: 1px 0 0; width: 20px; height: 20px; flex: 0 0 auto; border-radius: 6px; cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.32); background: rgba(255, 255, 255, 0.04) center / 13px 13px no-repeat;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.pn-casilla:hover input:not(:checked) { border-color: rgba(255, 255, 255, 0.5); }
+.pn-casilla input:checked {
+  border-color: var(--pn-verde); background-color: var(--pn-verde);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230a0d0c' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+  animation: pnMarca 220ms var(--pn-curva);
+}
+.pn-casilla input:focus-visible { outline: 2px solid var(--pn-verde); outline-offset: 3px; }
+.pn-casilla.es-error input { border-color: var(--pn-rojo); }
+.pn-casilla:has(input:checked):not(.pn-casilla-tarifas) { border-color: rgba(111, 224, 166, 0.28); background: rgba(61, 138, 102, 0.08); }
+.pn-form .pn-casilla > .pn-casilla-txt { display: inline; margin: 0; padding-top: 1px; font-size: inherit; font-weight: inherit; color: inherit; }
+@keyframes pnMarca { from { transform: scale(0.82); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .pn-casilla input:checked { animation: none; } }
 .pn-casilla.es-error { border-color: var(--pn-rojo); }
+/* «Ya le hablé de las tarifas de JRC» y, marcada, el monto y la moneda (27 oct 2026). */
+.pn-tarifas { border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.03); transition: border-color 200ms ease, background-color 200ms ease; }
+.pn-tarifas.es-abierta { border-color: rgba(111, 224, 166, 0.28); background: rgba(61, 138, 102, 0.08); }
+.pn-tarifas.es-error { border-color: var(--pn-rojo); }
+.pn-tarifas .pn-casilla-tarifas { border: 0; background: none; }
+.pn-tarifas-pliegue { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease; }
+.pn-tarifas.es-abierta .pn-tarifas-pliegue { grid-template-rows: 1fr; opacity: 1; transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease 90ms; }
+.pn-tarifas-pliegue > .pn-tarifas-dentro { min-height: 0; overflow: hidden; }
+.pn-tarifas-dentro { padding: 0 14px; }
+.pn-tarifas.es-abierta .pn-tarifas-dentro { padding-bottom: 14px; }
+.pn-tarifas-dentro label { display: block; margin-left: 32px; }
+@media (max-width: 420px) { .pn-tarifas-dentro label { margin-left: 0; } }
 .pn-enviar { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 50px; margin-top: 20px; border-radius: 14px; font-size: 15.5px; }
 .pn-listo { text-align: center; padding: 40px 6px 10px; }
 .pn-listo-circulo { width: 68px; height: 68px; border-radius: 999px; background: radial-gradient(circle at 30% 25%, #3d8a66, #1d4532); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(111, 224, 166, 0.08); }
