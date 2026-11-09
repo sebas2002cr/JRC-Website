@@ -141,6 +141,10 @@
 .pn-rev-medio { display: flex; align-items: center; gap: 14px; }
 .pn-firma { flex: 1 1 auto; min-width: 0; height: 36px; display: flex; align-items: center; padding: 0 12px; border-radius: 6px; background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.92) 0 6px, rgba(228, 239, 233, 0.92) 6px 12px); color: #12301f; font-size: 14px; font-style: italic; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pn-holo { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(from 210deg, #b7f0d2, #8fd8c8, #a9c4ff, #6fe0a6, #d6f5e4, #b7f0d2); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45), 0 0 18px rgba(111, 224, 166, 0.25); opacity: 0.9; }
+/* El reverso con lo ganado en total (9 nov 2026): la misma cifra del frente, un poco menor. */
+.pn-rev-total { flex: 1 1 auto; min-width: 0; }
+.pn-rev-rot { font-size: 13.5px; color: rgba(255, 255, 255, 0.8); }
+.pn-rev-total .pn-cifra { font-size: 38px; }
 .pn-rev-pie { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: rgba(255, 255, 255, 0.85); }
 .pn-rev-marca { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
 .pn-tarjeta::after {

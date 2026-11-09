@@ -6,6 +6,9 @@ import { Icono, ICONOS, Logo, Tarjeta, useCuenta } from "./comun";
 
 const TINTA = { recomendado: "#c3ccc8", enConversacion: "#a9c4ff", yaEsCliente: "#bfeccd", teGeneroComision: "#6fe0a6", noSeDio: "#eba79e" };
 const DE_A = 5;
+// La tarjeta se da vuelta sola: a los 5 s muestra lo ganado en total, se queda
+// 6 s y vuelve al mes; después repite cada 14 s (Tarjeta en comun.js).
+const GIRO_SOLO = { espera: 5000, frente: 14000, atras: 6000 };
 // Tres filtros por lo que el afiliado quiere saber (22 oct 2026, Omar): quién le
 // genera plata (Clientes, de fábrica), qué está avanzando (En proceso) y qué no
 // salió. No se pisan y entre los tres cubren todo; cada fila dice su estado exacto.
@@ -43,6 +46,9 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
   const nuevo = lista.length === 0;
   const mesHoy = yo.esteMes.mes;
   const total = useCuenta(Number(yo.esteMes.total) || 0);
+  // El reverso muestra todo lo ganado (9 nov 2026). Sin comisiones todavía, o
+  // con un backend que aún no lo manda, el reverso queda como era y no gira solo.
+  const ganado = Number(yo.ganado?.total) || 0;
   const [copiado, setCopiado] = useState(false);
   const relojCopia = useRef(0);
 
@@ -108,14 +114,25 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
           <div className="pn-izq">
             <Tarjeta
               className="pn-sube"
-              rotulo={t.tarjetaGirar}
+              rotulo={ganado > 0 ? `${t.tarjetaGirar}. ${t.ganadoTotal}: ${monto(ganado, moneda, idioma)}` : t.tarjetaGirar}
+              solo={ganado > 0 ? GIRO_SOLO : null}
               reverso={
                 <>
                   <span aria-hidden="true" className="pn-banda" />
-                  <div className="pn-rev-medio">
-                    <span className="pn-firma">{a.saludo}</span>
-                    <span aria-hidden="true" className="pn-holo" />
-                  </div>
+                  {ganado > 0 ? (
+                    <div className="pn-rev-medio">
+                      <div className="pn-rev-total">
+                        <div className="pn-rev-rot">{t.ganadoTotal}</div>
+                        <div className="pn-cifra">{monto(ganado, moneda, idioma)}</div>
+                      </div>
+                      <span aria-hidden="true" className="pn-holo" />
+                    </div>
+                  ) : (
+                    <div className="pn-rev-medio">
+                      <span className="pn-firma">{a.saludo}</span>
+                      <span aria-hidden="true" className="pn-holo" />
+                    </div>
+                  )}
                   <div className="pn-rev-pie">
                     {a.categoria ? <span className="pn-chip-cat">{a.categoria}</span> : <span />}
                     {a.desde && <span>{`${t.afiliadoDesde} ${nombreMes(a.desde, idioma)} ${a.desde.slice(0, 4)}`}</span>}

@@ -79,9 +79,19 @@ const CANTO = Array.from({ length: 21 }, (_, i) => {
   return { z, color: Math.abs(z) > 0.42 ? "#1f5039" : Math.abs(z) > 0.24 ? "#3f8763" : "#6fb592" };
 });
 
-export function Tarjeta({ className = "", children, reverso = null, rotulo = "" }) {
+/*
+ * `solo` (9 nov 2026): { espera, frente, atras } en ms. La tarjeta se da vuelta
+ * sola, siempre hacia el mismo lado, y vuelve: frente → reverso → frente.
+ *   · Con el puntero encima espera; con la pestaña escondida, también.
+ *   · En cuanto la persona la gira o la toca, deja de girar sola: manda ella.
+ *   · Con «reducir movimiento» no gira: la cara se cambia con un fundido
+ *     (Web Animations, que la regla global de animaciones de 1 ms no apaga).
+ */
+export function Tarjeta({ className = "", children, reverso = null, rotulo = "", solo = null }) {
   const giro = useRef(null);
   const s = useRef({ x: 0, y: 0, hx: 0, hy: 0, arrastre: null });
+  const auto = useRef({ apagado: false, encima: false });
+  const deAtras = () => (((Math.round(s.current.y / 180) % 2) + 2) % 2) === 1;
 
   const pintar = (ms = 0, curva = "cubic-bezier(0.22,1,0.36,1)") => {
     const el = giro.current;
@@ -102,6 +112,41 @@ export function Tarjeta({ className = "", children, reverso = null, rotulo = "" 
     pintar(quieto() ? 0 : VOLTEO_MS);
   };
 
+  const girarSola = () => {
+    const el = giro.current;
+    if (!el) return;
+    if (!quieto() || typeof el.animate !== "function") return voltear(1);
+    const fuera = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: "ease-in", fill: "forwards" });
+    fuera.onfinish = () => {
+      voltear(1);
+      el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 280, easing: "ease-out" });
+      fuera.cancel();
+    };
+  };
+
+  const espera = solo?.espera;
+  const frente = solo?.frente;
+  const atras = solo?.atras;
+  useEffect(() => {
+    if (!reverso || !espera) return undefined;
+    let reloj = 0;
+    const programar = (ms) => {
+      clearTimeout(reloj);
+      reloj = setTimeout(paso, ms);
+    };
+    function paso() {
+      const a = auto.current;
+      if (a.apagado) return;
+      if (a.encima || document.hidden) return programar(1500);
+      girarSola();
+      // voltear() ya movió la cara: la espera es la de la cara que quedó.
+      programar(deAtras() ? atras : frente);
+    }
+    programar(espera);
+    return () => clearTimeout(reloj);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Boolean(reverso), espera, frente, atras]);
+
   // v: grados por cuadro al soltar; diez cuadros de adelanto.
   const asentar = (v = 0) => {
     const e = s.current;
@@ -112,6 +157,7 @@ export function Tarjeta({ className = "", children, reverso = null, rotulo = "" 
 
   const bajar = (e) => {
     if (!reverso || (e.pointerType === "mouse" && e.button !== 0)) return;
+    auto.current.apagado = true;
     const st = s.current;
     st.hx = 0;
     st.hy = 0;
@@ -163,6 +209,7 @@ export function Tarjeta({ className = "", children, reverso = null, rotulo = "" 
   };
 
   const salir = () => {
+    auto.current.encima = false;
     const st = s.current;
     if (st.arrastre) return;
     st.hx = 0;
@@ -175,6 +222,7 @@ export function Tarjeta({ className = "", children, reverso = null, rotulo = "" 
     const lado = { Enter: 1, " ": 1, ArrowRight: 1, ArrowLeft: -1 }[e.key];
     if (!lado) return;
     e.preventDefault();
+    auto.current.apagado = true;
     voltear(lado);
   };
 
@@ -187,6 +235,7 @@ export function Tarjeta({ className = "", children, reverso = null, rotulo = "" 
         onPointerMove={mover}
         onPointerUp={soltar}
         onPointerCancel={soltar}
+        onPointerEnter={(e) => e.pointerType === "mouse" && (auto.current.encima = true)}
         onPointerLeave={salir}
         onKeyDown={tecla}
         tabIndex={reverso ? 0 : undefined}
