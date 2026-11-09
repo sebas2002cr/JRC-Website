@@ -272,7 +272,7 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
                   aria-labelledby={`pn-tab-${tab.id}`}
                   style={{ animation: `${tab.atras ? "pnVuelve" : "pnPaso"}${tab.vez % 2 ? "A" : "B"} 380ms cubic-bezier(0.22,1,0.36,1) backwards` }}
                 >
-                  {tab.id === "mes" && <EsteMes yo={yo} idioma={idioma} />}
+                  {tab.id === "mes" && <Historial yo={yo} idioma={idioma} />}
                   {tab.id === "rec" && <Recomendados lista={lista} idioma={idioma} moneda={moneda} filtro={filtro} alFiltro={alFiltro} />}
                   {tab.id === "pag" && <Pagos yo={yo} pagos={pagos} idioma={idioma} />}
                 </div>
@@ -285,21 +285,22 @@ export default function Tablero({ datos, idioma, alSalir, alPerfil, alRecomendar
   );
 }
 
-function EsteMes({ yo, idioma }) {
+/** «2026-09» de «2026-10» y -1. */
+function moverMes(mes, n) {
+  const [a, m] = String(mes).split("-").map(Number);
+  const t = a * 12 + (m - 1) + n;
+  return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
+}
+
+const MESES_DE_A = 6;
+
+/** Las comisiones de un mes, una por fila, con su total abajo. */
+function LineasDelMes({ lineas, moneda, idioma, total, rotuloTotal, desde = 0 }) {
   const t = T[idioma];
-  const { mes, lineas = [], total } = yo.esteMes;
-  const moneda = yo.afiliado.moneda;
-  if (!lineas.length) {
-    return (
-      <div className="pn-caja-lista">
-        <div className="pn-vacio">{t.mesSinComisiones(nombreMes(mes, idioma))}</div>
-      </div>
-    );
-  }
   return (
-    <div className="pn-caja-lista">
+    <>
       {lineas.map((l, i) => (
-        <div key={l.id} className="pn-suma pn-sube" style={{ animationDelay: `${200 + Math.min(i, 8) * 60}ms` }}>
+        <div key={l.id} className="pn-suma pn-sube" style={{ animationDelay: `${desde + Math.min(i, 8) * 60}ms` }}>
           <span aria-hidden="true" className="pn-suma-ico">
             <Icono d={l.tipo === "mensualidad" ? ICONOS.mensualidad : ICONOS.adicional} tam={17} grosor={2} />
           </span>
@@ -308,6 +309,7 @@ function EsteMes({ yo, idioma }) {
             <span className="pn-suma-q">
               {l.reversa ? t.reversa : t.servicio[l.tipo === "mensualidad" ? "mensualidad" : "adicional"]}
               {l.pcts?.length ? ` · ${l.pcts.map((p) => pct(p, idioma)).join(" y ")}` : ""}
+              {l.dia ? ` · ${diaCorto(l.dia, idioma)}` : ""}
             </span>
           </span>
           <span>
@@ -316,11 +318,100 @@ function EsteMes({ yo, idioma }) {
           </span>
         </div>
       ))}
-      <div className="pn-total">
-        <span>{t.totalDe(nombreMes(mes, idioma))}</span>
-        <span className="pn-num pn-verde">{monto(total, moneda, idioma)}</span>
+      {rotuloTotal && (
+        <div className="pn-total">
+          <span>{rotuloTotal}</span>
+          <span className="pn-num pn-verde">{monto(total, moneda, idioma)}</span>
+        </div>
+      )}
+    </>
+  );
+}
+
+/**
+ * Historial (9 nov 2026, antes «Este mes»): lo ganado mes a mes, con Este mes,
+ * Mes pasado y Todo, como los filtros de Referidos. «Todo» es un mes por fila
+ * con una barra de lo que dejó, para ver cómo se portó cada uno; tocarlo abre
+ * sus comisiones. Sin `historial` (un backend viejo) queda solo este mes.
+ */
+function Historial({ yo, idioma }) {
+  const t = T[idioma];
+  const moneda = yo.afiliado.moneda;
+  const mesHoy = yo.esteMes.mes;
+  const meses = Array.isArray(yo.historial) ? yo.historial : yo.esteMes.lineas?.length ? [{ mes: mesHoy, total: yo.esteMes.total, lineas: yo.esteMes.lineas }] : [];
+  const deMes = (m) => meses.find((x) => x.mes === m) || { mes: m, total: 0, lineas: [] };
+  const este = deMes(mesHoy);
+  const pasado = deMes(moverMes(mesHoy, -1));
+  const conteo = { este: este.lineas.length, pasado: pasado.lineas.length, todo: meses.reduce((s, x) => s + x.lineas.length, 0) };
+  // Sin nada este mes pero con historia, arranca en «Todo» para no abrir vacío.
+  const [periodo, setPeriodo] = useState({ id: !conteo.este && conteo.todo ? "todo" : "este", vez: 0 });
+  const [abierto, setAbierto] = useState("");
+  const [cuantos, setCuantos] = useState(MESES_DE_A);
+  const elegir = (id) => id !== periodo.id && setPeriodo((p) => ({ id, vez: p.vez + 1 }));
+  const nombreConAnio = (m) => `${nombreMes(m, idioma)} ${m.slice(0, 4)}`;
+  const tope = Math.max(...meses.map((x) => x.total), 0);
+  const ganado = Number(yo.ganado?.total ?? meses.reduce((s, x) => s + x.total, 0)) || 0;
+
+  return (
+    <>
+      <div className="pn-chips" role="group" aria-label={t.tabs.mes}>
+        {["este", "pasado", "todo"].map((id) => (
+          <button key={id} type="button" aria-pressed={periodo.id === id ? "true" : "false"} onClick={() => elegir(id)} className="pn-chip">
+            {t.periodos[id]}
+            <span className="pn-chip-n">{conteo[id]}</span>
+          </button>
+        ))}
       </div>
-    </div>
+      <div key={`p${periodo.vez}`} className="pn-caja-lista" style={{ animation: `${periodo.vez % 2 ? "pnPasoA" : "pnPasoB"} 340ms cubic-bezier(0.22,1,0.36,1) backwards` }}>
+        {periodo.id !== "todo" &&
+          (() => {
+            const m = periodo.id === "este" ? este : pasado;
+            if (!m.lineas.length) return <div className="pn-vacio">{t.mesSinComisiones(nombreMes(m.mes, idioma))}</div>;
+            return <LineasDelMes lineas={m.lineas} moneda={moneda} idioma={idioma} total={m.total} rotuloTotal={t.totalDe(nombreMes(m.mes, idioma))} desde={120} />;
+          })()}
+        {periodo.id === "todo" && !meses.length && <div className="pn-vacio">{t.sinHistorial}</div>}
+        {periodo.id === "todo" && meses.length > 0 && (
+          <>
+            {meses.slice(0, cuantos).map((x, i) => {
+              const on = abierto === x.mes;
+              const ancho = tope > 0 && x.total > 0 ? Math.max(2, (x.total / tope) * 100) : 0;
+              return (
+                <div key={x.mes} className="pn-hmes pn-sube" style={{ animationDelay: `${60 + (i % MESES_DE_A) * 45}ms` }}>
+                  <button type="button" className="pn-hmes-btn" aria-expanded={on ? "true" : "false"} onClick={() => setAbierto(on ? "" : x.mes)}>
+                    <span className="pn-hmes-txt">
+                      <span className="pn-hmes-n">{nombreConAnio(x.mes)}</span>
+                      <span className="pn-hmes-c">{t.nComisiones(x.lineas.length)}</span>
+                    </span>
+                    <span className="pn-hmes-barra" aria-hidden="true">
+                      <span className="pn-hmes-relleno" style={{ width: `${ancho}%` }} />
+                    </span>
+                    <span className={`pn-hmes-m pn-num${x.total < 0 ? " es-menos" : ""}`}>{monto(x.total, moneda, idioma)}</span>
+                    <span className="pn-hmes-flecha" aria-hidden="true">
+                      <Icono d={ICONOS.abajo} tam={16} grosor={2.4} />
+                    </span>
+                  </button>
+                  {on && (
+                    <div className="pn-hmes-lineas">
+                      <LineasDelMes lineas={x.lineas} moneda={moneda} idioma={idioma} desde={0} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            {meses.length > cuantos && (
+              <button type="button" onClick={() => setCuantos((c) => c + MESES_DE_A)} className="pn-mas">
+                {t.cargarMas}
+                <Icono d={ICONOS.abajo} grosor={2.3} />
+              </button>
+            )}
+            <div className="pn-total">
+              <span>{t.totalTodo}</span>
+              <span className="pn-num pn-verde">{monto(ganado, moneda, idioma)}</span>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

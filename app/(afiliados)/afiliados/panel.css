@@ -391,6 +391,33 @@
 .pn-suma-m { display: block; font-size: 15.5px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
 .pn-suma-m.es-menos { color: var(--pn-rojo); }
 .pn-suma-cambio { display: block; font-size: 12px; color: var(--pn-tenue); text-align: right; }
+/* Historial, «Todo» (9 nov 2026): un mes por fila con una barra de lo que dejó;
+   tocarlo abre sus comisiones. */
+.pn-hmes { border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.pn-hmes-btn { display: flex; align-items: center; gap: 14px; width: 100%; padding: 15px 18px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; transition: background 200ms ease; }
+.pn-hmes-btn:hover { background: rgba(255, 255, 255, 0.04); }
+.pn-hmes-txt { flex: 0 0 150px; min-width: 0; }
+.pn-hmes-n { display: block; font-size: 15px; font-weight: 600; }
+.pn-hmes-c { display: block; font-size: 13px; color: #a3b0aa; }
+.pn-hmes-barra { flex: 1 1 auto; min-width: 40px; height: 10px; border-radius: 4px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.pn-hmes-relleno { display: block; height: 100%; border-radius: 4px; background: var(--pn-verde); transform-origin: left center; animation: pnBarra 700ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.pn-hmes-m { flex: 0 0 auto; min-width: 92px; text-align: right; font-size: 15.5px; font-weight: 600; }
+.pn-hmes-m.es-menos { color: var(--pn-rojo); }
+.pn-hmes-flecha { flex: 0 0 16px; display: inline-flex; color: var(--pn-tenue); transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1); }
+.pn-hmes-btn[aria-expanded="true"] .pn-hmes-flecha { transform: rotate(180deg); }
+.pn-hmes-lineas { background: rgba(255, 255, 255, 0.02); border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.pn-hmes-lineas .pn-suma:last-child { border-bottom: 0; }
+@keyframes pnBarra { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  /* La barra no crece: aparece con un fundido. */
+  @keyframes pnBarra { from { opacity: 0; } to { opacity: 1; } }
+}
+@media (max-width: 640px) {
+  .pn-hmes-btn { flex-wrap: wrap; gap: 8px 12px; padding: 14px 16px; }
+  .pn-hmes-txt { flex: 1 1 auto; }
+  .pn-hmes-barra { order: 3; flex: 1 1 100%; }
+}
+
 .pn-total { display: flex; justify-content: space-between; padding: 16px 18px; font-size: 15px; font-weight: 600; background: rgba(255, 255, 255, 0.025); }
 .pn-nota-chica { padding: 12px 18px; font-size: 13px; color: var(--pn-tenue); border-top: 1px solid rgba(255, 255, 255, 0.06); }
 
