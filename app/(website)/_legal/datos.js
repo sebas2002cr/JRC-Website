@@ -24,12 +24,11 @@
 export const LEGALES_PUBLICADAS = process.env.NEXT_PUBLIC_LEGALES === "true";
 
 /**
- * Las Condiciones del programa de afiliados (21 oct 2026) tienen su propio
- * interruptor, apagado en producción hasta que legal las apruebe (Omar, 21 oct
- * 2026): NEXT_PUBLIC_CONDICIONES_AFILIADOS=true, además de las otras legales.
- * Mientras tanto se ven solo en desarrollo, marcadas como borrador.
+ * Las Condiciones del programa de afiliados (21 oct 2026) tuvieron su propio
+ * interruptor mientras eran borrador. Omar las aprobó el 11 nov 2026: desde
+ * entonces se publican junto con las otras legales.
  */
-export const CONDICIONES_AFILIADOS_PUBLICADAS = LEGALES_PUBLICADAS && process.env.NEXT_PUBLIC_CONDICIONES_AFILIADOS === "true";
+export const CONDICIONES_AFILIADOS_PUBLICADAS = LEGALES_PUBLICADAS;
 export const CONDICIONES_AFILIADOS_BORRADOR = !CONDICIONES_AFILIADOS_PUBLICADAS && process.env.NODE_ENV !== "production";
 
 /** Las páginas legales, para el pie y para el sitemap. */

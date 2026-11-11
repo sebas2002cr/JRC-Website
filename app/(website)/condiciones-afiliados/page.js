@@ -1,4 +1,4 @@
-import DocumentoLegal, { Seccion, Pendiente } from "../_legal/documentoLegal";
+import DocumentoLegal, { Seccion } from "../_legal/documentoLegal";
 import { EMPRESA, CONDICIONES_AFILIADOS_BORRADOR, CONDICIONES_AFILIADOS_PUBLICADAS } from "../_legal/datos";
 import { pageMetadata } from "@/lib/seo";
 
@@ -9,13 +9,12 @@ export const metadata = pageMetadata({
 });
 
 /**
- * Condiciones del programa de afiliados (21 oct 2026, H7). BORRADOR escrito a
- * partir de las reglas que decidió Omar (plan del programa, «Reglas decididas»
- * y decisiones 1 a 26); falta la revisión del área legal. Por eso tiene su
- * propio interruptor (NEXT_PUBLIC_CONDICIONES_AFILIADOS, en _legal/datos.js):
- * en producción no existe hasta que legal lo apruebe, y en desarrollo se ve
- * con la franja de borrador. Lo que solo puede decidir legal o el contador va
- * en <Pendiente>.
+ * Condiciones del programa de afiliados (21 oct 2026, H7), escritas a partir
+ * de las reglas que decidió Omar (plan del programa, «Reglas decididas» y
+ * decisiones 1 a 26). Revisadas y publicadas el 11 nov 2026: la factura del
+ * afiliado (sección 6) la definió Jason; la salida (8) y la resolución de
+ * controversias (10), Omar. Lo que en un cambio futuro solo pueda decidir
+ * legal o el contador va en <Pendiente>.
  *
  * Las cifras de las categorías son las de fábrica del ERP; si Comercial las
  * cambia, este texto dice que rigen las de la categoría de cada afiliado, que
@@ -25,7 +24,7 @@ export default function CondicionesAfiliadosPage() {
   return (
     <DocumentoLegal
       titulo="Condiciones del programa de afiliados"
-      actualizado="21 de octubre de 2026"
+      actualizado="11 de Noviembre de 2026"
       publicado={CONDICIONES_AFILIADOS_PUBLICADAS}
       borrador={CONDICIONES_AFILIADOS_BORRADOR}>
       <Seccion titulo="1. Qué es el programa">
@@ -61,9 +60,9 @@ export default function CondicionesAfiliadosPage() {
       <Seccion titulo="3. Cómo se recomienda">
         <ul className="ml-5 list-disc space-y-2">
           <li>
-            <strong>Con su enlace personal</strong> (jrc.cr/r/ seguido de su nombre): quien lo
-            abre y deja sus datos en los siguientes 90 días queda registrado a nombre del
-            afiliado.
+            <strong>Con su enlace personal</strong>, que tiene la forma
+            jrc.cr/r/nombre-del-afiliado: la persona que lo abre y deja sus datos dentro de los
+            90 días siguientes queda registrada a nombre del afiliado.
           </li>
           <li>
             <strong>Desde su panel</strong>, con «Recomendar»: el afiliado deja el nombre de la
@@ -126,8 +125,8 @@ export default function CondicionesAfiliadosPage() {
         <ul className="ml-5 list-disc space-y-2">
           <li>
             Las comisiones de un mes se pagan <strong>una vez al mes</strong>, en un solo pago
-            por afiliado, después del cierre de ese mes (los primeros días del mes siguiente,
-            salvo que JRC fije otra fecha de cierre).
+            por afiliado, después del cierre de ese mes. El pago se realiza durante los primeros
+            días hábiles del mes siguiente, salvo que JRC establezca otra fecha de cierre.
           </li>
           <li>
             Se pagan por transferencia a la cuenta registrada del afiliado, a su nombre y en su
@@ -148,8 +147,11 @@ export default function CondicionesAfiliadosPage() {
           </li>
         </ul>
         <p>
-          El afiliado es responsable de sus propias obligaciones tributarias por las comisiones
-          que recibe. <Pendiente>tratamiento tributario de las comisiones pagadas sin factura y si JRC retiene algún impuesto: lo define el contador</Pendiente>
+          Para recibir el pago, el afiliado emite a nombre de JRC una factura electrónica por
+          el monto de sus comisiones del mes, que JRC le indica después del cierre. El pago se
+          realiza una vez recibida la factura. Si el afiliado no está inscrito para facturar,
+          lo comunica a JRC, que puede pagarle sin factura. El afiliado es responsable de sus
+          propias obligaciones tributarias por las comisiones que recibe.
         </p>
       </Seccion>
 
@@ -173,7 +175,10 @@ export default function CondicionesAfiliadosPage() {
           ya ganadas se le pagan igual. El afiliado puede dejar el programa avisándole a JRC.
         </p>
         <p>
-          <Pendiente>si las comisiones de clientes ya ligados se siguen generando después de que el afiliado sale del programa o es dado de baja</Pendiente>
+          Si el afiliado sale del programa, por decisión propia o porque JRC termina su
+          participación, conserva las comisiones ganadas hasta la fecha de salida, que se le
+          pagan en el cierre siguiente. Los pagos que hagan sus recomendados después de esa
+          fecha ya no generan comisión.
         </p>
       </Seccion>
 
@@ -187,11 +192,37 @@ export default function CondicionesAfiliadosPage() {
         </p>
       </Seccion>
 
-      <Seccion titulo="10. Cambios a estas condiciones y ley aplicable">
+      {/* Igual que la sección 16 de /terminos, por decisión de Omar (10 nov
+          2026), y por la misma razón: estas condiciones son un contrato de
+          adhesión, y el artículo 1023 inciso 2 del Código Civil anula las
+          cláusulas que restringen el acceso a los tribunales comunes. Por eso
+          no hay sede fija ni renuncia de fuero, y el arreglo directo es
+          voluntario. Se omite el párrafo de la Ley 7472: el afiliado no es
+          consumidor de JRC. */}
+      <Seccion titulo="10. Cambios, ley aplicable y resolución de controversias">
         <p>
           JRC puede modificar estas condiciones y avisará los cambios sustanciales por correo a
-          los afiliados antes de que entren en vigencia. Estas condiciones se rigen por las
-          leyes de la República de Costa Rica. <Pendiente>tribunales o mecanismo de resolución de conflictos</Pendiente>
+          los afiliados antes de que entren en vigencia.
+        </p>
+        <p>
+          Estas condiciones se rigen e interpretan conforme a las leyes de la República de
+          Costa Rica.
+        </p>
+        <p>
+          Ante cualquier desacuerdo derivado de estas condiciones o del programa, JRC invita al
+          afiliado a plantear su reclamo por escrito a{" "}
+          <a href={`mailto:${EMPRESA.correo}`} className="underline">
+            {EMPRESA.correo}
+          </a>
+          . JRC se compromete a emitir respuesta dentro de los diez días hábiles siguientes a
+          su recepción, con el propósito de procurar una solución directa.
+        </p>
+        <p>
+          Este paso previo es voluntario y no constituye requisito para acudir a las
+          instancias judiciales o administrativas correspondientes. De no alcanzarse un
+          acuerdo, la controversia podrá someterse al conocimiento de los tribunales de la
+          República de Costa Rica, conforme a las reglas de competencia que resulten
+          aplicables.
         </p>
       </Seccion>
     </DocumentoLegal>
